@@ -1,0 +1,42 @@
+# -*- coding: utf-8 -*-
+
+#########################################################################
+## This scaffolding model makes your app work on Google App Engine too
+## File is released under public domain and you can use without limitations
+#########################################################################
+
+##http://www.web2pyslices.com/slice/show/1493/active-directory-ldap-with-allowed-groups
+
+## if SSL/HTTPS is properly configured and you want all HTTP requests to
+## be redirected to HTTPS, uncomment the line below:
+# request.requires_https()
+
+import os
+
+db = DAL('sqlite://dbauth.sqlite')
+
+
+from gluon.tools import Auth
+auth = Auth(db)
+
+auth.settings.controller = 'account'
+auth.settings.login_url=URL('account','login')
+auth.settings.on_failed_authorization=URL('account','login')
+auth.settings.logout_next=URL('account','login')
+
+
+auth.define_tables(username=True)
+auth.settings.create_user_groups=False
+
+
+# all we need is login
+auth.settings.actions_disabled=['register','change_password','request_reset_password','retrieve_username','profile']
+
+# you don't have to remember me
+auth.settings.remember_me_form = False
+
+# ldap authentication and not save password on web2py
+from gluon.contrib.login_methods.ldap_auth import ldap_auth
+auth.settings.login_methods = [ldap_auth(mode='ad',server='192.168.20.200',base_dn='dc=criare,dc=local')]
+
+

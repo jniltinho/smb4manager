@@ -1,0 +1,29 @@
+
+{{block navbar_menu}}{{end}}
+{{block sidebar}}{{end}}
+{{block content_init}}{{end}}
+{{block content_end}}{{end}}
+{{block footer}}{{end}}
+{{block content_end}}{{end}}
+
+{{extend 'layout.html'}}
+
+
+<div class="row-fluid">
+    <div class="dialog" style="margin-top: 4.5em;">
+        <div class="block">
+            <p class="block-heading">Login {{=response.title}}</p>
+            <div class="block-body">
+                <form action="" enctype="multipart/form-data" method="post">
+                    <label>Username</label>
+                    <input type="text" name="username" class="span12">
+                    <label>Password</label>
+                    <input type="password" name="password" class="span12">
+                    <input class="btn btn-primary pull-right" type="submit" value="Login" />
+                    <div class="clearfix"></div>
+                     {{=form.hidden_fields()}}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
