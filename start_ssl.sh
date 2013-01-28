@@ -4,6 +4,8 @@
 
 ## Clean files .pyc
 find . -type f -iname *.pyc -exec rm  -f {} \;
+rm -f httpserver.log
+rm -f parameters_*
 
 ## Clean logs files
 rm -f logs/*

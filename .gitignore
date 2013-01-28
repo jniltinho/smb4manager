@@ -9,6 +9,7 @@ logs/*.*
 parameters_*
 httpserver.log
 comandos_git.sh
+site-packages/smb4config/smb4config.py
 
 applications/dashboard/errors/*
 applications/dashboard/sessions/*
