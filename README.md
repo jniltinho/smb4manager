@@ -3,10 +3,8 @@ smb4manager
 
 Samba4 Web Manager
 
-
 **Webapp for manager Samba4 samba-tool**
-
-
+**Do not use in production environment**
 
 Instalation
 ====
@@ -20,10 +18,11 @@ Instalation
     chmod +x start_ssl.sh
 
 
-
 Configure
 ====
-    Configure file site-packages/smb4config/smb4config.py
+    Rename file site-packages/smb4config/smb4config_sample.py to site-packages/smb4config/smb4config.py
+    Change config dict in file site-packages/smb4config/smb4config.py
+    start web2py in ssl, execute:
     ./start_ssl.sh
 
 
@@ -45,3 +44,8 @@ Requer
 samba4, samba-tool
 
 
+Task Open
+====
+Users list
+Users add
+Users del
