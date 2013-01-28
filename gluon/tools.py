@@ -769,8 +769,12 @@ class Recaptcha(DIV):
             del self.request_vars.recaptcha_response_field
             self.request_vars.captcha = ''
             return True
-        self.errors['captcha'] = self.error_message
-        return False
+        else:
+            # In case we get an error code, store it so we can get an error message
+            # from the /api/challenge URL as described in the reCAPTCHA api docs.
+            self.error = return_values[1]
+            self.errors['captcha'] = self.error_message
+            return False
 
     def xml(self):
         public_key = self.public_key
@@ -1138,6 +1142,7 @@ class Auth(object):
             login_next = url_index,
             login_onvalidation = [],
             login_onaccept = [],
+            login_onfail = [],
             login_methods = [self],
             login_form = self,
             logout_next = url_index,
@@ -1365,13 +1370,13 @@ class Auth(object):
                                  archive_names='%(tablename)s_archive',
                                  current_record='current_record'):
         """
-        to enable full record vernionioning (including auth tables):
+        to enable full record versioning (including auth tables):
 
         auth = Auth(db)
         auth.define_tables(signature=True)
         # define our own tables
         db.define_table('mything',Field('name'),auth.signature)
-        auth.enable_record_vernining(tables=db)
+        auth.enable_record_versioning(tables=db)
 
         tables can be the db (all table) or a list of tables.
         only tables with modified_by and modified_on fiels (as created
@@ -1386,7 +1391,7 @@ class Auth(object):
 
         Important: If you use auth.enable_record_versioning,
         do not use auth.archive or you will end up with duplicates.
-        auth.archive does explicitely what enable_record_versioning
+        auth.archive does explicitly what enable_record_versioning
         does automatically.
 
         """
@@ -1489,7 +1494,7 @@ class Auth(object):
                      IS_NOT_IN_DB(db, '%s.username' % settings.table_user_name)]
                 if not settings.username_case_sensitive:
                     is_unique_username.insert(1, IS_LOWER())
-                table = db.define_table(
+                db.define_table(
                     settings.table_user_name,
                     Field('first_name', length=128, default='',
                           label=self.messages.label_first_name,
@@ -1522,7 +1527,7 @@ class Auth(object):
                         fake_migrate=fake_migrate,
                         format='%(username)s'))
             else:
-                table = db.define_table(
+                db.define_table(
                     settings.table_user_name,
                     Field('first_name', length=128, default='',
                           label=self.messages.label_first_name,
@@ -1555,7 +1560,7 @@ class Auth(object):
         if not settings.table_group_name in db.tables:
             extra_fields = settings.extra_fields.get(
                 settings.table_group_name, []) + signature_list
-            table = db.define_table(
+            db.define_table(
                 settings.table_group_name,
                 Field('role', length=512, default='',
                       label=self.messages.label_role,
@@ -1573,7 +1578,7 @@ class Auth(object):
         if not settings.table_membership_name in db.tables:
             extra_fields = settings.extra_fields.get(
                 settings.table_membership_name, []) + signature_list
-            table = db.define_table(
+            db.define_table(
                 settings.table_membership_name,
                 Field('user_id', reference_table_user,
                       label=self.messages.label_user_id),
@@ -1587,7 +1592,7 @@ class Auth(object):
         if not settings.table_permission_name in db.tables:
             extra_fields = settings.extra_fields.get(
                 settings.table_permission_name, []) + signature_list
-            table = db.define_table(
+            db.define_table(
                 settings.table_permission_name,
                 Field('group_id', reference_table_group,
                       label=self.messages.label_group_id),
@@ -1605,7 +1610,7 @@ class Auth(object):
                         settings.table_permission_name, migrate),
                     fake_migrate=fake_migrate))
         if not settings.table_event_name in db.tables:
-            table = db.define_table(
+            db.define_table(
                 settings.table_event_name,
                 Field('time_stamp', 'datetime',
                       default=current.request.now,
@@ -1629,7 +1634,7 @@ class Auth(object):
         now = current.request.now
         if settings.cas_domains:
             if not settings.table_cas_name in db.tables:
-                table = db.define_table(
+                db.define_table(
                     settings.table_cas_name,
                     Field('user_id', reference_table_user, default=None,
                           label=self.messages.label_user_id),
@@ -1688,7 +1693,7 @@ class Auth(object):
             user_id = None  # user unknown
         vars = vars or {}
         self.table_event().insert(
-            description=description % vars,
+            description=str(description % vars),
             origin=origin, user_id=user_id)
 
     def get_or_create_user(self, keys, update_fields=['email']):
@@ -1758,11 +1763,17 @@ class Auth(object):
         """
         login the user = db.auth_user(id)
         """
-        user = Storage(self.table_user()._filter_fields(user, id=True))
-        if 'password' in user:
-            del user.password
+        from gluon.settings import global_settings
+        if global_settings.web2py_runtime_gae:
+            user = Row(self.db.auth_user._filter_fields(user, id=True))
+            delattr(user,'password')
+        else:
+            user = Row(user)
+            for key,value in user.items():
+                if callable(value) or key=='password':
+                    delattr(user,key)
         current.session.auth = Storage(
-            user=user,
+            user = user,
             last_visit=current.request.now,
             expiration=self.settings.expiration,
             hmac_key=web2py_uuid())
@@ -1773,8 +1784,6 @@ class Auth(object):
         """
         logins user as specified by usernname (or email) and password
         """
-        request = current.request
-        session = current.session
         table_user = self.table_user()
         if self.settings.login_userfield:
             userfield = self.settings.login_userfield
@@ -1826,14 +1835,15 @@ class Auth(object):
                              created_on=request.now,
                              renew=interactivelogin)
             service = session._cas_service
+            query_sep = '&' if '?' in service else '?'
             del session._cas_service
             if 'warn' in request.vars and not interactivelogin:
                 response.headers[
-                    'refresh'] = "5;URL=%s" % service + "?ticket=" + ticket
+                    'refresh'] = "5;URL=%s" % service + query_sep + "ticket=" + ticket
                 return A("Continue to %s" % service,
-                         _href=service + "?ticket=" + ticket)
+                         _href=service + query_sep + "ticket=" + ticket)
             else:
-                redirect(service + "?ticket=" + ticket)
+                redirect(service + query_sep + "ticket=" + ticket)
         if self.is_logged_in() and not 'renew' in request.vars:
             return allow_access()
         elif not self.is_logged_in() and 'gateway' in request.vars:
@@ -1949,7 +1959,9 @@ class Auth(object):
             onaccept = self.settings.login_onaccept
         if log is DEFAULT:
             log = self.messages.login_log
-
+        
+        onfail = self.settings.login_onfail
+        
         user = None  # default
 
         # do we use our own login form, or from a central source?
@@ -2062,8 +2074,10 @@ class Auth(object):
                                    request.post_vars)
                     # invalid login
                     session.flash = self.messages.invalid_login
+                    callback(onfail, None)
                     redirect(
-                        self.url(args=request.args, vars=request.get_vars))
+                        self.url(args=request.args, vars=request.get_vars),
+                        client_side=True)
 
         else:
             # use a central authentication server
@@ -2079,7 +2093,7 @@ class Auth(object):
             else:
                 # we need to pass through login again before going on
                 next = self.url(self.settings.function, args='login')
-                redirect(cas.login_url(next))
+                redirect(cas.login_url(next), client_side=True)
 
         # process authenticated users
         if user:
@@ -2102,14 +2116,16 @@ class Auth(object):
                 if next == session._auth_next:
                     session._auth_next = None
                 next = replace_id(next, form)
-                redirect(next)
+                redirect(next, client_side=True)
+                
             table_user[username].requires = old_requires
             return form
         elif user:
             callback(onaccept, None)
+
         if next == session._auth_next:
             del session._auth_next
-        redirect(next)
+        redirect(next, client_side=True)
 
     def logout(self, next=DEFAULT, onlogout=DEFAULT, log=DEFAULT):
         """
@@ -2138,7 +2154,8 @@ class Auth(object):
 
         current.session.auth = None
         current.session.flash = self.messages.logged_out
-        redirect(next)
+        if not next is None:
+            redirect(next)
 
     def register(
         self,
@@ -2160,7 +2177,7 @@ class Auth(object):
         response = current.response
         session = current.session
         if self.is_logged_in():
-            redirect(self.settings.logged_url)
+            redirect(self.settings.logged_url, client_side=True)
         if next is DEFAULT:
             next = self.next or self.settings.register_next
         if onvalidation is DEFAULT:
@@ -2276,7 +2293,7 @@ class Auth(object):
                 next = self.url(args=request.args)
             else:
                 next = replace_id(next, form)
-            redirect(next)
+            redirect(next, client_side=True)
         return form
 
     def is_logged_in(self):
@@ -2524,7 +2541,7 @@ class Auth(object):
                 raise Exception
         except Exception:
             session.flash = self.messages.invalid_reset_password
-            redirect(next)
+            redirect(next, client_side=True)
         passfield = self.settings.password_field
         form = SQLFORM.factory(
             Field('new_password', 'password',
@@ -2549,7 +2566,7 @@ class Auth(object):
             session.flash = self.messages.password_changed
             if self.settings.login_after_password_change:
                 self.login_user(user)
-            redirect(next)
+            redirect(next, client_side=True)
         return form
 
     def request_reset_password(
@@ -2607,10 +2624,10 @@ class Auth(object):
             user = table_user(email=form.vars.email)
             if not user:
                 session.flash = self.messages.invalid_email
-                redirect(self.url(args=request.args))
+                redirect(self.url(args=request.args), client_side=True)
             elif user.registration_key in ('pending', 'disabled', 'blocked'):
                 session.flash = self.messages.registration_pending
-                redirect(self.url(args=request.args))
+                redirect(self.url(args=request.args), client_side=True)
             if self.email_reset_password(user):
                 session.flash = self.messages.email_sent
             else:
@@ -2621,7 +2638,7 @@ class Auth(object):
                 next = self.url(args=request.args)
             else:
                 next = replace_id(next, form)
-            redirect(next)
+            redirect(next, client_side=True)
         # old_requires = table_user.email.requires
         return form
 
@@ -2666,10 +2683,9 @@ class Auth(object):
         """
 
         if not self.is_logged_in():
-            redirect(self.settings.login_url)
+            redirect(self.settings.login_url, client_side=True)
         db = self.db
         table_user = self.table_user()
-        usern = self.settings.table_user_name
         s = db(table_user.id == self.user.id)
 
         request = current.request
@@ -2717,7 +2733,7 @@ class Auth(object):
                     next = self.url(args=request.args)
                 else:
                     next = replace_id(next, form)
-            redirect(next)
+                redirect(next, client_side=True)
         return form
 
     def profile(
@@ -2737,7 +2753,7 @@ class Auth(object):
 
         table_user = self.table_user()
         if not self.is_logged_in():
-            redirect(self.settings.login_url)
+            redirect(self.settings.login_url, client_side=True)
         passfield = self.settings.password_field
         table_user[passfield].writable = False
         request = current.request
@@ -2773,7 +2789,7 @@ class Auth(object):
                 next = self.url(args=request.args)
             else:
                 next = replace_id(next, form)
-            redirect(next)
+            redirect(next, client_side=True)
         return form
 
     def is_impersonating(self):
@@ -2883,7 +2899,9 @@ class Auth(object):
                 user = user or self.user
                 if requires_login:
                     if not user:
-                        if not otherwise is None:
+                        if current.request.ajax:
+                            raise HTTP(401)
+                        elif not otherwise is None:
                             if callable(otherwise):
                                 return otherwise()
                             redirect(otherwise)
@@ -2990,10 +3008,12 @@ class Auth(object):
         return self.id_group(self.user_group_role(user_id))
 
     def user_group_role(self, user_id=None):
+        if not self.settings.create_user_groups:
+            return None
         if user_id:
             user = self.table_user()[user_id]
         else:
-            user = self.user
+            user = self.user        
         return self.settings.create_user_groups % user
 
     def has_membership(self, group_id=None, user_id=None, role=None):
@@ -3284,19 +3304,30 @@ class Auth(object):
              manage_permissions=False,
              force_prefix='',
              restrict_search=False,
-             resolve=True):
+             resolve=True,
+             extra=None,
+             menugroups=None):
         if not hasattr(self, '_wiki'):
             self._wiki = Wiki(self, render=render,
                               manage_permissions=manage_permissions,
                               force_prefix=force_prefix,
                               restrict_search=restrict_search,
-                              env=env)
+                              env=env, extra=extra or {},
+                              menugroups=menugroups)
         else:
             self._wiki.env.update(env or {})
         # if resolve is set to True, process request as wiki call
         # resolve=False allows initial setup without wiki redirection
+        wiki = None
         if resolve:
-            return self._wiki.read(slug)['content'] if slug else self._wiki()
+            action = str(current.request.args(0)).startswith("_")
+            if slug and not action:
+                wiki = self._wiki.read(slug)['content']
+            else:
+                wiki = self._wiki()
+            if isinstance(wiki, basestring):
+                wiki = XML(wiki)
+            return wiki
 
 
 class Crud(object):
@@ -3465,10 +3496,12 @@ class Crud(object):
             deletable = self.settings.update_deletable
         if message is DEFAULT:
             message = self.messages.record_updated
+        if not 'hidden' in attributes:
+            attributes['hidden'] = {}
+        attributes['hidden']['_next'] = next
         form = SQLFORM(
             table,
             record,
-            hidden=dict(_next=next),
             showid=self.settings.showid,
             submit_button=self.messages.submit_button,
             delete_label=self.messages.delete_label,
@@ -3476,7 +3509,7 @@ class Crud(object):
             upload=self.settings.download_url,
             formstyle=self.settings.formstyle,
             separator=self.settings.label_separator,
-            **attributes
+            **attributes # contains hidden
             )
         self.accepted = False
         self.deleted = False
@@ -4139,12 +4172,13 @@ class Service(object):
                 return '<NULL>'
             return value
         if args and args[0] in self.run_procedures:
+            import types
             r = universal_caller(self.run_procedures[args[0]],
                                  *args[1:], **dict(request.vars))
             s = cStringIO.StringIO()
             if hasattr(r, 'export_to_csv_file'):
                 r.export_to_csv_file(s)
-            elif r and isinstance(r[0], (dict, Storage)):
+            elif r and not isinstance(r, types.GeneratorType) and isinstance(r[0], (dict, Storage)):
                 import csv
                 writer = csv.writer(s)
                 writer.writerow(r[0].keys())
@@ -4228,7 +4262,7 @@ class Service(object):
         if not method in methods:
             return return_error(id, 100, 'method "%s" does not exist' % method)
         try:
-            s = methods[method](*params)
+            s = methods[method](**params)
             if hasattr(s, 'as_list'):
                 s = s.as_list()
             return return_response(id, s)
@@ -4581,16 +4615,23 @@ class PluginManager(object):
 
 
 class Expose(object):
-    def __init__(self, base=None, basename='base'):
+    def __init__(self, base=None, basename='base', extensions=None, allow_download=True):
+        """
+        extensions: an optional list of file extensions for filtering displayed files:
+        ['.py', '.jpg']
+        allow_download: whether to allow downloading selected files
+        """
         current.session.forget()
         base = base or os.path.join(current.request.folder, 'static')
         self.basename = basename
-        args = self.args = current.request.raw_args and \
-            current.request.raw_args.split('/') or []
-        filename = os.path.join(base, *args)
+        self.args = current.request.raw_args and \
+            [arg for arg in current.request.raw_args.split('/') if arg] or []
+        filename = os.path.join(base, *self.args)
+        if not os.path.exists(filename):
+            raise HTTP(404, "FILE NOT FOUND")
         if not os.path.normpath(filename).startswith(base):
             raise HTTP(401, "NOT AUTHORIZED")
-        if not os.path.isdir(filename):
+        if allow_download and not os.path.isdir(filename):
             current.response.headers['Content-Type'] = contenttype(filename)
             raise HTTP(200, open(filename, 'rb'), **current.response.headers)
         self.path = path = os.path.join(filename, '*')
@@ -4598,23 +4639,24 @@ class Expose(object):
                             if os.path.isdir(f) and not self.isprivate(f)]
         self.filenames = [f[len(path) - 1:] for f in sorted(glob.glob(path))
                             if not os.path.isdir(f) and not self.isprivate(f)]
+        if extensions:
+            self.filenames = [f for f in self.filenames if os.path.splitext(f)[-1] in extensions]
 
     def breadcrumbs(self, basename):
         path = []
         span = SPAN()
         span.append(A(basename, _href=URL()))
-        span.append('/')
-        args = current.request.raw_args and \
-            current.request.raw_args.split('/') or []
-        for arg in args:
+        for arg in self.args:
+            span.append('/')
             path.append(arg)
             span.append(A(arg, _href=URL(args='/'.join(path))))
-            span.append('/')
         return span
 
     def table_folders(self):
-        return TABLE(*[TR(TD(A(folder, _href=URL(args=self.args + [folder]))))
-                           for folder in self.folders])
+        if self.folders:
+            return SPAN(H3('Folders'), TABLE(*[TR(TD(A(folder, _href=URL(args=self.args + [folder]))))
+                           for folder in self.folders]))
+        return ''
 
     @staticmethod
     def isprivate(f):
@@ -4622,21 +4664,21 @@ class Expose(object):
 
     @staticmethod
     def isimage(f):
-        return f.rsplit('.')[-1].lower() in ('png', 'jpg', 'jpeg', 'gif', 'tiff')
+        return os.path.splitext(f)[-1].lower() in ('.png', '.jpg', '.jpeg', '.gif', '.tiff')
 
     def table_files(self, width=160):
-        return TABLE(*[TR(TD(A(f, _href=URL(args=self.args + [f]))),
+        if self.filenames:
+            return SPAN(H3('Files'), TABLE(*[TR(TD(A(f, _href=URL(args=self.args + [f]))),
                           TD(IMG(_src=URL(args=self.args + [f]),
                                  _style='max-width:%spx' % width)
                                  if width and self.isimage(f) else ''))
-                           for f in self.filenames])
+                           for f in self.filenames]))
+        return ''
 
     def xml(self):
         return DIV(
             H2(self.breadcrumbs(self.basename)),
-            H3('Folders'),
             self.table_folders(),
-            H3('Files'),
             self.table_files()).xml()
 
 
@@ -4645,7 +4687,8 @@ class Wiki(object):
     rows_page = 25
 
     def markmin_render(self, page):
-        html = MARKMIN(page.body, url=True, environment=self.env,
+        html = MARKMIN(page.body, extra=self.extra, 
+                       url=True, environment=self.env,
                        autolinks=lambda link: expand_one(link, {})).xml()
         html += DIV(_class='w2p_wiki_tags',
                     *[A(t.strip(), _href=URL(args='_search', vars=dict(q=t)))
@@ -4656,7 +4699,7 @@ class Wiki(object):
         html = page.body
         # @///function -> http://..../function
         html = replace_at_urls(html, URL)
-        # http://...jpg -> <img src="http://...jpg/> or oembed
+        # http://...jpg -> <img src="http://...jpg/> or embed
         html = replace_autolinks(html, lambda link: expand_one(link, {}))
         # @{component:name} -> <script>embed component name</script>
         html = replace_components(html, self.env)
@@ -4674,7 +4717,7 @@ class Wiki(object):
 
     def __init__(self, auth, env=None, render='markmin',
                  manage_permissions=False, force_prefix='',
-                 restrict_search=False):
+                 restrict_search=False, extra=None, menugroups=None):
         self.env = env or {}
         self.env['component'] = Wiki.component
         if render == 'markmin':
@@ -4683,6 +4726,7 @@ class Wiki(object):
             render = self.html_render
         self.render = render
         self.auth = auth
+        self.menugroups = menugroups
         if self.auth.user:
             self.force_prefix = force_prefix % self.auth.user
         else:
@@ -4690,6 +4734,7 @@ class Wiki(object):
         self.host = current.request.env.http_host
         perms = self.manage_permissions = manage_permissions
         self.restrict_search = restrict_search
+        self.extra = extra or {}
         db = auth.db
         table_definitions = [
             ('wiki_page', {
@@ -4797,6 +4842,16 @@ class Wiki(object):
 
     def can_search(self):
         return True
+
+    def can_see_menu(self):
+        if self.menugroups is None:
+            return True
+        if self.auth.user:
+            groups = self.auth.user_groups.values()
+            if any(t in self.menugroups for t in groups):
+                return True
+        return False
+
     ### END POLICY
 
     def __call__(self):
@@ -4809,7 +4864,7 @@ class Wiki(object):
         elif not zero or not zero.startswith('_'):
             return self.read(zero)
         elif zero == '_edit':
-            return self.edit(request.args(1) or 'index')
+            return self.edit(request.args(1) or 'index',request.args(2) or 0)
         elif zero == '_editmedia':
             return self.editmedia(request.args(1) or 'index')
         elif zero == '_create':
@@ -4884,7 +4939,7 @@ class Wiki(object):
             raise HTTP(401, "Not Authorized")
         return True
 
-    def edit(self, slug):
+    def edit(self,slug,from_template=0):
         auth = self.auth
         db = auth.db
         page = db.wiki_page(slug=slug)
@@ -4905,7 +4960,7 @@ class Wiki(object):
                 db.wiki_page.body.default = \
                     '- Menu Item > @////index\n- - Submenu > http://web2py.com'
             else:
-                db.wiki_page.body.default = '## %s\n\npage content' % title_guess
+                db.wiki_page.body.default = db(db.wiki_page.id==from_template).select(db.wiki_page.body)[0].body if int(from_template) > 0 else '## %s\n\npage content' % title_guess
         vars = current.request.post_vars
         if vars.body:
             vars.body = vars.body.replace('://%s' % self.host, '://HOSTNAME')
@@ -4924,12 +4979,20 @@ class Wiki(object):
             pagecontent.css('font-family',
                             'Monaco,Menlo,Consolas,"Courier New",monospace');
             var prevbutton = $('<button class="btn nopreview">Preview</button>');
+            var mediabutton = $('<button class="btn nopreview">Media</button>');
             var preview = $('<div id="preview"></div>').hide();
+            var previewmedia = $('<div id="previewmedia"></div>');
             var table = $('form');
-            prevbutton.insertBefore(table);
             preview.insertBefore(table);
-            prevbutton.on('click', function(e) {
-                e.preventDefault();
+            prevbutton.insertBefore(table);
+            mediabutton.insertBefore(table);
+            previewmedia.insertBefore(table);
+            mediabutton.toggle(function() {
+                web2py_component('%(urlmedia)s', 'previewmedia');
+            }, function() {
+                previewmedia.empty();
+            });
+            prevbutton.click(function() {
                 if (prevbutton.hasClass('nopreview')) {
                     prevbutton.addClass('preview').removeClass(
                         'nopreview').html('Edit Source');
@@ -4942,7 +5005,7 @@ class Wiki(object):
                 }
             })
         })
-        """ % dict(url=URL(args=('_preview')))
+        """ % dict(url=URL(args=('_preview')), urlmedia=URL(extension='load',args=('_editmedia'),vars=dict(embedded=1)))
         return dict(content=TAG[''](form, SCRIPT(script)))
 
     def editmedia(self, slug):
@@ -4958,9 +5021,21 @@ class Wiki(object):
                       row.filename.split('.')[-1]))
         self.auth.db.wiki_media.wiki_page.default = page.id
         self.auth.db.wiki_media.wiki_page.writable = False
+        links = []
+        csv = True
+        if current.request.vars.embedded:
+            script = "var c = $('#wiki_page_body'); c.val(c.val() + $('%s').text()); return false;"
+            fragment = self.auth.db.wiki_media.id.represent
+            csv = False
+            links=[
+                lambda row:
+                    A('copy into source', _href='#', _onclick=script % (fragment(row.id, row)))
+                    ]
         content = SQLFORM.grid(
             self.auth.db.wiki_media.wiki_page == page.id,
             orderby=self.auth.db.wiki_media.title,
+            links = links,
+            csv = csv,
             args=['_editmedia', slug],
             user_signature=False)
         return dict(content=content)
@@ -4969,13 +5044,21 @@ class Wiki(object):
         if not self.can_edit():
             return self.not_authorized()
         db = self.auth.db
-        form = FORM(INPUT(_name='slug', value=current.request.args(1),
-                          requires=(IS_SLUG(),
-                                    IS_NOT_IN_DB(db, db.wiki_page.slug))),
-                    INPUT(_type='submit',
-                          _value=current.T('Create Page from Slug')))
+        slugs=db(db.wiki_page.id>0).select(db.wiki_page.id,db.wiki_page.slug)
+        options=[OPTION(row.slug,_value=row.id) for row in slugs] 
+        options.insert(0, OPTION('',_value=''))
+        form = SQLFORM.factory(Field("slug", default=current.request.args(1),
+                                     requires=(IS_SLUG(),
+                                     IS_NOT_IN_DB(db,db.wiki_page.slug))),
+                               Field("from_template", "reference wiki_page",
+                                     requires=IS_EMPTY_OR(IS_IN_DB(db, db.wiki_page, '%(slug)s')),
+                                     comment=current.T("Choose Template or empty for new Page")),
+                                     _class="well span6")
+        form.element("[type=submit]").attributes["_value"] = current.T("Create Page from Slug")
+
         if form.process().accepted:
-            redirect(URL(args=('_edit', form.vars.slug)))
+             # form.vars.from_template = 0 if not form.vars.from_template else form.vars.from_template
+             redirect(URL(args=('_edit',form.vars.slug,form.vars.from_template or 0))) # added param
         return dict(content=form)
 
     def pages(self):
@@ -5032,7 +5115,7 @@ class Wiki(object):
                 subtree = []
                 tree[base] = subtree
                 parent.append((current.T(title), False, link, subtree))
-        if True:
+        if self.can_see_menu():
             submenu = []
             menu.append((current.T('[Wiki]'), None, None, submenu))
             if URL() == URL(controller, function):
@@ -5059,12 +5142,14 @@ class Wiki(object):
 
             submenu.append((current.T('Create New Page'), None,
                             URL(controller, function, args=('_create'))))
-        if self.can_manage():
-            submenu.append((current.T('Manage Pages'), None,
+            # Moved next if to inside self.auth.user check
+            if self.can_manage():
+                submenu.append((current.T('Manage Pages'), None,
                             URL(controller, function, args=('_pages'))))
-            submenu.append((current.T('Edit Menu'), None,
+                submenu.append((current.T('Edit Menu'), None,
                             URL(controller, function, args=('_edit', 'wiki-menu'))))
-        submenu.append((current.T('Search Pages'), None,
+            # Also moved inside self.auth.user check
+            submenu.append((current.T('Search Pages'), None,
                         URL(controller, function, args=('_search'))))
         return menu
 

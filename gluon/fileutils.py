@@ -7,6 +7,7 @@ Copyrighted by Massimo Di Pierro <mdipierro@cs.depaul.edu>
 License: LGPLv3 (http://www.gnu.org/licenses/lgpl.html)
 """
 
+import sys
 import storage
 import os
 import re
@@ -14,6 +15,7 @@ import tarfile
 import glob
 import time
 import datetime
+import logging
 from http import HTTP
 from gzip import open as gzopen
 
@@ -239,8 +241,20 @@ def w2p_pack(filename, path, compiled=False):
     tarfp.close()
     os.unlink(tarname)
 
+def create_welcome_w2p():
+    if not os.path.exists('welcome.w2p') or os.path.exists('NEWINSTALL'):
+        try:
+            w2p_pack('welcome.w2p', 'applications/welcome')
+            os.unlink('NEWINSTALL')
+            logging.info("New installation: created welcome.w2p file")
+        except:
+            logging.error("New installation error: unable to create welcome.w2p file")
+
 
 def w2p_unpack(filename, path, delete_tar=True):
+
+    if filename=='welcome.w2p':
+        create_welcome_w2p()
     filename = abspath(filename)
     path = abspath(path)
     if filename[-4:] == '.w2p' or filename[-3:] == '.gz':

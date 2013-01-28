@@ -1,0 +1,61 @@
+
+{{extend 'layout.html'}}
+
+        
+        <div class="header">
+            <h1 class="page-title">Lista</h1>
+        </div>
+        
+        <ul class="breadcrumb">
+            <li><a href="{{=URL('default','index')}}">Home</a> <span class="divider">/</span></li>
+            <li class="active">Lista</li>
+        </ul>
+    
+
+
+      <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+             <div class="box" id="box-0">
+              <div class="box-container-toggle">
+
+              <div class="btn-toolbar"><a href="{{=URL('users','add')}}" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-plus"></i> Add New User</a><div class="btn-group"></div></div>
+                  <div class="well">
+                     <!-- table table-striped table-bordered bootstrap-datatable -->
+                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped bootstrap-datatable" id="datatable">
+                          <thead>
+                              <tr>
+                                 <th>#</th>
+                                  <th>Name</th>
+                                  <th>Username</th>
+                                  <th>Status</th>
+                                  <th>Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+ 		       {{for item in users:}}
+                       {{if item['sAMAccountName'][0] in ['Guest','krbtgt']: continue}}
+                          <tr>
+			                    <td><p><i class="icon-user"></i></td>
+                          <td>{{=item['name'][0]}}</td>
+                          <td class="center">{{=item['sAMAccountName'][0]}}</td>
+                          <td class="center">
+                          <span class="badge badge-success">Active</span>
+                          </td>
+                          <td class="center">
+                          <a class="btn btn-info" href="#"><i class="icon-edit icon-white"></i>Edit</a>
+                          <a class="btn btn-danger" href="{{=URL('users','delete', item['sAMAccountName'][0])}}"><i class="icon-trash icon-white"></i>Delete</a>
+                          </td>
+                         </tr>
+                       {{pass}}
+
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+            </div><!--/span-->
+	 </div>
+    </div>
+</div>
+
+

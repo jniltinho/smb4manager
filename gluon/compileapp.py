@@ -396,7 +396,8 @@ def build_environment(request, response, session, store_current=True):
     response.models_to_run = [r'^\w+\.py$', r'^%s/\w+\.py$' % request.controller,
                               r'^%s/%s/\w+\.py$' % (request.controller, request.function)]
 
-    t = environment['T'] = translator(request)
+    t = environment['T'] = translator(os.path.join(request.folder,'languages'),
+                                      request.env.http_accept_language)
     c = environment['cache'] = Cache(request)
 
     if store_current:
@@ -452,7 +453,7 @@ def compile_views(folder):
     """
 
     path = pjoin(folder, 'views')
-    for file in listdir(path, '^[\w/\-]+(\.\w+)+$'):
+    for file in listdir(path, '^[\w/\-]+(\.\w+)*$'):
         try:
             data = parse_template(file, path)
         except Exception, e:
@@ -514,11 +515,11 @@ def run_models_in(environment):
         for model in listdir(cpath, '^models_\w+\.pyc$', 0):
             restricted(read_pyc(model), environment, layer=model)
         path = pjoin(cpath, 'models')
-        models = listdir(path, '^\w+\.pyc$', 0, sort=False)
+        models = listdir(path, '^\w+\.pyc$', 0)
         compiled = True
     else:
         path = pjoin(folder, 'models')
-        models = listdir(path, '^\w+\.py$', 0, sort=False)
+        models = listdir(path, '^\w+\.py$', 0)
         compiled = False
     n = len(path) + 1
     for model in models:

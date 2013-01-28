@@ -129,6 +129,11 @@ def xmlescape(data, quote=True):
     data = cgi.escape(data, quote).replace("'", "&#x27;")
     return data
 
+def call_as_list(f,*a,**b):
+    if not isinstance(f, (list,tuple)):
+        f = [f]
+    for item in f:
+        item(*a,**b)
 
 def truncate_string(text, length, dots='...'):
     text = text.decode('utf-8')
@@ -1247,19 +1252,20 @@ class HTML(DIV):
             lang = 'en'
         self.attributes['_lang'] = lang
         doctype = self['doctype']
-        if doctype:
-            if doctype == 'strict':
-                doctype = self.strict
-            elif doctype == 'transitional':
-                doctype = self.transitional
-            elif doctype == 'frameset':
-                doctype = self.frameset
-            elif doctype == 'html5':
-                doctype = self.html5
-            else:
-                doctype = '%s\n' % doctype
-        else:
+        if doctype is None:
             doctype = self.transitional
+        elif doctype == 'strict':
+            doctype = self.strict
+        elif doctype == 'transitional':
+            doctype = self.transitional
+        elif doctype == 'frameset':
+            doctype = self.frameset
+        elif doctype == 'html5':
+            doctype = self.html5
+        elif doctype == '':
+            doctype = ''
+        else:
+            doctype = '%s\n' % doctype
         (fa, co) = self._xml()
         return '%s<%s%s>%s</%s>' % (doctype, self.tag, fa, co, self.tag)
 
@@ -1482,8 +1488,9 @@ class A(DIV):
                     (self['callback'], self['target'] or '', d)
             self['_href'] = self['_href'] or '#null'
         elif self['cid']:
-            self['_onclick'] = 'web2py_component("%s","%s");%sreturn false;' % \
-                (self['_href'], self['cid'], d)
+	    pre = self['pre_call'] + ';' if self['pre_call'] else ''
+            self['_onclick'] = '%sweb2py_component("%s","%s");%sreturn false;' % \
+                (pre,self['_href'], self['cid'], d)
         return DIV.xml(self)
 
 
@@ -1756,7 +1763,7 @@ class INPUT(DIV):
             t = self['_type'] = 'text'
         t = t.lower()
         value = self['value']
-        if self['_value'] is None:
+        if self['_value'] is None or isinstance(self['_value'],cgi.FieldStorage):
             _value = None
         else:
             _value = str(self['_value'])
@@ -1890,7 +1897,8 @@ class SELECT(INPUT):
         if not value is None:
             if not self['_multiple']:
                 for c in options:  # my patch
-                    if value and str(c['_value']) == str(value):
+                    if ((value is not None) and
+                        (str(c['_value']) == str(value))):
                         c['_selected'] = 'selected'
                     else:
                         c['_selected'] = None
@@ -1900,7 +1908,8 @@ class SELECT(INPUT):
                 else:
                     values = [str(value)]
                 for c in options:  # my patch
-                    if value and str(c['_value']) in values:
+                    if ((value is not None) and
+                        (str(c['_value']) in values)):
                         c['_selected'] = 'selected'
                     else:
                         c['_selected'] = None
@@ -1960,7 +1969,7 @@ class FORM(DIV):
         **kwargs
     ):
         """
-        kwargs is not used but allows to specify the same interface for FROM and SQLFORM
+        kwargs is not used but allows to specify the same interface for FORM and SQLFORM
         """
         if request_vars.__class__.__name__ == 'Request':
             request_vars = request_vars.post_vars
@@ -1996,20 +2005,20 @@ class FORM(DIV):
                 onsuccess = onvalidation.get('onsuccess', None)
                 onfailure = onvalidation.get('onfailure', None)
                 onchange = onvalidation.get('onchange', None)
+                if [k for k in onvalidation if not k in (
+                        'onsuccess','onfailure','onchange')]:
+                    raise RuntimeError('Invalid key in onvalidate dict')
                 if onsuccess and status:
-                    onsuccess(self)
+                    call_as_list(onsuccess,self)
                 if onfailure and request_vars and not status:
-                    onfailure(self)
+                    call_as_list(onfailure,self)
                     status = len(self.errors) == 0
                 if changed:
                     if onchange and self.record_changed and \
                             self.detect_record_change:
-                        onchange(self)
+                        call_as_list(onchange,self)
             elif status:
-                if isinstance(onvalidation, (list, tuple)):
-                    [f(self) for f in onvalidation]
-                else:
-                    onvalidation(self)
+                call_as_list(onvalidation, self)
         if self.errors:
             status = False
         if not session is None:
@@ -2285,6 +2294,8 @@ class MENU(DIV):
       _class: defaults to 'web2py-menu web2py-menu-vertical'
       ul_class: defaults to 'web2py-menu-vertical'
       li_class: defaults to 'web2py-menu-expand'
+      li_first: defaults to 'web2py-menu-first'
+      li_last: defaults to 'web2py-menu-last'
 
     Example:
         menu = MENU([['name', False, URL(...), [submenu]], ...])
@@ -2303,6 +2314,10 @@ class MENU(DIV):
             self['ul_class'] = 'web2py-menu-vertical'
         if not 'li_class' in self.attributes:
             self['li_class'] = 'web2py-menu-expand'
+        if not 'li_first' in self.attributes:
+            self['li_first'] = 'web2py-menu-first'
+        if not 'li_last' in self.attributes:
+            self['li_last'] = 'web2py-menu-last'
         if not 'li_active' in self.attributes:
             self['li_active'] = 'web2py-menu-active'
         if not 'mobile' in self.attributes:
@@ -2319,6 +2334,8 @@ class MENU(DIV):
                 li = LI(link)
             elif 'no_link_url' in self.attributes and self['no_link_url'] == link:
                 li = LI(DIV(name))
+            elif isinstance(link,dict):
+                li = LI(A(name, **link))
             elif link:
                 li = LI(A(name, _href=link))
             elif not link and isinstance(name, A):
@@ -2326,6 +2343,10 @@ class MENU(DIV):
             else:
                 li = LI(A(name, _href='#',
                           _onclick='javascript:void(0);return false;'))
+            if level == 0 and item == data[0]:
+                li['_class'] = self['li_first']
+            elif level == 0 and item == data[-1]:
+                li['_class'] = self['li_last']
             if len(item) > 3 and item[3]:
                 li['_class'] = self['li_class']
                 li.append(self.serialize(item[3], level + 1))

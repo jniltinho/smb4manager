@@ -575,7 +575,10 @@ class IS_NOT_IN_DB(Validator):
         self.record_id = id
 
     def __call__(self, value):
-        value = str(value)
+        if isinstance(value,unicode):
+            value = value.encode('utf8')
+        else:
+            value = str(value)
         if not value.strip():
             return (value, translate(self.error_message))
         if value in self.allowed_override:
@@ -778,6 +781,8 @@ class IS_FLOAT_IN_RANGE(Validator):
         return (value, self.error_message)
 
     def formatter(self, value):
+        if value is None:
+            return None
         return str2dec(value).replace('.', self.dot)
 
 
@@ -882,6 +887,8 @@ class IS_DECIMAL_IN_RANGE(Validator):
         return (value, self.error_message)
 
     def formatter(self, value):
+        if value is None:
+            return None
         return str2dec(value).replace('.', self.dot)
 
 
@@ -2170,6 +2177,8 @@ class IS_DATE(Validator):
             return (value, translate(self.error_message) % self.extremes)
 
     def formatter(self, value):
+        if value is None:
+            return None
         format = self.format
         year = value.year
         y = '%.4i' % year
@@ -2228,6 +2237,8 @@ class IS_DATETIME(Validator):
             return (value, translate(self.error_message) % self.extremes)
 
     def formatter(self, value):
+        if value is None:
+            return None
         format = self.format
         year = value.year
         y = '%.4i' % year
@@ -2622,6 +2633,13 @@ class LazyCrypt(object):
         """
         compares the current lazy crypted password with a stored password
         """
+
+        # LazyCrypt objects comparison
+        if isinstance(stored_password, self.__class__):
+            return ((self is stored_password) or
+                   ((self.crypt.key == stored_password.crypt.key) and
+                   (self.password == stored_password.password)))
+
         if self.crypt.key:
             if ':' in self.crypt.key:
                 key = self.crypt.key.split(':')[1]
@@ -2847,6 +2865,8 @@ class IS_STRONG(object):
 
     def __call__(self, value):
         failures = []
+        if value and len(value) == value.count('*') > 4:
+            return (value, None)
         if self.entropy is not None:
             entropy = calc_entropy(value)
             if entropy < self.entropy:

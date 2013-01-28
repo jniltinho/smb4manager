@@ -20,7 +20,7 @@ auth = Auth(db)
 
 ## configure auth policy
 #auth.settings.formstyle = 'divs'
-auth.settings.actions_disabled=['register','change_password','request_reset_password']
+#auth.settings.actions_disabled=['register','change_password','request_reset_password']
 auth.settings.controller = 'account'
 auth.settings.login_url=URL('account','login')
 

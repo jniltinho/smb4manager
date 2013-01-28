@@ -1,0 +1,10 @@
+
+
+
+logs/*.*
+*.pyc
+
+
+applications/dashboard/errors/*
+applications/dashboard/sessions/*
+

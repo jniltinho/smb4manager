@@ -9,7 +9,6 @@ License: LGPLv3 (http://www.gnu.org/licenses/lgpl.html)
 This file specifically includes utilities for security.
 """
 
-import string
 import threading
 import struct
 import hashlib
@@ -19,22 +18,34 @@ import random
 import time
 import os
 import re
+import sys
 import logging
 import socket
-import cPickle
 import base64
 import zlib
+
+python_version = sys.version_info[0]
+
+if python_version == 2:
+    import cPickle as pickle
+else:
+    import pickle
+
 
 try:
     from Crypto.Cipher import AES
 except ImportError:
-    from contrib import aes as AES
+    import contrib.aes as AES
 
 try:
     from contrib.pbkdf2 import pbkdf2_hex
     HAVE_PBKDF2 = True
 except ImportError:
-    HAVE_PBKDF2 = False
+    try:
+        from .pbkdf2 import pbkdf2_hex
+        HAVE_PBKDF2 = True
+    except (ImportError, ValueError):
+        HAVE_PBKDF2 = False
 
 logger = logging.getLogger("web2py")
 
@@ -115,7 +126,7 @@ def pad(s, n=32, padchar='.'):
 def secure_dumps(data, encryption_key, hash_key=None, compression_level=None):
     if not hash_key:
         hash_key = hashlib.sha1(encryption_key).hexdigest()
-    dump = cPickle.dumps(data)
+    dump = pickle.dumps(data)
     if compression_level:
         dump = zlib.compress(dump, compression_level)
     key = pad(encryption_key[:32])
@@ -141,8 +152,8 @@ def secure_loads(data, encryption_key, hash_key=None, compression_level=None):
         data = data.rstrip(' ')
         if compression_level:
             data = zlib.decompress(data)
-        return cPickle.loads(data)
-    except (TypeError, cPickle.UnpicklingError):
+        return pickle.loads(data)
+    except (TypeError, pickle.UnpicklingError):
         return None
 
 ### compute constant CTOKENS
@@ -173,7 +184,10 @@ def initialize_urandom():
             # try to add process-specific entropy
             frandom = open('/dev/urandom', 'wb')
             try:
-                frandom.write(''.join(chr(t) for t in ctokens))
+                if python_version == 2:
+                    frandom.write(''.join(chr(t) for t in ctokens)) # python 2
+                else:
+                    frandom.write(bytes([]).join(bytes([t]) for t in ctokens)) # python 3
             finally:
                 frandom.close()
         except IOError:
@@ -185,8 +199,11 @@ def initialize_urandom():
             """Cryptographically secure session management is not possible on your system because
 your system does not provide a cryptographically secure entropy source.
 This is not specific to web2py; consider deploying on a different operating system.""")
-    unpacked_ctokens = struct.unpack('=QQ', string.join(
-        (chr(x) for x in ctokens), ''))
+    if python_version == 2:
+        packed = ''.join(chr(x) for x in ctokens) # python 2
+    else:
+        packed = bytes([]).join(bytes([x]) for x in ctokens) # python 3
+    unpacked_ctokens = struct.unpack('=QQ', packed)
     return unpacked_ctokens, have_urandom
 UNPACKED_CTOKENS, HAVE_URANDOM = initialize_urandom()
 
@@ -243,14 +260,14 @@ def is_valid_ip_address(address):
     # deal with special cases
     if address.lower() in ('127.0.0.1', 'localhost', '::1', '::ffff:127.0.0.1'):
         return True
-    elif address.lower() in ('unkown', ''):
+    elif address.lower() in ('unknown', ''):
         return False
     elif address.count('.') == 3:  # assume IPv4
         if address.startswith('::ffff:'):
             address = address[7:]
         if hasattr(socket, 'inet_aton'):  # try validate using the OS
             try:
-                addr = socket.inet_aton(address)
+                socket.inet_aton(address)
                 return True
             except socket.error:  # invalid address
                 return False
@@ -261,9 +278,22 @@ def is_valid_ip_address(address):
             return False
     elif hasattr(socket, 'inet_pton'):  # assume IPv6, try using the OS
         try:
-            addr = socket.inet_pton(socket.AF_INET6, address)
+            socket.inet_pton(socket.AF_INET6, address)
             return True
         except socket.error:  # invalid address
             return False
     else:  # do not know what to do? assume it is a valid address
         return True
+
+
+def is_loopback_ip_address(ip):
+    """Determines whether the IP address appears to be a loopback address.
+
+    This assumes that the IP is valid.  The IPv6 check is limited to '::1'.
+
+    """
+    if not ip:
+        return False
+    if ip.count('.') == 3:  # IPv4
+        return ip.startswith('127') or ip.startswith('::ffff:127')
+    return ip == '::1'  # IPv6

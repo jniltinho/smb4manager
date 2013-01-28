@@ -48,7 +48,6 @@ except ImportError:
     have_minify = False
 
 regex_session_id = re.compile('^([\w\-]+/)?[\w\-\.]+$')
-regex_nopasswd = re.compile('(?<=\:)([^:@/]+)(?=@.+)')
 
 __all__ = ['Request', 'Response', 'Session']
 
@@ -127,11 +126,17 @@ class Request(Storage):
         If request comes in over HTTP, redirect it to HTTPS
         and secure the session.
         """
-        if not global_settings.cronjob and not self.is_https:
+        cmd_opts = global_settings.cmd_options
+        #checking if this is called within the scheduler or within the shell
+        #in addition to checking if it's not a cronjob
+        if ((cmd_opts and (cmd_opts.shell or cmd_opts.scheduler))
+            or global_settings.cronjob or self.is_https):
+            current.session.secure()
+        else:
             current.session.forget()
             redirect(URL(scheme='https', args=self.args, vars=self.vars))
 
-        current.session.secure()
+
 
     def restful(self):
         def wrapper(action, self=self):
@@ -388,7 +393,10 @@ class Response(Storage):
         if not items:
             raise HTTP(404)
         (t, f) = (items.group('table'), items.group('field'))
-        field = db[t][f]
+        try:
+            field = db[t][f]
+        except AttributeError:
+            raise HTTP(404)
         try:
             (filename, stream) = field.retrieve(name)
         except IOError:
@@ -397,7 +405,7 @@ class Response(Storage):
         headers['Content-Type'] = contenttype(name)
         if attachment:
             headers['Content-Disposition'] = \
-                'attachment; filename=%s' % filename
+                'attachment; filename="%s"' % filename.replace('"','\"')
         return self.stream(stream, chunk_size=chunk_size, request=request)
 
     def json(self, data, default=None):
@@ -431,22 +439,16 @@ class Response(Storage):
         BUTTON = TAG.button
         admin = URL("admin", "default", "design",
                     args=current.request.application)
-        from gluon.dal import THREAD_LOCAL
-        if hasattr(THREAD_LOCAL, 'instances'):
-            dbstats = [TABLE(*[TR(PRE(row[0]), '%.2fms' % (row[1] * 1000))
-                               for row in i.db._timings])
-                       for i in THREAD_LOCAL.instances]
-            dbtables = dict([(regex_nopasswd.sub('******', i.uri),
-                              {'defined':
-                               sorted(list(set(i.db.tables) -
-                                           set(i.db._LAZY_TABLES.keys()))) or
-                               '[no defined tables]',
-                               'lazy': sorted(i.db._LAZY_TABLES.keys()) or
-                               '[no lazy tables]'})
-                             for i in THREAD_LOCAL.instances])
-        else:
-            dbstats = []  # if no db or on GAE
-            dbtables = {}
+        from gluon.dal import DAL
+        dbstats = []
+        dbtables = {}
+        infos = DAL.get_instances()
+        for k,v in infos.iteritems():
+            dbstats.append(TABLE(*[TR(PRE(row[0]),'%.2fms' %
+                                          (row[1]*1000))
+                                           for row in v['dbstats']]))
+            dbtables[k] = dict(defined=v['dbtables']['defined'] or '[no defined tables]',
+                               lazy=v['dbtables']['lazy'] or '[no lazy tables]')
         u = web2py_uuid()
         backtotop = A('Back to top', _href="#totop-%s" % u)
         return DIV(
@@ -504,7 +506,7 @@ class Session(Storage):
             request = current.request
         if response is None:
             response = current.response
-        if separate == True:
+        if separate is True:
             separate = lambda session_name: session_name[-2:]
         self._unlock(response)
         if not masterapp:
@@ -556,6 +558,7 @@ class Session(Storage):
                     response.session_id = None
             # do not try load the data from file is these was data in cookie
             if response.session_id and not session_cookie_data:
+                # os.path.exists(response.session_filename):
                 try:
                     response.session_file = \
                         open(response.session_filename, 'rb+')
@@ -569,12 +572,14 @@ class Session(Storage):
                             .split('-')[0]
                         if check_client and client != oc:
                             raise Exception("cookie attack")
+                    except:
+                        response.session_id = None
                     finally:
                         pass
                         #This causes admin login to break. Must find out why.
                         #self._close(response)
                 except:
-                    response.session_id = None
+                    response.session_file = None
             if not response.session_id:
                 uuid = web2py_uuid()
                 response.session_id = '%s-%s' % (client, uuid)
@@ -654,6 +659,12 @@ class Session(Storage):
             rcookies[response.session_data_name]['expires'] = PAST
         if self.flash:
             (response.flash, self.flash) = (self.flash, None)
+
+    def clear(self):
+        previous_session_hash = self.pop('_session_hash', None)
+        Storage.clear(self)
+        if previous_session_hash:
+            self._session_hash = previous_session_hash
 
     def is_new(self):
         if self._start_timestamp:
@@ -740,12 +751,10 @@ class Session(Storage):
     def _try_store_in_file(self, request, response):
         if response.session_storage_type != 'file':
             return False
-
         try:
             if not response.session_id or self._forget or self._unchanged():
                 return False
-
-            if response.session_new:
+            if response.session_new or not response.session_file:
                 # Tests if the session sub-folder exists, if not, create it
                 session_folder = os.path.dirname(response.session_filename)
                 if not os.path.exists(session_folder):

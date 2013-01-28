@@ -14,4 +14,9 @@ def login():
 
 @auth.requires_login()
 def logout(): auth.logout(next=URL(r=request,c='default',f='index'))
+
+
+@auth.requires_membership("Admin")
+def manager():
+    return auth()
 	
