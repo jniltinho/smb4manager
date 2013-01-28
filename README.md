@@ -32,3 +32,9 @@ Usage
     https://server_ip:8010
     Login: admin
     Pass: smb4manager
+
+
+Screen
+====
+
+![image](https://raw.github.com/jniltinho/smb4manager/master/screens/smb4manager.png)
