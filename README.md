@@ -38,3 +38,10 @@ Screen
 ====
 
 ![image](https://raw.github.com/jniltinho/smb4manager/master/screens/smb4manager.png)
+
+
+Requer
+====
+samba4, samba-tool
+
+
