@@ -13,15 +13,15 @@ Instalation
     zypper install -y python-xml python-ldap python-simplejson git
 
     cd /opt/
-    git clone https://github.com/jniltinho/smb4manager.git
+    git clone http://github.com/jniltinho/smb4manager.git
     cd smb4manager
     chmod +x start_ssl.sh
 
 
 Configure
 ====
-    Rename file site-packages/smb4config/smb4config_sample.py to site-packages/smb4config/smb4config.py
-    Change config dict in file site-packages/smb4config/smb4config.py
+    Rename file applications/dashboard/modules/smb4config/smb4config_sample.py to applications/dashboard/modules/smb4config/smb4config.py
+    Change config dict in file applications/dashboard/modules/smb4config/smb4config.py
     start web2py in ssl, execute:
     ./start_ssl.sh
 
