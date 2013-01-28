@@ -1,10 +1,15 @@
 
 
 
+## Folders
 logs/*.*
-*.pyc
 
+## Files
+*.pyc
+parameters_*
+httpserver.log
 
 applications/dashboard/errors/*
 applications/dashboard/sessions/*
+
 

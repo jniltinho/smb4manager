@@ -29,6 +29,6 @@ Configure
 
 Usage
 ====
-    https://server_ip:8810
+    https://server_ip:8010
     Login: admin
     Pass: smb4manager
