@@ -20,7 +20,8 @@ Instalation
 
 Configure
 ====
-    Rename file applications/dashboard/modules/smb4config/smb4config_sample.py to applications/dashboard/modules/smb4config/smb4config.py
+    Rename file: applications/dashboard/modules/smb4config/smb4config_sample.py 
+    to: applications/dashboard/modules/smb4config/smb4config.py
     Change config dict in file applications/dashboard/modules/smb4config/smb4config.py
     start web2py in ssl, execute:
     ./start_ssl.sh
@@ -46,6 +47,6 @@ samba4, samba-tool
 
 Task Open
 ====
-Users list
-Users add
-Users del
+    Users list
+    Users add
+    Users del
