@@ -50,3 +50,4 @@ Task Open
     Users list
     Users add
     Users del
+    Users edit

@@ -1,4 +1,18 @@
 
+
+
+
+{{block js_script}}
+    <script type="text/javascript">  
+        $("a.btn-danger").live("click",function(event){
+                return confirm("{{=T('Do you want to delete?')}}");
+        });
+
+    </script>
+{{end}}
+
+
+
 {{extend 'layout.html'}}
 
         
