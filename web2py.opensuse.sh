@@ -1,21 +1,23 @@
 #! /bin/sh
-# Copyright (c) 1995-2000 SuSE GmbH Nuernberg, Germany.
 #
 # Author: Nilton OS
+# Starts the Web2py Daemon on OpenSUSE
 #
-# /etc/init.d/web2py
+# To execute automatically at startup
+# chkconfig --add web2pyd
+# /etc/init.d/web2pyd
 #
-#   and symbolic its link
-#
-# /usr/sbin/rcweb2py
+# and symbolic its link
+# ln -s /etc/init.d/web2pyd /usr/sbin/rcweb2pyd
+# /usr/sbin/rcweb2pyd
 #
 ### BEGIN INIT INFO
-# Provides: web2py
+# Provides: web2pyd
 # Required-Start: $network $remote_fs
 # Required-Stop: $network $remote_fs
 # Default-Start: 3 5
 # Default-Stop: 0 1 2 6
-# Description: Start the web2py daemon
+# Description: Start the web2pyd daemon
 ### END INIT INFO
 
 PYTHON="python"
@@ -26,6 +28,8 @@ WEB2PY_ADMINPASS="admin"
 WEB2PY_IP="0.0.0.0"
 WEB2PY_PORT="8001"
 
+## Add config SSL
+WEB2PY_SSL="-c server.crt -k server.key"
 
 WEB2PY_OPTS="-Q --nogui -a $WEB2PY_ADMINPASS -d $WEB2PY_PIDFILE -i $WEB2PY_IP -p $WEB2PY_PORT"
 
