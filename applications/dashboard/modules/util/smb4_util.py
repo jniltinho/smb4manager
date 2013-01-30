@@ -8,12 +8,24 @@ cmd_smb  = smb4config.SAMBA4['smbtool']
 
 
 class SMB4UTIL():
-      def div(self, x, y):
-          return x // y
+
+
+      def _erros(self,msg=False):
+          if 'successfully' in msg:
+              return ['SUCCESS', 'Account created successfully']
+
+          if 'Failed' in msg:
+              if 'complexity' in msg: return ['FAILED', 'Password not complexity']
+              if 'already' in msg: return ['FAILED', 'Account already in use']
+
+          return (True,msg)
+
 
       def getUser(self):
           cmd_result = commands.getoutput(cmd_smb + ' user list')
           return cmd_result.split()
+
+
 
       def addUser(self,username=False, password=False, mail=False, givenname=False, surname=False):
           if not username: return Response("unknown_username")
@@ -21,7 +33,10 @@ class SMB4UTIL():
           cmd_add = ("%s user add %s %s --mail-address=%s --given-name='%s' --surname='%s'") %(cmd_smb, username, password, mail, givenname, surname)
           ##print cmd_add
           cmd_result = commands.getoutput(cmd_add)
-          return cmd_result.split()
+          cmd_result = self._erros(cmd_result)
+          return cmd_result
+
+
 
       def deleteUser(self,username=False):
           if not username: return Response("error_set_username")

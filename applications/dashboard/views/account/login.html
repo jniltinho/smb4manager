@@ -16,9 +16,9 @@
             <div class="block-body">
                 <form action="" enctype="multipart/form-data" method="post">
                     <label>Username</label>
-                    <input type="text" name="username" class="span12">
+                    <input type="text" name="username" required="true" class="span12">
                     <label>Password</label>
-                    <input type="password" name="password" class="span12">
+                    <input type="password" name="password" required="true" class="span12">
                     <input class="btn btn-primary pull-right" type="submit" value="Login" />
                     <div class="clearfix"></div>
                      {{=form.hidden_fields()}}

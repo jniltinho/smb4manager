@@ -23,6 +23,7 @@
 PYTHON="python"
 WEB2PY_DIR="/opt/web2py"
 WEB2PY_PIDFILE="/var/run/web2py.pid"
+WEB2PY_DESC="Web2py"
 
 WEB2PY_ADMINPASS="admin"
 WEB2PY_IP="0.0.0.0"
@@ -50,7 +51,7 @@ rc_reset
 
 case "$1" in
     start)
-	echo -n "Starting Web2py daemon"
+	echo -n "Starting $WEB2PY_DESC daemon"
 
 	$PYTHON $WEB2PY_DIR/web2py.py $WEB2PY_OPTS &
 
@@ -58,7 +59,7 @@ case "$1" in
 	rc_status -v
 	;;
     stop)
-	echo -n "Shutting down Web2py daemon"
+	echo -n "Shutting down $WEB2PY_DESC daemon"
 
 	killproc -p $WEB2PY_PIDFILE -TERM $PYTHON
 
@@ -75,7 +76,7 @@ case "$1" in
         rc_status
         ;;
     status)
-	echo -n "Checking for service Web2py "
+	echo -n "Checking for service $WEB2PY_DESC "
 
         # Status has a slightly different for the status command:
         # 0 - service running
