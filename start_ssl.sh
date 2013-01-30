@@ -11,6 +11,7 @@ rm -f parameters_*
 rm -f logs/*
 rm -f applications/dashboard/errors/*
 rm -f applications/dashboard/sessions/*
+rm -f applications/admin/sessions/*
 
 
 ## Start webserver https

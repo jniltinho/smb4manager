@@ -13,5 +13,7 @@ smb4config.py
 
 applications/dashboard/errors/*
 applications/dashboard/sessions/*
+applications/admin/sessions/*
+
 
 

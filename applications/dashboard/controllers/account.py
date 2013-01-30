@@ -16,7 +16,23 @@ def login():
 def logout(): auth.logout(next=URL(r=request,c='default',f='index'))
 
 
-@auth.requires_membership("Admin")
-def manager():
-    return auth()
-	
+@auth.requires_membership("admin")
+def manager_users():
+     grid = SQLFORM.grid(db.auth_user,csv=False,searchable=False,_class="table table-striped bootstrap-datatable")
+     response.view = 'account/manager.html'
+     return dict(grid=grid)
+
+
+@auth.requires_membership("admin")
+def manager_member():
+     grid = SQLFORM.grid(db.auth_membership,csv=False,searchable=False,_class="table table-striped bootstrap-datatable")
+     response.view = 'account/manager.html'
+     return dict(grid=grid)
+
+
+@auth.requires_membership("admin")
+def manager_group():
+     grid = SQLFORM.grid(db.auth_group,csv=False,searchable=False,_class="table table-striped bootstrap-datatable")
+     response.view = 'account/manager.html'
+     return dict(grid=grid)
+

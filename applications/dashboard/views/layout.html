@@ -61,12 +61,10 @@
 
     </script> 
 {{end}}
-
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
   </head>
 
   <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
@@ -76,7 +74,6 @@
   <!--[if (gt IE 9)|!(IE)]><!--> 
   <body class=""> 
   <!--<![endif]-->
-
       
     <div class="navbar">
         <div class="navbar-inner">
@@ -84,7 +81,7 @@
                     {{block navbar_menu}}
                     <li id="fat-menu" class="dropdown">
                         <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-user"></i>Admin<i class="icon-caret-down"></i>
+                            <i class="icon-user"></i>{{=auth.user.first_name}}<i class="icon-caret-down"></i>
                         </a>
 
                         <ul class="dropdown-menu">
@@ -108,18 +105,19 @@
             <input type="text" placeholder="Search...">
         </form>
         
-        <a href="{{=URL('index')}}" class="nav-header" ><i class="icon-dashboard"></i>Dashboard</a>
+        <a href="{{=URL('default','index')}}" class="nav-header" ><i class="icon-dashboard"></i>Dashboard</a>
 
         <a href="#accounts-users" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>Users<i class="icon-chevron-up"></i></a>
         <ul id="accounts-users" class="nav nav-list collapse in">
-            <li ><a href="{{=URL('users', 'list')}}">Users</a></li>
+            <li ><a href="{{=URL('users', 'index')}}">Users</a></li>
             <li ><a href="#">Groups</a></li>
         </ul>
 
-        <a href="#accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>Config<i class="icon-chevron-up"></i></a>
-        <ul id="accounts-menu" class="nav nav-list collapse in">
-            <li ><a href="#">Networks</a></li>
-            <li ><a href="#">Services</a></li>
+        <a href="#accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>SMB4 Config<i class="icon-chevron-up"></i></a>
+        <ul id="accounts-menu" class="nav nav-list collapse">
+            <li ><a href="{{=URL('account', 'manager_users')}}">Users</a></li>
+            <li ><a href="{{=URL('account', 'manager_group')}}">Groups</a></li>
+            <li ><a href="{{=URL('account', 'manager_member')}}">Members</a></li>
         </ul>
 
     </div>   

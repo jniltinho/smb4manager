@@ -9,9 +9,8 @@
 ## - call exposes all registered services (none by default)
 #########################################################################
 
-
-
 @auth.requires_login()
 def index():
-    return dict()
+     return dict()
+
 
