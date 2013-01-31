@@ -39,9 +39,10 @@ def add():
        #print request.post_vars.mail
        smbtool = SMB4UTIL();
        res_add = smbtool.addUser(request.post_vars.sAMAccountName, request.post_vars.userPassword, 
-                                 request.post_vars.mail, request.post_vars.givenName, request.post_vars.surname)
-       print res_add
-       if (res_add[0] == 'SUCCESS'): redirect(URL('users', 'index'))
+                                request.post_vars.mail, request.post_vars.givenName, request.post_vars.surname)
+       #print res_add
+       #if (res_add[0] == 'SUCCESS'): redirect(URL('users', 'index'))
+       return res_add[1]
     return dict()
 
 

@@ -48,7 +48,7 @@
                           </thead>
                           <tbody>
  		       {{for item in users:}}
-           {{if no_show_users(item['sAMAccountName'][0]) continue}}
+           {{if no_show_users(item['sAMAccountName'][0]): continue}}
                           <tr>
 			                    <td><p><i class="icon-user"></i></td>
                           <td>{{=item['name'][0]}}</td>

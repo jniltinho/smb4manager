@@ -1,4 +1,19 @@
+
+
+
 {{extend 'layout.html'}}
+
+{{block js_script}}
+    <script type="text/javascript">  
+        $(document).ready(function() { 
+            $('#myForm').ajaxForm({
+                success: function(responseText){ alert(responseText); }, 
+                clearForm: true,
+                resetForm: true,
+            });     
+        });
+    </script>
+{{end}}
 
 <div class="header">
             
@@ -10,6 +25,7 @@
             <li><a href="{{=URL('users', 'index')}}">Users</a> <span class="divider">/</span></li>
             <li class="active">Add</li>
         </ul>
+<div id="output1"></div>
 
         <div class="container-fluid">
    <div class="row-fluid">
@@ -17,7 +33,7 @@
         <div class="block">
             <p class="block-heading">Add New User</p>
             <div class="block-body">
-                <form action="" enctype="multipart/form-data" method="post">
+                <form id="myForm" action="" enctype="multipart/form-data" method="post">
                     <label>First Name</label>
                     <input type="text" name="givenName" required="true" class="span12">
                     <label>Last Name</label>
