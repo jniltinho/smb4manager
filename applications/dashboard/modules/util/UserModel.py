@@ -1,7 +1,7 @@
+
 import base64
 import time
-from pylons import response
-from adsbrowser.model.base import *;
+from base import *
 
 
 
