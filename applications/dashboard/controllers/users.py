@@ -15,15 +15,17 @@ from util.ldap_util import LDAPUTIL
 
 @auth.requires_login()
 def index():
-    util = LDAPUTIL()
+    util = LDAPUTIL(get_config())
     users = util.getUser(attributes=['sAMAccountName','name'])
+    logger.debug(str(users))
     return dict(users=users)
 
 
 @auth.requires_login()
 def delete():
     if (request.args): 
-         smbtool = SMB4UTIL();
+         smbtool = SMB4UTIL(get_config());
+         logger.debug('Deleted username: %s' % request.args[0])
          smbtool.deleteUser(request.args[0])
          response.flash = "User %s DELETEDE" %(request.args[0])
          redirect(URL('users', 'index'))
@@ -37,7 +39,7 @@ def add():
     if request.post_vars:
        #print request.post_vars
        #print request.post_vars.mail
-       smbtool = SMB4UTIL();
+       smbtool = SMB4UTIL(get_config());
        res_add = smbtool.addUser(request.post_vars.sAMAccountName, request.post_vars.userPassword, 
                                 request.post_vars.mail, request.post_vars.givenName, request.post_vars.surname)
        #print res_add

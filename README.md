@@ -5,12 +5,13 @@ Samba4 Web Manager
 
 **Webapp for manager Samba4 samba-tool**
 **Do not use in production environment**
+**Add new lib samba python**
 
 Instalation
 ====
     OpenSUSE 12.2
 
-    zypper install -y python-xml python-ldap python-simplejson git
+    zypper install -y python-xml python-ldap git
 
     cd /opt/
     git clone http://github.com/jniltinho/smb4manager.git
@@ -20,9 +21,9 @@ Instalation
 
 Configure
 ====
-    Rename file: applications/dashboard/modules/smb4config/smb4config_sample.py 
-    to: applications/dashboard/modules/smb4config/smb4config.py
-    Change config dict in file applications/dashboard/modules/smb4config/smb4config.py
+    Rename file: applications/dashboard/smb4config_sample.ini
+    to: applications/dashboard/smb4config.ini
+    Change config applications/dashboard/smb4config.ini
     start web2py in ssl, execute:
     ./start_ssl.sh
 

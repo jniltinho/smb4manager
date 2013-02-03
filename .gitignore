@@ -2,14 +2,14 @@
 
 
 ## Folders
-logs/*.*
+logs/*
 
 ## Files
 *.pyc
 parameters_*
 httpserver.log
 comandos_git.sh
-smb4config.py
+smb4config.ini
 
 applications/dashboard/errors/*
 applications/dashboard/sessions/*
