@@ -11,7 +11,7 @@ Instalation
 ====
     OpenSUSE 12.2
 
-    zypper install -y python-xml python-ldap git
+    zypper install -y python-xml git
 
     cd /opt/
     git clone http://github.com/jniltinho/smb4manager.git

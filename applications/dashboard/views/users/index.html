@@ -50,7 +50,7 @@
  		       {{for item in users:}}
            {{if no_show_users(item['sAMAccountName'][0]): continue}}
                           <tr>
-			                    <td><p><img src="/static/icons/glyphicons_003_user.png" style="border:0;" /></i></td>
+			                    <td><p><img src="{{=URL('static','icons/glyphicons_003_user.png')}}" style="border:0;" /></i></td>
                           <td>{{=item['name'][0]}}</td>
                           <td class="center">{{=item['sAMAccountName'][0]}}</td>
                           <td class="center">
