@@ -10,6 +10,7 @@ parameters_*
 httpserver.log
 comandos_git.sh
 smb4config.ini
+.directory
 
 applications/dashboard/errors/*
 applications/dashboard/sessions/*
