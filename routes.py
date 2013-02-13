@@ -10,3 +10,4 @@ routers = dict(
         default_application='dashboard',
     ),
 )
+
