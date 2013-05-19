@@ -23,7 +23,12 @@ Instalation
 
 Usage
 ====
-    ./start_ssl.sh
+
+    ## Prod
+    python run.py --prod
+    ## For Debug
+    python run.py --prod --debug
+
     https://server_ip:8010
     Login: admin
     Pass: smb4manager
