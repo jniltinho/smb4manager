@@ -15,4 +15,9 @@ deactivate
 
 chmod 400 ssl/*
 
-./start_ssl.sh
+## Prod
+python run.py --prod
+
+## For Debug
+python run.py --prod --debug
+

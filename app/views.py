@@ -5,7 +5,7 @@ Licence: GPLv3
 """
 
 import os, json
-from flask import url_for, redirect, render_template, send_from_directory, flash, g, session
+from flask import url_for, redirect, request, render_template, send_from_directory, flash, g, session
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, lm
 from forms import ExampleForm, LoginForm
@@ -14,7 +14,7 @@ from forms import ExampleForm, LoginForm
 def index():
 	return render_template('index.html')
 
-@app.route('/users')
+@app.route('/users/')
 def users():
 	return render_template('users.html')
 
@@ -54,15 +54,13 @@ def before_request():
 def load_user(id):
     return User.query.get(int(id))
 
-@app.route('/login/', methods = ['GET', 'POST'])
+@app.route('/login/', methods = ['GET','POST'])
 def login():
-    if g.user is not None and g.user.is_authenticated():
-        return redirect(url_for('index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        login_user(g.user)
+    if request.method == 'POST':
+       print request.form['username']
+       print request.form['password']
 
-    return render_template('login.html', title = 'Sign In', form = form)
+    return render_template('login.html')
 
 @app.route('/logout/')
 def logout():
