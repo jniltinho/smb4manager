@@ -1,3 +1,4 @@
+
 smb4manager
 ===========
 
@@ -11,27 +12,19 @@ Instalation
 ====
     OpenSUSE 12.2
 
-    zypper install -y python-xml git-core
+    zypper install -y python-xml git
 
     cd /opt/
-    git clone http://github.com/jniltinho/smb4manager.git
+    git -b desenv3 clone http://github.com/jniltinho/smb4manager.git
     cd smb4manager
-    chmod +x start_ssl.sh
-    ./start_ssl.sh
-
-
-Configure
-====
-    Rename file: applications/dashboard/smb4config_sample.ini
-    to: applications/dashboard/smb4config.ini
-    Change config applications/dashboard/smb4config.ini
-    start web2py in ssl, execute:
-    ./start_ssl.sh
+    chmod +x create_env.sh
+    ./create_env.sh
+     python run.py
 
 
 Usage
 ====
-    https://server_ip:8010
+    http://server_ip:8010
     Login: admin
     Pass: smb4manager
 
@@ -53,3 +46,4 @@ Task Open
     Users add
     Users del
     Users edit
+

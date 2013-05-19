@@ -3,18 +3,12 @@
 
 ## Folders
 logs/*
+venv
 
 ## Files
 *.pyc
-parameters_*
-httpserver.log
 comandos_git.sh
-smb4config.ini
 .directory
-
-applications/dashboard/errors/*
-applications/dashboard/sessions/*
-applications/admin/sessions/*
-
+generate.py
 
 
