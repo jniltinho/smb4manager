@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os,commands
+import commands
 
 
 class SMB4UTIL():

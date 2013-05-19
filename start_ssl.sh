@@ -1,5 +1,8 @@
 #!/bin/sh
 
+## Disable password expiry
+#samba-tool domain passwordsettings show
+#samba-tool domain passwordsettings set --max-pwd-age=0
 
 
 ## Clean files .pyc
