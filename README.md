@@ -10,9 +10,9 @@ Samba4 Web Manager
 
 Instalation
 ====
-    OpenSUSE 12.2
+    OpenSUSE 12.X
 
-    zypper install -y python-xml git
+    zypper install -y python-xml git-core python-gunicorn python-Flask
 
     cd /opt/
     git -b desenv3 clone http://github.com/jniltinho/smb4manager.git
@@ -35,15 +35,11 @@ Screen
 ![image](https://raw.github.com/jniltinho/smb4manager/master/screens/smb4manager.png)
 
 
-Requer
+Requirements
 ====
-samba4, samba-tool
+samba4, samba-tool, python-xml, git-core, python-gunicorn, python-Flask
 
 
-Task Open
-====
-    Users list
-    Users add
-    Users del
-    Users edit
+### Bug,Task,Features Report
 
+* [Bugtracker](http://linuxpro.com.br/bugtracker/).
