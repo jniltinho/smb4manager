@@ -11,3 +11,8 @@ virtualenv env
 source env/bin/activate
 pip install -r requirements.txt
 
+deactivate
+
+chmod 400 ssl/*
+
+./start_ssl.sh

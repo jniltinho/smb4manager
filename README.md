@@ -19,12 +19,12 @@ Instalation
     cd smb4manager
     chmod +x create_env.sh
     ./create_env.sh
-     python run.py
 
 
 Usage
 ====
-    http://server_ip:8010
+    ./start_ssl.sh
+    https://server_ip:8010
     Login: admin
     Pass: smb4manager
 

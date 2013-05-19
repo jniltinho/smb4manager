@@ -9,7 +9,6 @@ from flask import url_for, redirect, render_template, send_from_directory, flash
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, lm
 from forms import ExampleForm, LoginForm
-from models import User
 
 @app.route('/')
 def index():
@@ -60,9 +59,7 @@ def login():
     if form.validate_on_submit():
         login_user(g.user)
 
-    return render_template('login.html', 
-        title = 'Sign In',
-        form = form)
+    return render_template('login.html', title = 'Sign In', form = form)
 
 @app.route('/logout/')
 def logout():
@@ -70,8 +67,14 @@ def logout():
     return redirect(url_for('index'))
 
 
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'ico/favicon.ico')
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
 
 # ====================
