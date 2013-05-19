@@ -40,6 +40,6 @@ Requirements
 samba4, samba-tool, python-xml, git-core, python-gunicorn, python-Flask
 
 
-### Bug,Task,Features Report
+### Bug, Task, Features Report
 
-* [Bugtracker](http://linuxpro.com.br/bugtracker/).
+* [Bugtracker](http://linuxpro.com.br/bugtracker/)

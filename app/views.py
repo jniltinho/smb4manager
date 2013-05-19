@@ -14,6 +14,9 @@ from forms import ExampleForm, LoginForm
 def index():
 	return render_template('index.html')
 
+@app.route('/users')
+def users():
+	return render_template('users.html')
 
 @app.route('/list/')
 def posts():
