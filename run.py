@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 ## Versao 0.1
 
-import os
+import os, sys
 import argparse
-
 
 
 def gunicorn_http(debug=False):
@@ -16,9 +15,11 @@ def gunicorn_http(debug=False):
 
 
 def flask_http():
+    libenv = 'env/lib/python2.7/site-packages'
+    if (os.path.exists(libenv)): sys.path.append(libenv)
     from app import app
     port = int(os.environ.get("PORT", 8010))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
 
 
 def main():

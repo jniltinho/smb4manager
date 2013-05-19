@@ -1,7 +1,13 @@
   
 
 {% block head %}
-    <!-- include head02 -->
+
+    <!-- include head -->
+    <title>SMB4Manager</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
     <link rel="stylesheet" href="{{url_for('static', filename='skin1/lib/bootstrap/css/bootstrap.css')}}">
     
@@ -12,5 +18,6 @@
 
     <script src="{{url_for('static', filename='js/jquery.form.js')}}"></script>
     <script src="{{url_for('static', filename='js/bootbox.min.js')}}"></script>
+    <!-- end include head -->
 
 {% endblock %}
