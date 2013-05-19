@@ -1,5 +1,5 @@
 
-smb4manager
+smb4manager Framework Flask
 ===========
 
 Samba4 Web Manager
