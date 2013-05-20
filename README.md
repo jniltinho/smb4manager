@@ -12,7 +12,7 @@ Instalation
 ====
     OpenSUSE 12.X
 
-    zypper install -y python-xml git-core python-gunicorn python-Flask
+    zypper install -y gcc make python-xml git-core python-gunicorn python-Flask
 
     cd /opt/
     git -b desenv3 clone http://github.com/jniltinho/smb4manager.git
@@ -25,9 +25,9 @@ Usage
 ====
 
     ## Prod
-    python run.py --prod
+    ./run.py --prod
     ## For Debug
-    python run.py --prod --debug
+    ./run.py --prod --debug
 
     https://server_ip:8010
     Login: admin

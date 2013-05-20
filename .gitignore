@@ -3,6 +3,7 @@
 
 ## Folders
 logs/*
+flask
 venv
 env
 

@@ -7,17 +7,16 @@
 ## Instalation
 ## Create a virtualenv, and activate this: 
 
-virtualenv env 
-source env/bin/activate
-pip install -r requirements.txt
+virtualenv flask 
+flask/bin/pip install -r requirements.txt
 
-deactivate
 
 chmod 400 ssl/*
+chmod +x run.py
 
 ## Prod
-python run.py --prod
+flask/bin/python run.py --prod
 
 ## For Debug
-python run.py --prod --debug
+flask/bin/python run.py --prod --debug
 

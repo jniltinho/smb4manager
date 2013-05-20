@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!flask/bin/python
 # -*- coding: utf-8 -*-
 ## Versao 0.1
 
@@ -11,12 +11,10 @@ def gunicorn_http(debug=False):
     if debug : logfile = ''
     os.system("find . -type f -iname *.pyc -exec rm  -f {} \;")
     os.system("echo 1 > http.log")
-    os.system("source env/bin/activate; gunicorn -w 2 --bind 0.0.0.0:8010 app:app --keyfile=ssl/server.key --certfile=ssl/server.crt " + logfile )
+    os.system("flask/bin/gunicorn -w 2 --bind 0.0.0.0:8010 app:app --keyfile=ssl/server.key --certfile=ssl/server.crt " + logfile )
 
 
 def flask_http():
-    libenv = 'env/lib/python2.7/site-packages'
-    if (os.path.exists(libenv)): sys.path.append(libenv)
     from app import app
     port = int(os.environ.get("PORT", 8010))
     app.run(host='0.0.0.0', port=port, debug=True)
