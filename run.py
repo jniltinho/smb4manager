@@ -21,31 +21,31 @@ def flask_http():
 
 
 def main():
-        #----------------------------------------
-        # parse arguments
-        #----------------------------------------
-        parser = argparse.ArgumentParser(description='Start SMB4Manager')
-        parser.add_argument('--flask', action='store_true')
-        parser.add_argument('--desenv', action='store_true')
-        parser.add_argument('--prod', action='store_true')
-        parser.add_argument('--debug', action='store_true')
-        args = parser.parse_args()
+    #----------------------------------------
+    # parse arguments
+    #----------------------------------------
+    parser = argparse.ArgumentParser(description='Start SMB4Manager')
+    parser.add_argument('--flask', action='store_true')
+    parser.add_argument('--desenv', action='store_true')
+    parser.add_argument('--prod', action='store_true')
+    parser.add_argument('--debug', action='store_true')
+    args = parser.parse_args()
 
-        #----------------------------------------
-        # create app files
-        #----------------------------------------
-        if args.prod:
-            gunicorn_http(debug=args.debug)
+    #----------------------------------------
+    # create app files
+    #----------------------------------------
+    if args.prod:
+       gunicorn_http(debug=args.debug)
 
-        if args.desenv:
-            gunicorn_http(debug=args.debug)
+    if args.desenv:
+       gunicorn_http(debug=args.debug)
 
-        if args.flask:
-            flask_http()
+    if args.flask:
+       flask_http()
 
 
 
 
 if __name__ == "__main__":
-        main()
+       main()
 
