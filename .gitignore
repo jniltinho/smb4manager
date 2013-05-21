@@ -6,6 +6,7 @@ logs/*
 
 ## Files
 *.pyc
+http.log
 parameters_*
 httpserver.log
 comandos_git.sh
