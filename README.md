@@ -14,7 +14,7 @@ Instalation
     zypper install -y python-xml git-core
 
     cd /opt/
-    git clone http://github.com/jniltinho/smb4manager.git
+    git -b desenv clone http://github.com/jniltinho/smb4manager.git
     cd smb4manager
     chmod +x start_ssl.sh
     ./start_ssl.sh
