@@ -9,23 +9,24 @@ Samba4 Web Manager
 
 Instalation
 ====
-    OpenSUSE 12.2
-
+    ## OpenSUSE 12.2
     zypper install -y python-xml git-core
 
+    ## Ubuntu
+    apt-get install git-core
+
     cd /opt/
-    git -b desenv clone http://github.com/jniltinho/smb4manager.git
+    git clone -b desenv http://github.com/jniltinho/smb4manager.git
     cd smb4manager
+    cp applications/dashboard/smb4config_sample.ini applications/dashboard/smb4config.ini
     chmod +x start_ssl.sh
     ./start_ssl.sh
 
 
 Configure
 ====
-    Rename file: applications/dashboard/smb4config_sample.ini
-    to: applications/dashboard/smb4config.ini
-    Change config applications/dashboard/smb4config.ini
-    start web2py in ssl, execute:
+    ## Change config applications/dashboard/smb4config.ini
+    ## start web2py in ssl, execute:
     ./start_ssl.sh
 
 
