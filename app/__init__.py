@@ -4,6 +4,7 @@ Python Aplication Template
 Licence: GPLv3
 """
 
+import os, functools
 from flask import Flask
 from flask.ext.login import LoginManager
 
@@ -17,5 +18,17 @@ app.config.from_object('app.configuration.DevelopmentConfig')
 lm = LoginManager()
 lm.setup_app(app)
 lm.login_view = 'login'
+
+
+def login_required(method):
+    @functools.wraps(method)
+    def wrapper(*args, **kwargs):
+        if 'username' in session:
+            return method(*args, **kwargs)
+        else:
+            flash("A login is required to see the page!")
+            return redirect(url_for('login'))
+    return wrapper
+
 
 from app import views

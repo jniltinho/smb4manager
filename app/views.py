@@ -6,66 +6,48 @@ Licence: GPLv3
 
 import os, json
 from flask import url_for, redirect, request, render_template, send_from_directory, flash, g, session
-from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask.ext.login import (LoginManager, current_user, login_required,
+                            login_user, logout_user, UserMixin, AnonymousUser,
+                            confirm_login, fresh_login_required)
 from app import app, lm
 from forms import ExampleForm, LoginForm
 
+from authsmb import *
+
+USERS = {'administrator':'123456'}
+
+
 @app.route('/')
+@login_required
 def index():
-	return render_template('index.html')
+    return render_template('index.html')
+
 
 @app.route('/users/')
+@login_required
 def users():
-	return render_template('users.html')
+    return render_template('users.html')
 
-@app.route('/list/')
-def posts():
-	return render_template('list.html')
-
-@app.route('/new/')
-@login_required
-def new():
-	form = ExampleForm()
-	return render_template('new.html', form=form)
-
-@app.route('/save/', methods = ['GET','POST'])
-@login_required
-def save():
-	form = ExampleForm()
-	if form.validate_on_submit():
-		print "salvando os dados:"
-		print form.title.data
-		print form.content.data
-		print form.date.data
-		flash('Dados salvos!')
-	return render_template('new.html', form=form)
-
-@app.route('/view/<id>/')
-def view(id):
-	return render_template('view.html')
 
 # === User login methods ===
 
-@app.before_request
-def before_request():
-    g.user = current_user
-
-@lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
-
-@app.route('/login/', methods = ['GET','POST'])
+@app.route("/login/", methods=["GET", "POST"])
 def login():
-    if request.method == 'POST':
-       print request.form['username']
-       print request.form['password']
-
+    if request.method == "POST" and "username" in request.form:
+        username = request.form['username']
+        password = request.form['password']
+        if username in USERS and USERS[username] == password:
+            session['username'] = username
+            return redirect(url_for('index'))
+        else:
+            flash("Username doesn't exist or incorrect password")
     return render_template('login.html')
 
-@app.route('/logout/')
+
+@app.route('/logout/', methods=["GET", "POST"])
 def logout():
-    logout_user()
-    return redirect(url_for('index'))
+    session.pop('username', None)
+    return redirect(url_for('login'))
 
 
 @app.route('/favicon.ico')
