@@ -10,9 +10,11 @@ Samba4 Web Manager
 
 Instalation
 ====
-    OpenSUSE 12.X
+    ## OpenSUSE 12.X
+    zypper install -y gcc make python-xml git-core python-pip python-virtualenv
 
-    zypper install -y gcc make python-xml git-core python-gunicorn python-Flask
+    ## Ubuntu/Debian
+    apt-get install gcc make python-xml git-core python-pip python-virtualenv
 
     cd /opt/
     git clone -b desenv3 http://github.com/jniltinho/smb4manager.git
@@ -21,7 +23,7 @@ Instalation
     ./create_env.sh
 
 
-Usage
+Run SMB4Manager
 ====
 
     ## Prod
@@ -42,7 +44,7 @@ Screen
 
 Requirements
 ====
-samba4, samba-tool, python-xml, git-core, python-gunicorn, python-Flask
+samba4, samba-tool, python-xml, git-core, python-pip, python-virtualenv, gcc, make
 
 
 ### Bug, Task, Features Report

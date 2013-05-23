@@ -14,7 +14,7 @@ class Config(object):
 	BOOTSTRAP_FONTAWESOME = True
 	SECRET_KEY = "MINHACHAVESECRETA"
 	CSRF_ENABLED = True
-	USERS = {'administrator':'123456', 'linuxpro':'linuxpro12'}
+	USERS = {'administrator':'smb4manager', 'linuxpro':'linuxpro12'}
 
 
 
