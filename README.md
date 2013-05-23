@@ -15,7 +15,7 @@ Instalation
     zypper install -y gcc make python-xml git-core python-gunicorn python-Flask
 
     cd /opt/
-    git -b desenv3 clone http://github.com/jniltinho/smb4manager.git
+    git clone -b desenv3 http://github.com/jniltinho/smb4manager.git
     cd smb4manager
     chmod +x create_env.sh
     ./create_env.sh
@@ -30,7 +30,7 @@ Usage
     ./run.py --prod --debug
 
     https://server_ip:8010
-    Login: admin
+    Login: administrator
     Pass: smb4manager
 
 

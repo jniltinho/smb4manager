@@ -5,17 +5,12 @@ Licence: GPLv3
 """
 
 import os, json
-from flask import url_for, redirect, request, render_template, send_from_directory, flash, g, session
-from flask.ext.login import (LoginManager, current_user, login_required,
-                            login_user, logout_user, UserMixin, AnonymousUser,
-                            confirm_login, fresh_login_required)
-from app import app, lm
-from app.forms import ExampleForm, LoginForm
+from flask import url_for, redirect, request, render_template, send_from_directory, flash, session
 
+from app import app
 from auth.authsmb import *
 
-USERS = {'administrator':'123456'}
-
+USERS = app.config['USERS']
 
 
 # === User login methods ===
@@ -49,4 +44,3 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
-# ====================
