@@ -10,23 +10,12 @@ from flask.ext.login import (LoginManager, current_user, login_required,
                             login_user, logout_user, UserMixin, AnonymousUser,
                             confirm_login, fresh_login_required)
 from app import app, lm
-from forms import ExampleForm, LoginForm
+from app.forms import ExampleForm, LoginForm
 
-from authsmb import *
+from auth.authsmb import *
 
 USERS = {'administrator':'123456'}
 
-
-@app.route('/')
-@login_required
-def index():
-    return render_template('index.html')
-
-
-@app.route('/users/')
-@login_required
-def users():
-    return render_template('users.html')
 
 
 # === User login methods ===

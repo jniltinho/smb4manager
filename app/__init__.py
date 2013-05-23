@@ -31,4 +31,6 @@ def login_required(method):
     return wrapper
 
 
-from app import views
+#from app import controllers.Login
+
+from controllers import Login, Index, Users
