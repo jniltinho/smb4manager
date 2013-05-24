@@ -8,11 +8,13 @@ import os, json
 from flask import url_for, redirect, request, render_template, send_from_directory, flash, session
 
 from app import app
-from auth.authsmb import *
+
+from app.model.auth.AuthBase import AuthBase
+auth = AuthBase()
 
 
 @app.route('/')
-@login_required
+@auth.login_required
 def index():
     return render_template('index.html')
 

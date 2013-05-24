@@ -8,8 +8,6 @@ import os, json
 from flask import url_for, redirect, request, render_template, send_from_directory, flash, session
 
 from app import app
-from auth.authsmb import *
-
 USERS = app.config['USERS']
 
 
