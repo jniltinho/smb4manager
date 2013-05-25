@@ -9,8 +9,8 @@ from flask import url_for, redirect, request, render_template, send_from_directo
 
 from app import app
 
-from app.model.auth.AuthBase import AuthBase
-auth = AuthBase()
+from app.model.auth.AuthFlask import AuthFlask
+auth = AuthFlask()
 
 
 @app.route('/')

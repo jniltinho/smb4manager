@@ -26,14 +26,13 @@ Instalation
 Run SMB4Manager
 ====
 
-    ## Prod
-    ./run.py --prod
-    ## For Debug
+    ## Production
+    ./run.py
+    ## Production and Debug
     ./run.py --prod --debug
 
     https://server_ip:8010
-    Login: administrator
-    Pass: smb4manager
+    samba4 administrator login
 
 
 Screen

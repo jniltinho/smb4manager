@@ -8,7 +8,9 @@ import os, json
 from flask import url_for, redirect, request, render_template, send_from_directory, flash, session
 
 from app import app
-USERS = app.config['USERS']
+
+from app.model.auth.AuthFlask import AuthFlask
+auth = AuthFlask()
 
 
 # === User login methods ===
@@ -18,8 +20,9 @@ def login():
     if request.method == "POST" and "username" in request.form:
         username = request.form['username']
         password = request.form['password']
-        if username in USERS and USERS[username] == password:
+        if auth.isAuthenticate(username, password):
             session['username'] = username
+            session['password'] = password
             return redirect(url_for('index'))
         else:
             flash("Username doesn't exist or incorrect password")

@@ -36,13 +36,17 @@ def main():
     #----------------------------------------
     if args.prod:
        gunicorn_http(debug=args.debug)
+       sys.exit(1)
 
     if args.desenv:
        gunicorn_http(debug=args.debug)
+       sys.exit(1)
 
     if args.flask:
        flask_http()
+       sys.exit(1)
 
+    gunicorn_http()
 
 
 
