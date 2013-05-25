@@ -2,7 +2,7 @@
 
 
 ## Requirements
-## gcc, make, Python 2.5+, python-pip, virtualenv
+## gcc, make, Python 2.5+, python-devel, python-pip, python-virtualenv
 
 ## Instalation
 ## Create a virtualenv, and activate this: 
@@ -14,9 +14,9 @@ flask/bin/pip install -r requirements.txt
 chmod 400 ssl/*
 chmod +x run.py
 
-## Prod
-flask/bin/python run.py --prod
+echo 'Production ...'
+echo './run.py --prod'
 
-## For Debug
-flask/bin/python run.py --prod --debug
+echo 'Production and Debug ...'
+echo './run.py --prod --debug'
 

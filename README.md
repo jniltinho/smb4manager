@@ -11,10 +11,10 @@ Samba4 Web Manager
 Instalation
 ====
     ## OpenSUSE 12.X
-    zypper install -y gcc make python-xml git-core python-pip python-virtualenv
+    zypper install -y gcc make python-xml git-core python-devel python-pip python-virtualenv
 
     ## Ubuntu/Debian
-    apt-get install gcc make python-xml git-core python-pip python-virtualenv
+    apt-get install gcc make git-core python-devel python-pip python-virtualenv
 
     cd /opt/
     git clone -b desenv3 http://github.com/jniltinho/smb4manager.git
