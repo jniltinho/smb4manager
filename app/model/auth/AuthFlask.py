@@ -4,7 +4,7 @@ import os,functools
 from flask import url_for, redirect, flash, request, session
 
 
-from AuthBase import AuthBase
+from AuthSMB4 import AuthSMB4
 
 
 class AuthFlask():
@@ -21,6 +21,6 @@ class AuthFlask():
 
 
         def isAuthenticate(self, username, password):
-            base = AuthBase(username,password)
+            base = AuthSMB4(username,password)
             return base.Autenticate()
 

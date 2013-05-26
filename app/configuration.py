@@ -2,6 +2,11 @@
 """
 Python Aplication Template
 Licence: GPLv3
+Create KEY
+
+import hashlib
+hashlib.md5("Flask_SMB4Manager").hexdigest()
+068c2a771435c5c48fdf4a1cd9dfa465
 """
 
 import os, sys
@@ -16,20 +21,17 @@ for i in lib_samba:
 
 
 class Config(object):
-	"""
-	Configuration base, for all environments.
-	"""
-	DEBUG = False
-	TESTING = False
-	DATABASE_URI = 'sqlite:///application.db'
-	BOOTSTRAP_FONTAWESOME = True
-	SECRET_KEY = "MINHACHAVESECRETA"
-	CSRF_ENABLED = True
-	USERS = {'administrator':'smb4manager', 'linuxpro':'linuxpro12'}
+        """
+        Configuration base, for all environments.
+        """
+        DEBUG = False
+        TESTING = False
+        SECRET_KEY = '068c2a771435c5c48fdf4a1cd9dfa465' 
+        CSRF_ENABLED = True
 
 
 
 class SMBConfig(Config):
-	DEBUG = True
-	NOME = "NEW SMB4Manager Flask APP"
+        DEBUG = True
+        NOME = "NEW SMB4Manager Flask APP"
 

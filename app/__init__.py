@@ -6,7 +6,6 @@ Licence: GPLv3
 
 import os, functools
 from flask import Flask
-from flask.ext.login import LoginManager
 
 app = Flask(__name__)
 
