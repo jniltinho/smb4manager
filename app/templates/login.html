@@ -1,33 +1,22 @@
 
 {% extends "base.html" %}
 
-{% block content %}
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-
-  <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
-  <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
-  <!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
-  <!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
-  <!--[if (gt IE 9)|!(IE)]><!--> 
+  {% block menu_cima %}
   <body class=""> 
   <!--<![endif]-->
       
     <div class="navbar">
         <div class="navbar-inner">
-                <ul class="nav pull-right">
-                    
-                </ul>
+                <ul class="nav pull-right"></ul>
                 <a class="brand" href="#"><span class="second">SMB4Manager</span></a>
         </div>
     </div>
+    {% endblock %}
 
    
 		
+{% block content %}
 <div id="content">
 
 <div class="row-fluid">
@@ -53,6 +42,9 @@
     
   </body>
 </html>
+
+
+{% block footer %}{% endblock %}
 
 
 {% endblock %}

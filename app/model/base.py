@@ -59,9 +59,9 @@ class BaseModel:
 				AuthMechanism = AuthLocal(self.creds,self.server_address)
 				if AuthMechanism.Autenticate():
 					if self._connect():
-						self._GetBase();
-						self._GetDomainNames();
-						self._SetCurrentDomain(0);
+						self._GetBase()
+						self._GetDomainNames()
+						self._SetCurrentDomain(0)
 						self.AuthLocal = True
 						self.auth_success = True
 					
@@ -69,7 +69,7 @@ class BaseModel:
 
 	def _connect(self):
 		try:
-			#self.LdapConn = samba.Ldb("ldap://%s" % self.server_address,lp=self.lp,credentials=self.creds)
+			self.LdapConn = samba.Ldb("ldap://%s" % self.server_address,lp=self.lp,credentials=self.creds)
 			self.samrpipe = samr.samr("ncalrpc:%s"% self.server_address, self.lp, credentials=self.creds)
 			#self.srvsvcpipe = srvsvc.srvsvc('ncalrpc:%s' % self.server_address,credentials=self.creds)
 			#self.connect_handle = self.samrpipe.Connect(None, security.SEC_FLAG_MAXIMUM_ALLOWED)			
@@ -117,6 +117,9 @@ class BaseModel:
 		else:
 			self.SetError("self.Lang.AuthError",0);
 			return False;
+
+        def GetDomain(self):
+                return self.DnsDomain
 
 
 	def _GetDomainNames(self):

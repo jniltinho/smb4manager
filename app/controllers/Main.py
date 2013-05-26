@@ -16,7 +16,10 @@ auth = AuthFlask()
 @app.route('/')
 @auth.login_required
 def index():
-    return render_template('index.html')
+    login_user = session['username'].title()
+    import Users
+    utils = Users._getDomain()
+    return render_template('index.html', utils=utils)
 
 
 # ====================

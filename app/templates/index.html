@@ -1,9 +1,7 @@
 
 {% extends "base.html" %}
 
-{% block content %}
-
-
+    {% block script %}
     <script type="text/javascript">  
     $(document).ready(function(){  
         $("div#.Lsidebar-nav li a").click(function( e ){  
@@ -16,104 +14,41 @@
         });  
     });  
 
-    </script> 
+    </script>
+    {% endblock %}
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
 
-  <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
-  <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
-  <!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
-  <!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
-  <!--[if (gt IE 9)|!(IE)]><!--> 
-  <body class=""> 
-  <!--<![endif]-->
-      
-    <div class="navbar">
-        <div class="navbar-inner">
-                <ul class="nav pull-right">
-                    
-                    <li id="fat-menu" class="dropdown">
-                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-user"></i>Admin<i class="icon-caret-down"></i>
-                        </a>
-
-                        <ul class="dropdown-menu">
-                            <li><a tabindex="-1" href="#">My Account</a></li>
-                            <li class="divider"></li>
-                            <li><a tabindex="-1" class="visible-phone" href="#">Settings</a></li>
-                            <li class="divider visible-phone"></li>
-                            <li><a tabindex="-1" href="{{url_for('logout')}}">Logout</a></li>
-                        </ul>
-                    </li>
-                    
-                </ul>
-                <a class="brand" href="#"><span class="second">SMB4Manager</span></a>
-        </div>
-    </div>
-
- 
    
+       {% block menu %}
        <div class="sidebar-nav">
-        <form class="search form-inline">
-            <input type="text" placeholder="Search...">
-        </form>
+        <form class="search form-inline"><input type="text" placeholder="Search..."></form>
         
-        <a href="/" class="nav-header" ><i class="icon-dashboard"></i>Dashboard</a>
+        <a href="/" class="nav-header" ><i class="icon-briefcase"></i>Directory Users</a>
 
-        <a href="#accounts-users" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>Users<i class="icon-chevron-up"></i></a>
-        <ul id="accounts-users" class="nav nav-list collapse in">
-            <li ><a href="/users">Users</a></li>
+        <a href="#accounts-users" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>{{utils[0]['domain']}}<i class="icon-chevron-up"></i></a>
+        <ul id="accounts-users" class="nav nav-list collapse">
+            <li ><a href="/users/">Users</a></li>
             <li ><a href="#">Groups</a></li>
         </ul>
 
         <a href="#accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>SMB4 Config<i class="icon-chevron-up"></i></a>
         <ul id="accounts-menu" class="nav nav-list collapse">
-            <li ><a href="/account/manager_users">Users</a></li>
-            <li ><a href="/account/manager_group">Groups</a></li>
-            <li ><a href="/account/manager_member">Members</a></li>
+            <li ><a href="#">Users</a></li>
+            <li ><a href="#">Groups</a></li>
+            <li ><a href="#">Members</a></li>
         </ul>
 
     </div>   
+    {% endblock %}
    
    
-		<div class="content">
-		<div id="content">
-
-        
-        <div class="header">
-            <h1 class="page-title">Dashboard</h1>
-        </div>
-        
+{% block content %}
+<div class="content">
+	<div id="content">
+        <div class="header"><h1 class="page-title">Dashboard</h1></div>
         <ul class="breadcrumb">
             <li><a href="/">Home</a> <span class="divider">/</span></li>
             <li class="active">Dashboard</li>
         </ul>
-    
-
 </div>
-
-
-		
-        <div class="container-fluid">
-        <div class="row-fluid">               
-                    
-                    <footer>
-                        <hr>
-                        <p class="pull-right">Design by <a href="http://www.linuxpro.com.br" target="_blank">Nilton OS</a></p>
-                        <p>&copy; 2013 <a href="http://www.linuxpro.com.br" target="_blank">SMB4Manager</a></p>
-                    </footer>
-                    
-            </div>
-        </div>
-		
-
-    </div>
-    
-  </body>
-</html>
-
 {% endblock %}

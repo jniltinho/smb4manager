@@ -75,7 +75,7 @@ class UserModel(BaseModel):
 		return True;
 
 	def GetUserList(self):
-		return self.user_list;
+		return self.user_list
 
 	def GetUser(self, rid, user = None):
 		try:

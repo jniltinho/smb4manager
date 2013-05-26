@@ -41,10 +41,73 @@
         }
     </style>
 
+    {% block script %}{% endblock %}
 
-    {% endblock %}
-    <!-- Demo page code -->
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <!-- Demo page code -->
+  <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
+  <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
+  <!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
+  <!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
+  <!--[if (gt IE 9)|!(IE)]><!-->
+  {% endblock %}
+
+  {% block menu_cima %}
+  <body class="">
+  <!--<![endif]-->
+
+    <div class="navbar">
+        <div class="navbar-inner">
+                <ul class="nav pull-right">
+
+                    <li id="fat-menu" class="dropdown">
+                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-user"></i>{{utils[0]['login_user']}}<i class="icon-caret-down"></i>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li><a tabindex="-1" href="#">My Account</a></li>
+                            <li class="divider"></li>
+                            <li><a tabindex="-1" class="visible-phone" href="#">Settings</a></li>
+                            <li class="divider visible-phone"></li>
+                            <li><a tabindex="-1" href="{{url_for('logout')}}">Logout</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <a class="brand" href="#"><span class="second">SMB4Manager</span></a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block menu %}{% endblock %}
+
 
 {% block content %}{% endblock %}
 
 
+
+{% block footer %}
+<div class="container-fluid">
+<div class="row-fluid">
+
+                    <footer>
+                        <hr>
+                        <p class="pull-right">Design by <a href="http://linuxpro.com.br" target="_blank">Nilton OS</a></p>
+                        <p>&copy; 2013 <a href="http://www.linuxpro.com.br" target="_blank">SMB4Manager</a></p>
+                    </footer>
+
+            </div>
+        </div>
+
+
+    </div>
+
+  </body>
+</html>
+
+{% endblock %}
