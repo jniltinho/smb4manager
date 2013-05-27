@@ -25,16 +25,15 @@ def main():
     # parse arguments
     #----------------------------------------
     parser = argparse.ArgumentParser(description='Start SMB4Manager')
-    parser.add_argument('--flask', action='store_true')
+    parser.add_argument('--flask',  action='store_true')
     parser.add_argument('--desenv', action='store_true')
-    parser.add_argument('--prod', action='store_true')
-    parser.add_argument('--debug', action='store_true')
+    parser.add_argument('--debug',  action='store_true')
     args = parser.parse_args()
 
     #----------------------------------------
     # create app files
     #----------------------------------------
-    if args.prod:
+    if args.debug:
        gunicorn_http(debug=args.debug)
        sys.exit(1)
 

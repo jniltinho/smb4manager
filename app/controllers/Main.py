@@ -16,10 +16,16 @@ auth = AuthFlask()
 @app.route('/')
 @auth.login_required
 def index():
-    login_user = session['username'].title()
-    import Users
-    utils = Users._getDomain()
-    return render_template('index.html', utils=utils)
+    return render_template('index.html', utils=session['utils'])
 
 
-# ====================
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'ico/favicon.ico')
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+

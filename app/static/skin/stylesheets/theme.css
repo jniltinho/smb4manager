@@ -332,6 +332,7 @@ a.block-heading:hover,
 .sidebar-nav .nav-header.collapsed .icon-chevron-up::before {
   content: "\f078";
 }
+
 .sidebar-nav .nav-header .icon-chevron-up {
   float: right;
 }

@@ -29,7 +29,7 @@ Run SMB4Manager
     ## Production
     ./run.py
     ## Production and Debug
-    ./run.py --prod --debug
+    ./run.py --debug
 
     https://server_ip:8010
     samba4 administrator login

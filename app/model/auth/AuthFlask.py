@@ -24,3 +24,12 @@ class AuthFlask():
             base = AuthSMB4(username,password)
             return base.Autenticate()
 
+
+
+        def getiUtils(self):
+            if (session['username'] and session['password']):
+               from app.model.base import BaseModel
+               model = BaseModel(session['username'],session['password'])
+               return [{ 'domain':model.GetDomain(),'login_user':session['username'].title() }]
+            return  [{ 'domain':'notfound.local','login_user':'Nologin' }]
+

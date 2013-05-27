@@ -23,6 +23,7 @@ def login():
         if auth.isAuthenticate(username, password):
             session['username'] = username
             session['password'] = password
+            session['utils']    = auth.getiUtils()
             return redirect(url_for('index'))
         else:
             flash("Username doesn't exist or incorrect password")
@@ -34,14 +35,5 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'), 'ico/favicon.ico')
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
 
 
