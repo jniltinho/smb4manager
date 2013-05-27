@@ -18,5 +18,5 @@ echo 'Production ...'
 echo './run.py'
 
 echo 'Production and Debug ...'
-echo './run.py --prod --debug'
+echo './run.py --debug'
 
