@@ -1,0 +1,73 @@
+
+{% extends "base.html" %}
+
+
+    {% block script %}
+    {% endblock %}
+   
+
+	{% block menu %}
+       <div class="sidebar-nav">
+       <form class="search form-inline"><input type="text" placeholder="Search..."></form>
+
+        <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Directory Users</a>
+
+
+        <a href="#accounts-users" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>{{utils[0]['domain']}}<i class="icon-chevron-up"></i></a>
+        <ul id="accounts-users" class="nav nav-list collapse in">
+            <li class="active"><a href="/users/">Users</a></li>
+            <li ><a href="#">Groups</a></li>
+        </ul>
+
+        <a href="#accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>SMB4 Config<i class="icon-chevron-up"></i></a>
+        <ul id="accounts-menu" class="nav nav-list collapse">
+            <li ><a href="#">Users</a></li>
+            <li ><a href="#">Groups</a></li>
+            <li ><a href="#">Members</a></li>
+        </ul>
+
+    </div>
+   {% endblock %}
+
+   
+{% block content %}
+   <div class="content">
+        
+        <div class="header">
+            
+            <h1 class="page-title">Add User</h1>
+        </div>
+        
+        <ul class="breadcrumb">
+            <li><a href="/">Home</a> <span class="divider">/</span></li>
+            <li><a href="/users/">Users</a> <span class="divider">/</span></li>
+            <li class="active">New User</li>
+        </ul>
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+<div class="well">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#home" data-toggle="tab">Add New User</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane active in" id="home">
+    <form id="tab" action="/users/add/" method="post">
+        <label>Username:</label>
+        <input name="sAMAccountName" type="text" class="input-xlarge" required="true" autocomplete="off">
+        <label>First Name:</label>
+        <input name="givenName" type="text" class="input-xlarge" required="true" autocomplete="off">
+        <label>Last Name:</label>
+        <input name="surname" type="text" class="input-xlarge" required="true" autocomplete="off">
+        <label>Email:</label>
+        <input name="mail" type="email" class="input-xlarge" required="true" autocomplete="off">
+        <label>Password:</label>
+        <input name="userPassword" type="password" class="input-xlarge" pattern=".{7,}" required="true">
+        <div class="btn-toolbar"><button type="submit" name="submit" value="Submit" class="btn btn-primary"><i class="icon-plus"></i> Add User</button></div>
+    </form>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}

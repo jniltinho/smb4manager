@@ -173,7 +173,7 @@ class UserModel(BaseModel):
 
 	def UpdateUser(self, user):
 		if not self.isAuthenticate():
-			self.SetError(self.Lang.NotAuth,0)
+			self.SetError("self.Lang.NotAuth",0)
 			return False;
 
 		try:
@@ -213,9 +213,6 @@ class UserModel(BaseModel):
 
 			#User cannot change password is updated in the security function
 			#self.UpdateUserSecurity(user_handle, user)
-
-
-
 
 			info = self.samrpipe.QueryUserInfo(user_handle, samr.UserProfileInformation)
 			info.profile_path = self.SetLsaString(user.profile_path)

@@ -54,7 +54,7 @@
         <div class="span12">
              <div class="box" id="box-0">
               <div class="box-container-toggle">
-              <div class="btn-toolbar"><a href="/users/add/" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-plus"></i>Add New User</a>
+              <div class="btn-toolbar"><a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-plus"></i>Add New User</a>
               <div class="btn-group"></div></div>
 
                   <div class="well">
@@ -78,15 +78,11 @@
                           <td>{{user.fullname}}</td>
                           <td class="center">{{user.username}}</td>
                           <td class="center">
-                          {% if(user.account_disabled) %}
-                          <span class="label">Active</span>
-                          {% else %}
-                          <span class="label label-success">Active</span>
-                          {% endif %}
+                          <span class="badge badge-success">Active</span>
                           </td>
                           <td class="center">
                           <a class="btn btn-info" href="/users/edit/"><i class="icon-edit icon-white"></i>Edit</a>
-                          <a class="btn btn-danger" href="/users/del/{{user.username}}"><i class="icon-trash icon-white"></i>Delete</a>
+                          <a class="btn btn-danger" href="#"><i class="icon-trash icon-white"></i>Delete</a>
                           </td>
                          </tr>
 			 {% endfor %}
@@ -103,5 +99,29 @@
 </div>
 
 </div>
+
+<form action="/users/add/" method="post">
+<div class="modal hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+ <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="modalLabel">Add New User</h3>
+ </div>
+
+  <div class="modal-body">
+	<div class="controls controls-row">
+		<input name="givenName" type="text" class="span2" required="true" placeholder="First Name" />
+		<input name="surname" type="text" class="span3" required="true" placeholder="Last Name" />
+	</div>
+        <div class="controls controls-groups">
+                <input name="sAMAccountName" type="text" class="span5" required="true" placeholder="Username" />
+                <input name="mail" type="email" class="span5" required="true" placeholder="E-mail" />
+                <input name="userPassword" type="password" class="span5" pattern=".{7,}" required="true" placeholder="Password" />
+        </div>
+        <button type="submit" name="submit" value="Submit" class="btn btn-primary"><i class="icon-save"></i> Save</button>
+
+ </div>
+
+</div>
+</form>
 
 {% endblock %}

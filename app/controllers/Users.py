@@ -22,6 +22,8 @@ def users():
     model = UserModel(session['username'],session['password'])
     users = model.GetUserList()
     newuserlist = []
+    ico_active = '<span class="label label-success">Active</span>'
+    ico_deactive = '<span class="label">Dective</span>'
     for user in users:
         if(user.username not in ['krbtgt','SMB$', 'dns-smb']):
               pass
@@ -33,14 +35,57 @@ def users():
 
 
 
+@app.route('/users/edit/', methods=["GET", "POST"])
+@auth.login_required
+def users_edit():
+       #return jsonify( { 'addform': addform[0] } )
+    return render_template('users_edit.html', utils=session['utils'])
+
+
+
 @app.route('/users/add/', methods=["GET", "POST"])
 @auth.login_required
 def users_add():
     if request.method == "POST":
-       addform =  [{'givenName': request.form['givenName'], 'surname': request.form['surname'], 
-         'sAMAccountName': request.form['sAMAccountName'], 
-         'mail': request.form['mail'], 'userPassword': request.form['userPassword'] 
-        }]  
+       addform =  [{'givenName': request.form['givenName'],
+                    'surname': request.form['surname'], 
+                    'sAMAccountName': request.form['sAMAccountName'], 
+                    'mail': request.form['mail'], 
+                    'userPassword': request.form['userPassword']
+                   }]
+
+       model = UserModel(session['username'],session['password'])
+
+       username = request.form['sAMAccountName']
+       password = request.form['userPassword']
+       fullname = "%s %s" %(request.form['givenName'], request.form['surname'])
+       description = "SMB4Manager Created User"
+
+       rid = model.AddUser(username)
+       if (rid):
+           user = User(username,fullname,description,rid);
+           user.must_change_password = False
+           user.password_never_expires = True
+           model.UpdateUser(user)
+           model.SetPassword(username, password)
+           addform[0]['rid'] = rid
+           addform[0]['description'] = description
+           alert_js = '<script type="text/javascript">alert("Username: %s Fullname: %s Created"); window.location="/users/";</script>' %(username, fullname)
+           return alert_js
+
        return jsonify( { 'addform': addform[0] } )
+    return render_template('users_add.html', utils=session['utils'])
+
+
+@app.route('/users/del/<username>')
+@auth.login_required
+def users_del(username):
+    if(username in session['username']): return redirect(url_for('users'))
+    model = UserModel(session['username'],session['password'])
+    del_user = model.DeleteUser(username)
+    alert_js = '<script type="text/javascript">alert("Username: %s Deleted"); window.location="/users/";</script>' %(username)
+    if (del_user): return alert_js
+    return jsonify( { 'username': username } )
+
 
 
