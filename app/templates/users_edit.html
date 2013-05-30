@@ -62,13 +62,11 @@
       <div class="tab-pane active in" id="home">
     <form id="tab">
         <label>Username</label>
-        <input type="text" value="jsmith" disabled="disabled" class="span5 input-xlarge">
-        <label>First Name</label>
-        <input type="text" value="John" class="span5 input-xlarge">
-        <label>Last Name</label>
-        <input type="text" value="Smith" class="span5 input-xlarge">
+        <input type="text" value="{{user.username}}" disabled="disabled" class="span5 input-xlarge">
+        <label>Full name</label>
+        <input type="text" value="{{user.fullname}}" class="span5 input-xlarge">
         <label>Email</label>
-        <input type="text" value="jsmith@yourcompany.com" class="span5 input-xlarge">
+        <input type="text" value="{{user.username}}" class="span5 input-xlarge">@{{utils[0]['domain']}}
     </form>
 
 <div class="btn-toolbar">

@@ -35,11 +35,12 @@ def users():
 
 
 
-@app.route('/users/edit/', methods=["GET", "POST"])
+@app.route('/users/edit/<rid>', methods=["GET", "POST"])
 @auth.login_required
-def users_edit():
-       #return jsonify( { 'addform': addform[0] } )
-    return render_template('users_edit.html', utils=session['utils'])
+def users_edit(rid):
+    model = UserModel(session['username'],session['password'])
+    user = model.GetUser(int(rid))
+    return render_template('users_edit.html', utils=session['utils'], user=user)
 
 
 
@@ -47,17 +48,16 @@ def users_edit():
 @auth.login_required
 def users_add():
     if request.method == "POST":
-       addform =  [{'givenName': request.form['givenName'],
-                    'surname': request.form['surname'], 
-                    'sAMAccountName': request.form['sAMAccountName'], 
-                    'mail': request.form['mail'], 
-                    'userPassword': request.form['userPassword']
-                   }]
-
+       addform =  [{'givenName': request.form['givenName'], 
+                    'username' : request.form['sAMAccountName'], 
+                    'password' : request.form['userPassword'],
+                    'domain'   : request.form['domain']
+                  }]
        model = UserModel(session['username'],session['password'])
 
        username = request.form['sAMAccountName']
        password = request.form['userPassword']
+       mail = request.form['sAMAccountName'] + request.form['domain']
        fullname = "%s %s" %(request.form['givenName'], request.form['surname'])
        description = "SMB4Manager Created User"
 
@@ -70,6 +70,7 @@ def users_add():
            model.SetPassword(username, password)
            addform[0]['rid'] = rid
            addform[0]['description'] = description
+           addform[0]['mail'] = mail
            alert_js = '<script type="text/javascript">alert("Username: %s Fullname: %s Created"); window.location="/users/";</script>' %(username, fullname)
            return alert_js
 

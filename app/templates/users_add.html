@@ -35,7 +35,7 @@
         
         <div class="header">
             
-            <h1 class="page-title">Add User</h1>
+            <h1 class="page-title">New Object - User</h1>
         </div>
         
         <ul class="breadcrumb">
@@ -48,22 +48,25 @@
             <div class="row-fluid">
 <div class="well">
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#home" data-toggle="tab">Add New User</a></li>
+      <li class="active"><a href="#home" data-toggle="tab"><i class="icon-user icon-2x"></i> Create in: {{utils[0]['domain']}}/Users</a></li>
     </ul>
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane active in" id="home">
     <form id="tab" action="/users/add/" method="post">
-        <label>Username:</label>
-        <input name="sAMAccountName" type="text" class="input-xlarge" required="true" autocomplete="off">
-        <label>First Name:</label>
+        <label>First name:</label>
         <input name="givenName" type="text" class="input-xlarge" required="true" autocomplete="off">
-        <label>Last Name:</label>
+        <label>Last name:</label>
         <input name="surname" type="text" class="input-xlarge" required="true" autocomplete="off">
-        <label>Email:</label>
-        <input name="mail" type="email" class="input-xlarge" required="true" autocomplete="off">
+
         <label>Password:</label>
-        <input name="userPassword" type="password" class="input-xlarge" pattern=".{7,}" required="true">
-        <div class="btn-toolbar"><button type="submit" name="submit" value="Submit" class="btn btn-primary"><i class="icon-plus"></i> Add User</button></div>
+        <input name="userPassword" type="password" class="input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
+        
+        <label>User logon name:</label>
+        <input name="sAMAccountName" type="text" class="input-xlarge"  pattern="[a-zA-Z0-9]{5,}" title="Minmimum 4 letters." required="true" autocomplete="off">
+        <input name="domain1" type="text" class="input-xlarge" disabled="disabled" value="@{{utils[0]['domain']}}"> 
+	<input name="domain" type="hidden" value="@{{utils[0]['domain']}}">
+
+        <div class="btn-toolbar"><button type="submit" name="submit" value="Submit" class="btn btn-primary"><i class="icon-plus"></i>Add User</button></div>
     </form>
   </div>
 </div>

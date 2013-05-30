@@ -54,7 +54,7 @@
         <div class="span12">
              <div class="box" id="box-0">
               <div class="box-container-toggle">
-              <div class="btn-toolbar"><a href="/users/add/" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-plus"></i>Add New User</a>
+              <div class="btn-toolbar"><a href="/users/add/" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-plus"></i>New User</a>
               <div class="btn-group"></div></div>
 
                   <div class="well">
@@ -85,7 +85,7 @@
                           {% endif %}
                           </td>
                           <td class="center">
-                          <a class="btn btn-info" href="/users/edit/"><i class="icon-edit icon-white"></i>Edit</a>
+                          <a class="btn btn-info" href="/users/edit/{{user.rid}}"><i class="icon-edit icon-white"></i>Edit</a>
                           <a class="btn btn-danger" href="/users/del/{{user.username}}"><i class="icon-trash icon-white"></i>Delete</a>
                           </td>
                          </tr>
