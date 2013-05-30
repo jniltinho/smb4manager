@@ -31,3 +31,16 @@ def users():
 
     return render_template('users.html', users=newuserlist, utils=session['utils'])
 
+
+
+@app.route('/users/add/', methods=["GET", "POST"])
+@auth.login_required
+def users_add():
+    if request.method == "POST":
+       addform =  [{'givenName': request.form['givenName'], 'surname': request.form['surname'], 
+         'sAMAccountName': request.form['sAMAccountName'], 
+         'mail': request.form['mail'], 'userPassword': request.form['userPassword'] 
+        }]  
+       return jsonify( { 'addform': addform[0] } )
+
+

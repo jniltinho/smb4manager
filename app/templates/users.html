@@ -54,7 +54,7 @@
         <div class="span12">
              <div class="box" id="box-0">
               <div class="box-container-toggle">
-              <div class="btn-toolbar"><a href="#" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-plus"></i>Add New User</a>
+              <div class="btn-toolbar"><a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-plus"></i>Add New User</a>
               <div class="btn-group"></div></div>
 
                   <div class="well">
@@ -98,6 +98,32 @@
     </div>
 </div>
 
-
 </div>
+
+<form action="/users/add/" method="post">
+<div class="modal hide fade" id="myModal" aria-labelledby="modalLabel" aria-hidden="true" >
+ <div class="modal-header">
+       <h3>Add New User</h3>
+ </div>
+
+  <div class="modal-body">
+	<div class="controls controls-row">
+		<input name="givenName" type="text" class="span2" required="true" placeholder="First Name" />
+		<input name="surname" type="text" class="span3" required="true" placeholder="Last Name" />
+	</div>
+        <div class="controls controls-groups">
+                <input name="sAMAccountName" type="text" class="span5" required="true" placeholder="Username" />
+                <input name="mail" type="email" class="span5" required="true" placeholder="E-mail" />
+                <input name="userPassword" type="password" class="span5" pattern=".{7,}" required="true" placeholder="Password" />
+        </div>
+
+ </div>
+
+ <div class="modal-footer">
+ 	<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" >Cancel</button>
+ 	<button type="submit" name="submit" value="Submit" class="btn btn-primary"><i class="icon-save"></i> Save</button>
+ </div>
+</div>
+</form>
+
 {% endblock %}
