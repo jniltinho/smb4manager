@@ -21,9 +21,13 @@ def login():
         username = request.form['username']
         password = request.form['password']
         if auth.isAuthenticate(username, password):
+            session.permanent = True
             session['username'] = username
             session['password'] = password
             session['utils']    = auth.getiUtils()
+
+            session['smb4']     = [{'username':username, 'password':password, 'ipaddr':request.remote_addr}]
+
             return redirect(url_for('index'))
         else:
             flash("Username doesn't exist or incorrect password")

@@ -4,11 +4,11 @@ Python Aplication Template
 Licence: GPLv3
 """
 
+from datetime import timedelta
 import os, functools
-from flask import Flask
+from flask import Flask, session
 
 app = Flask(__name__)
-
 
 app.config.from_object('app.configuration.SMBConfig')
 
