@@ -44,8 +44,6 @@ Screen
 ![image](https://raw.github.com/jniltinho/smb4manager/desenv3/screens/smb4manager_users.png)
 
 
-![image](https://raw.github.com/jniltinho/smb4manager/master/screens/smb4manager.png)
-
 
 Requirements
 ====
