@@ -3,6 +3,17 @@
 
 
     {% block script %}
+     <script> 
+       $(document).ready(function() { 
+        // bind form using ajaxForm 
+          $('#tab').ajaxForm({ 
+            success:   function(data){ alert(data.message); window.location="/users/";},
+            dataType:  'json', 
+            clearForm: true,
+            resetForm: true
+           }); 
+       });
+     </script>
     {% endblock %}
    
 

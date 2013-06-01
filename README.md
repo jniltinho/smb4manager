@@ -54,4 +54,4 @@ samba4, samba-tool, python-xml, git-core, python-pip, python-virtualenv, gcc, ma
 
 ### Bug, Task, Features Report
 
-* [Bugtracker](http://linuxpro.com.br/bugtracker/)
+* [Bugtracker](https://github.com/jniltinho/smb4manager/issues)
