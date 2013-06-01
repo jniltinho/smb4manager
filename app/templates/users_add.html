@@ -7,12 +7,24 @@
        $(document).ready(function() { 
         // bind form using ajaxForm 
           $('#tab').ajaxForm({ 
-            success:   function(data){ alert(data.message); window.location="/users/";},
+            beforeSubmit:  showRequest,
+            success:   showResponse,
             dataType:  'json', 
             clearForm: true,
             resetForm: true
            }); 
        });
+
+     function showRequest(formData, jqForm, options) { 
+           $("#tab :submit").prop("disabled", true);
+           return true; 
+      }
+
+      function showResponse(responseText, statusText, xhr, $form) { 
+           alert(responseText.message);
+           window.location="/users/";
+      } 
+
      </script>
     {% endblock %}
    
