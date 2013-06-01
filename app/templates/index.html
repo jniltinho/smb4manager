@@ -1,0 +1,54 @@
+
+{% extends "base.html" %}
+
+    {% block script %}
+    <script type="text/javascript">  
+    $(document).ready(function(){  
+        $("div#.Lsidebar-nav li a").click(function( e ){  
+            e.preventDefault();  
+            var href = $( this ).attr('href');  
+            //alert(href);
+            if (href != '#'){
+            $("#content").load(href);  
+            }
+        });  
+    });  
+
+    </script>
+    {% endblock %}
+
+
+   
+       {% block menu %}
+       <div class="sidebar-nav">
+        <form class="search form-inline"><input type="text" placeholder="Search..."></form>
+        
+        <a href="/" class="nav-header" ><i class="icon-briefcase"></i>Directory Users</a>
+
+        <a href="#accounts-users" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>{{utils[0]['domain']}}<i class="icon-chevron-up"></i></a>
+        <ul id="accounts-users" class="nav nav-list collapse">
+            <li ><a href="/users/">Users</a></li>
+            <li ><a href="#">Groups</a></li>
+        </ul>
+
+        <a href="#accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>SMB4 Config<i class="icon-chevron-up"></i></a>
+        <ul id="accounts-menu" class="nav nav-list collapse">
+            <li ><a href="#">Users</a></li>
+            <li ><a href="#">Groups</a></li>
+            <li ><a href="#">Members</a></li>
+        </ul>
+
+    </div>   
+    {% endblock %}
+   
+   
+{% block content %}
+<div class="content">
+	<div id="content">
+        <div class="header"><h1 class="page-title">Dashboard</h1></div>
+        <ul class="breadcrumb">
+            <li><a href="/">Home</a> <span class="divider">/</span></li>
+            <li class="active">Dashboard</li>
+        </ul>
+</div>
+{% endblock %}

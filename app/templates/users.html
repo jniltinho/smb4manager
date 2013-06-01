@@ -1,0 +1,107 @@
+
+{% extends "base.html" %}
+
+
+    {% block script %}
+    <script type="text/javascript">  
+        $("a.btn-danger").live("click",function(event){
+                return confirm("Do you want to delete?");
+        });
+
+    </script>
+    {% endblock %}
+   
+
+	{% block menu %}
+       <div class="sidebar-nav">
+       <form class="search form-inline"><input type="text" placeholder="Search..."></form>
+
+        <a href="#dashboard-menu" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>Directory Users</a>
+
+
+        <a href="#accounts-users" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>{{utils[0]['domain']}}<i class="icon-chevron-up"></i></a>
+        <ul id="accounts-users" class="nav nav-list collapse in">
+            <li class="active"><a href="/users/">Users</a></li>
+            <li ><a href="#">Groups</a></li>
+        </ul>
+
+        <a href="#accounts-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-legal"></i>SMB4 Config<i class="icon-chevron-up"></i></a>
+        <ul id="accounts-menu" class="nav nav-list collapse">
+            <li ><a href="#">Users</a></li>
+            <li ><a href="#">Groups</a></li>
+            <li ><a href="#">Members</a></li>
+        </ul>
+
+    </div>
+   {% endblock %}
+
+   
+{% block content %}
+	<div class="content">
+	<div id="content">
+
+        <div class="header"><h1 class="page-title">Users</h1></div>
+        
+        <ul class="breadcrumb">
+            <li><a href="/">Home</a> <span class="divider">/</span></li>
+            <li class="active">Users</li>
+        </ul>
+
+
+
+      <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+             <div class="box" id="box-0">
+              <div class="box-container-toggle">
+              <div class="btn-toolbar"><a href="/users/add/" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-plus"></i>New User</a>
+              <div class="btn-group"></div></div>
+
+                  <div class="well">
+                     <!-- table table-striped table-bordered bootstrap-datatable -->
+                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped bootstrap-datatable" id="datatable">
+                          <thead>
+                              <tr>
+                                 <th>#</th>
+                                  <th>Name</th>
+                                  <th>Username</th>
+                                  <th>Status</th>
+                                  <th>Actions</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+ 		       
+
+			  {% for user in users %} 
+                          <tr>
+			  <td><i class="icon-user icon-2x"></i></td>
+                          <td>{{user.fullname}}</td>
+                          <td class="center">{{user.username}}</td>
+                          <td class="center">
+                          {% if(user.account_disabled) %}
+                          <span class="label">Active</span>
+                          {% else %}
+                          <span class="label label-success">Active</span>
+                          {% endif %}
+                          </td>
+                          <td class="center">
+                          <a class="btn btn-info" href="/users/edit/{{user.rid}}"><i class="icon-edit icon-white"></i>Edit</a>
+                          <a class="btn btn-danger" href="/users/del/{{user.username}}"><i class="icon-trash icon-white"></i>Delete</a>
+                          </td>
+                         </tr>
+			 {% endfor %}
+                       
+           
+
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+            </div><!--/span-->
+	 </div>
+    </div>
+</div>
+
+</div>
+
+{% endblock %}

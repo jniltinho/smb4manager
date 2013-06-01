@@ -1,0 +1,50 @@
+
+{% extends "base.html" %}
+
+
+  {% block menu_cima %}
+  <body class=""> 
+  <!--<![endif]-->
+      
+    <div class="navbar">
+        <div class="navbar-inner">
+                <ul class="nav pull-right"></ul>
+                <a class="brand" href="/"><span class="second">SMB4Manager</span></a>
+        </div>
+    </div>
+    {% endblock %}
+
+   
+		
+{% block content %}
+<div id="content">
+
+<div class="row-fluid">
+    <div class="dialog" style="margin-top: 4.5em;">
+        <div class="block">
+            <p class="block-heading">Login SMB4Manager</p>
+            <div class="block-body">
+                <form action="" enctype="multipart/form-data" method="post">
+                    <label>Username</label>
+                    <input type="text" name="username" required="true" class="span12" autocomplete="off">
+                    <label>Password</label>
+                    <input type="password" name="password" required="true" class="span12" autocomplete="off">
+                    <input class="btn btn-primary pull-right" type="submit" value="Login" />
+                    <div class="clearfix"></div>
+                     <div class="hidden"><input name="_next" type="hidden" value="/" /><input name="_formkey" type="hidden" value="e5750129-8ac4-48ec-a388-f4f499cd57cf" /><input name="_formname" type="hidden" value="login" /></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+    
+  </body>
+</html>
+
+
+{% block footer %}{% endblock %}
+
+
+{% endblock %}

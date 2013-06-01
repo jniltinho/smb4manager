@@ -1,0 +1,10 @@
+Flask
+Flask-Admin
+Flask-Cache
+Flask-Login
+Flask-Themes
+Flask-Uploads
+Flask-WTF
+Jinja2
+WTForms
+gunicorn

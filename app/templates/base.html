@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    {% block head %}
+
+    <!-- include head -->
+    <title>SMB4Manager</title>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Web Flask App Manager Samba4">
+    <meta name="author" content="Nilton OS">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='skin/lib/bootstrap/css/bootstrap.css')}}">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='skin/stylesheets/theme.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='skin/lib/awesome/css/font-awesome.min.css')}}">
+    <script src="{{url_for('static', filename='js/jquery.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.form.js') }}"></script> 
+    <script src="{{url_for('static', filename='skin/lib/bootstrap/js/bootstrap.js')}}"></script>
+    <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+    <!-- end include head -->
+
+    <style type="text/css">
+        #line-chart {
+            height:300px;
+            width:800px;
+            margin: 0px auto;
+            margin-top: 1em;
+        }
+        .brand { font-family: georgia, serif; }
+        .brand .first {
+            color: #ccc;
+            font-style: italic;
+        }
+        .brand .second {
+            color: #fff;
+            font-weight: bold;
+        }
+    </style>
+
+    {% block script %}{% endblock %}
+  </head>
+
+  {% endblock %}
+
+  {% block menu_cima %}
+  <body class="">
+
+    <div class="navbar">
+        <div class="navbar-inner">
+                <ul class="nav pull-right">
+
+                    <li id="fat-menu" class="dropdown">
+                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="icon-user"></i> {{utils[0]['login_user']}} <i class="icon-caret-down"></i>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li><a tabindex="-1" href="#">My Account</a></li>
+                            <li class="divider"></li>
+                            <li><a tabindex="-1" class="visible-phone" href="#">Settings</a></li>
+                            <li class="divider visible-phone"></li>
+                            <li><a tabindex="-1" href="{{url_for('logout')}}">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <a class="brand" href="/"><span class="second">SMB4Manager</span></a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block menu %}{% endblock %}
+
+
+{% block content %}{% endblock %}
+
+
+
+{% block footer %}
+<div class="container-fluid">
+<div class="row-fluid">
+
+                    <footer>
+                        <hr>
+                        <p class="pull-right">Design by <a href="http://linuxpro.com.br" target="_blank">Nilton OS</a></p>
+                        <p>&copy; 2013 <a href="http://www.linuxpro.com.br" target="_blank">SMB4Manager</a></p>
+                    </footer>
+
+            </div>
+        </div>
+
+
+    </div>
+
+  </body>
+</html>
+
+{% endblock %}

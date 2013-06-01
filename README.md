@@ -1,4 +1,5 @@
-smb4manager
+
+smb4manager Framework Flask
 ===========
 
 Samba4 Web Manager
@@ -9,46 +10,48 @@ Samba4 Web Manager
 
 Instalation
 ====
-    OpenSUSE 12.2
+    ## OpenSUSE 12.X
+    zypper install -y gcc make python-xml git-core python-devel python-pip python-virtualenv
 
-    zypper install -y python-xml git
+    ## Ubuntu/Debian
+    apt-get install gcc make git-core python-devel python-pip python-virtualenv
 
     cd /opt/
-    git clone http://github.com/jniltinho/smb4manager.git
+    git clone -b desenv3 http://github.com/jniltinho/smb4manager.git
     cd smb4manager
-    chmod +x start_ssl.sh
+    chmod +x create_env.sh
+    ./create_env.sh
 
 
-Configure
+Run SMB4Manager
 ====
-    Rename file: applications/dashboard/smb4config_sample.ini
-    to: applications/dashboard/smb4config.ini
-    Change config applications/dashboard/smb4config.ini
-    start web2py in ssl, execute:
-    ./start_ssl.sh
 
+    ## Production
+    ./run.py
+    ## Production and Debug
+    ./run.py --debug
 
-Usage
-====
     https://server_ip:8010
-    Login: admin
-    Pass: smb4manager
+    samba4 administrator login
 
 
 Screen
 ====
 
+![image](https://raw.github.com/jniltinho/smb4manager/desenv3/screens/smb4manager_login.png)
+![image](https://raw.github.com/jniltinho/smb4manager/desenv3/screens/smb4manager_user_add.png)
+![image](https://raw.github.com/jniltinho/smb4manager/desenv3/screens/smb4manager_user_edit.png)
+![image](https://raw.github.com/jniltinho/smb4manager/desenv3/screens/smb4manager_users.png)
+
+
 ![image](https://raw.github.com/jniltinho/smb4manager/master/screens/smb4manager.png)
 
 
-Requer
+Requirements
 ====
-samba4, samba-tool
+samba4, samba-tool, python-xml, git-core, python-pip, python-virtualenv, gcc, make
 
 
-Task Open
-====
-    Users list
-    Users add
-    Users del
-    Users edit
+### Bug, Task, Features Report
+
+* [Bugtracker](https://github.com/jniltinho/smb4manager/issues)

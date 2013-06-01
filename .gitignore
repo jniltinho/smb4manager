@@ -3,17 +3,15 @@
 
 ## Folders
 logs/*
+flask
+venv
+env
 
 ## Files
 *.pyc
-parameters_*
-httpserver.log
+http.log
 comandos_git.sh
-smb4config.ini
-
-applications/dashboard/errors/*
-applications/dashboard/sessions/*
-applications/admin/sessions/*
-
+.directory
+generate.py
 
 
