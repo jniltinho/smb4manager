@@ -6,17 +6,22 @@
      <script type="text/javascript">
         $(function(){
            $("a.btn-danger").on("click",function(e){
-                e.preventDefault();
-                var href = $( this ).attr('href');
-                $(this).addClass("disabled");
-
-                $.getJSON($SCRIPT_ROOT + '/users/del/' + href, { user: href }, function(responseText) {
-                      bootbox.alert(responseText.message, function() { window.location="/users/"; });
-                });
+               e.preventDefault();
+               var username = $( this ).attr('data-user');
+               var button   = $(this)
+               bootbox.confirm("Do you want to delete?", function(result) {
+                if (result) {
+                 button.addClass("disabled");
+                 $.getJSON($SCRIPT_ROOT + '/users/del/' + username, { user: username }, function(responseText) {
+                       bootbox.alert(responseText.message, function() { window.location="/users/"; });
+                 });
+                }
+               });
            });
         });
      </script>
     {% endblock %}
+
 
 
 	{% block menu %}
@@ -93,7 +98,7 @@
                           </td>
                           <td class="center">
                           <a class="btn btn-info" href="/users/edit/{{user.rid}}"><i class="icon-edit icon-white"></i>Edit</a>
-                          <a class="btn btn-danger" href="{{user.username}}"><i class="icon-trash icon-white"></i>Delete</a>
+                          <a class="btn btn-danger" href="#" data-user="{{user.username}}"><i class="icon-trash icon-white"></i>Delete</a>
                           </td>
                          </tr>
 			 {% endfor %}
