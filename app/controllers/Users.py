@@ -71,10 +71,11 @@ def users_add():
 @app.route('/users/del/<username>')
 @auth.login_required
 def users_del(username):
-    if(username in session['smb4'][0]['username']): return redirect(url_for('users'))
+    user_get = request.args.get('user')
+    if(user_get in session['smb4'][0]['username']): return jsonify(message="No Deleted User")
     model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
-    del_user = model.DeleteUser(username)
-    alert_js = '<script type="text/javascript">alert("Username: %s Deleted"); window.location="/users/";</script>' %(username)
-    if (del_user): return alert_js
-    return jsonify( { 'username': username } )
+    del_user = model.DeleteUser(user_get)
+    message = "Username: %s deleted with sucess!!" %(user_get)
+    if (del_user): return jsonify(message=message)
+    return jsonify(message="No Deleted User")
 

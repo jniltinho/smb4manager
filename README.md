@@ -17,7 +17,7 @@ Instalation
     apt-get install gcc make git-core python-devel python-pip python-virtualenv
 
     cd /opt/
-    git clone -b desenv3 http://github.com/jniltinho/smb4manager.git
+    git clone http://github.com/jniltinho/smb4manager.git
     cd smb4manager
     chmod +x create_env.sh
     ./create_env.sh

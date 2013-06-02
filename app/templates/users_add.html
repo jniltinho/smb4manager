@@ -21,8 +21,9 @@
       }
 
       function showResponse(responseText, statusText, xhr, $form) { 
-           alert(responseText.message);
-           window.location="/users/";
+	   bootbox.alert(responseText.message, function() {
+                   window.location="/users/";
+           });
       } 
 
      </script>

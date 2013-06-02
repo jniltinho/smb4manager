@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='skin/stylesheets/theme.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='skin/lib/awesome/css/font-awesome.min.css')}}">
     <script src="{{url_for('static', filename='js/jquery.js')}}"></script>
+    <script src="{{url_for('static', filename='js/bootbox.min.js')}}"></script>
     <script src="{{ url_for('static', filename='js/jquery.form.js') }}"></script> 
     <script src="{{url_for('static', filename='skin/lib/bootstrap/js/bootstrap.js')}}"></script>
     <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
@@ -39,7 +40,6 @@
             font-weight: bold;
         }
     </style>
-
     {% block script %}{% endblock %}
   </head>
 
