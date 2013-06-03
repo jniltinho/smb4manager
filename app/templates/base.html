@@ -7,6 +7,14 @@
 
     <!-- include head -->
     <title>SMB4Manager</title>
+
+    <!-- no cache headers -->
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <!-- end no cache headers -->
+
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Web Flask App Manager Samba4">
@@ -47,8 +55,9 @@
 
   {% block menu_cima %}
   <body class="">
-
     <div class="navbar">
+        <a class="brand" href="/"><span class="second">SMB4Manager</span></a>
+        <ul class="nav"><li><a><div class='hide loading'><i class='icon-spinner icon-spin icon-large'></i> Loading...</div></a></li></ul>
         <div class="navbar-inner">
                 <ul class="nav pull-right">
 
@@ -58,7 +67,7 @@
                         </a>
 
                         <ul class="dropdown-menu">
-                            <li><a tabindex="-1" href="#">My Account</a></li>
+                            <li><a tabindex="-1" href="/users/edit/{{session['smb4'][0]['rid']}}">My Account</a></li>
                             <li class="divider"></li>
                             <li><a tabindex="-1" class="visible-phone" href="#">Settings</a></li>
                             <li class="divider visible-phone"></li>
@@ -66,10 +75,9 @@
                         </ul>
                     </li>
                 </ul>
-
-                <a class="brand" href="/"><span class="second">SMB4Manager</span></a>
         </div>
     </div>
+
 {% endblock %}
 
 {% block menu %}{% endblock %}

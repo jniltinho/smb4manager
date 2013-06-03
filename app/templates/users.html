@@ -11,8 +11,10 @@
                var button   = $(this)
                bootbox.confirm("Do you want to delete?", function(result) {
                 if (result) {
+                  $(".loading").show();
                  button.addClass("disabled");
                  $.getJSON($SCRIPT_ROOT + '/users/del/' + username, { user: username }, function(responseText) {
+                       $(".loading").hide();
                        bootbox.alert(responseText.message, function() { window.location="/users/"; });
                  });
                 }
@@ -74,7 +76,7 @@
                      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped bootstrap-datatable" id="datatable">
                           <thead>
                               <tr>
-                                 <th>#</th>
+                                 <th>#{{users.username}}</th>
                                   <th>Name</th>
                                   <th>Username</th>
                                   <th>Status</th>

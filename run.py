@@ -12,6 +12,8 @@ def gunicorn_http(debug=False):
     os.system("find . -type f -iname *.pyc -exec rm  -f {} \;")
     os.system("echo 1 > http.log")
     os.system("flask/bin/gunicorn -w 2 --bind 0.0.0.0:8010 app:app --keyfile=ssl/server.key --certfile=ssl/server.crt " + logfile )
+    #os.system("flask/bin/gunicorn -w 2 --bind unix:/tmp/gunicorn_flask.sock app:app --keyfile=ssl/server.key --certfile=ssl/server.crt " + logfile )
+
 
 
 def flask_http():

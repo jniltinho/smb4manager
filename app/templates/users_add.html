@@ -16,11 +16,13 @@
        });
 
      function showRequest(formData, jqForm, options) { 
+           $(".loading").show();
            $("#tab :submit").prop("disabled", true);
            return true; 
       }
 
       function showResponse(responseText, statusText, xhr, $form) { 
+           $(".loading").hide();
 	   bootbox.alert(responseText.message, function() {
                    window.location="/users/";
            });

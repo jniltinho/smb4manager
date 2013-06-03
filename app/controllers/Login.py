@@ -12,6 +12,8 @@ from app import app
 from app.model.auth.AuthFlask import AuthFlask
 auth = AuthFlask()
 
+from Users import get_rid_users
+
 
 # === User login methods ===
 
@@ -25,8 +27,8 @@ def login():
             session['username'] = username
             session['password'] = password
             session['utils']    = auth.getiUtils()
-
             session['smb4']     = [{'username':username, 'password':password, 'ipaddr':request.remote_addr}]
+            session['smb4'][0]['rid'] = get_rid_users(username)
 
             return redirect(url_for('index'))
         else:

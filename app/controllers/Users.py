@@ -79,3 +79,14 @@ def users_del(username):
     if (del_user): return jsonify(message=message)
     return jsonify(message="No Deleted User")
 
+
+
+
+def get_rid_users(username):
+    model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
+    users = model.GetUserList()
+    newlist = []
+    for user in users:
+        if (user.username.lower() in [username.lower()] ): return user.rid
+        return False
+
