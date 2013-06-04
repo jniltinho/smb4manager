@@ -15,7 +15,7 @@
                  button.addClass("disabled");
                  $.getJSON($SCRIPT_ROOT + '/users/del/' + username, { user: username }, function(responseText) {
                        $(".loading").hide();
-                       bootbox.alert(responseText.message, function() { window.location="/users/"; });
+                       bootbox.alert(responseText.message, function() { location.reload(); });
                  });
                 }
                });
