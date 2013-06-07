@@ -59,8 +59,6 @@
       <script src="{{url_for('static', filename='js/html5.js')}}"></script>
     <![endif]-->
 
-    {% block script %}{% endblock %}
-
   </head>
   {% endblock %}
 
@@ -110,17 +108,19 @@
 
                     <footer>
                         <hr>
-                        <p class="pull-right">Design by <a href="http://linuxpro.com.br" target="_blank">Nilton OS</a></p>
+                        <p class="pull-right">Design by <a href="http://www.linuxpro.com.br" target="_blank">Nilton OS</a></p>
                         <p>&copy; 2013 <a href="http://www.linuxpro.com.br" target="_blank">SMB4Manager</a></p>
                     </footer>
 
             </div>
         </div>
-
-
     </div>
 
+   {% block script %}
+      <script src="{{url_for('static', filename='js/common.js')}}"></script>
+   {% endblock %}
   </body>
+
 </html>
 
 {% endblock %}

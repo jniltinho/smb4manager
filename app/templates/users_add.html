@@ -2,37 +2,7 @@
 {% extends "base.html" %}
 
 
-    {% block script %}
-     <script> 
-       $(document).ready(function() { 
-        // bind form using ajaxForm 
-          $('#tab').ajaxForm({ 
-            beforeSubmit:  showRequest,
-            success:   showResponse,
-            dataType:  'json', 
-            clearForm: true,
-            resetForm: true
-           }); 
-       });
-
-     function showRequest(formData, jqForm, options) { 
-           $(".loading").show();
-           $("#tab :submit").prop("disabled", true);
-           return true; 
-      }
-
-      function showResponse(responseText, statusText, xhr, $form) { 
-           $(".loading").hide();
-	   bootbox.alert(responseText.message, function() {
-                   window.location="/users/";
-           });
-      } 
-
-     </script>
-    {% endblock %}
-   
-
-	{% block menu %}
+       {% block menu %}
        <div class="sidebar-nav">
        <form class="search form-inline"><input type="text" placeholder="Search..."></form>
 
@@ -78,7 +48,7 @@
     </ul>
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane active in" id="home">
-    <form id="tab" action="/users/add/" method="post">
+    <form id="users_add" action="/users/add/" method="post">
         <label>First name:</label>
         <input name="givenName" type="text" class="input-xlarge" required="true" autocomplete="off">
         <label>Last name:</label>
@@ -97,6 +67,5 @@
   </div>
 </div>
 </div>
-
-
 {% endblock %}
+
