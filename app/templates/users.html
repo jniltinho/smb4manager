@@ -1,6 +1,39 @@
 
 {% extends "base.html" %}
 
+{% block script %}
+<script type="text/javascript">
+$(document).ready(function() {
+
+// Delete user
+$("#users a.btn-danger").on("click",function(e){
+      e.preventDefault();
+      var username = $( this ).attr('data-user');
+      var button   = $(this);
+      bootbox.confirm("Do you want to delete?", function(result) {
+               if (result) {
+                   $(".loading").show(); button.addClass("disabled");
+                   $.getJSON($SCRIPT_ROOT + '/users/del/' + username, { user: username }, function(responseText) {
+                          $(".loading").hide();
+                          bootbox.alert(responseText.message, function() { location.reload(); });
+                 });
+                }
+               });
+ });
+
+// Edit User
+ $("#users a.btn-info").on("click",function(e){
+        e.preventDefault();
+        var rid = $( this ).attr('data-rid');
+        window.location = ('/users/edit/' + rid);
+ });
+
+});
+</script>
+{% endblock %}
+
+
+
 	{% block menu %}
        <div class="sidebar-nav">
        <form class="search form-inline"><input type="text" placeholder="Search..."></form>

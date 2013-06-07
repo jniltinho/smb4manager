@@ -1,6 +1,34 @@
 
 {% extends "base.html" %}
 
+{% block script %}
+<script type="text/javascript">
+	$(document).ready(function() {
+	$('#users_add').ajaxForm({
+        	beforeSubmit:  showRequest,
+        	success:   showResponse,
+        	dataType:  'json',
+        	clearForm: true,
+        	resetForm: true
+	});
+
+function showRequest(formData, jqForm, options) {
+           $(".loading").show();
+           $("#users_add :submit").prop("disabled", true);
+           return true;
+}
+
+function showResponse(responseText, statusText, xhr, $form) {
+         $(".loading").hide();
+         bootbox.alert(responseText.message, function() {
+              window.location="/users/";
+         });
+}
+});
+</script>
+{% endblock %}
+
+
 
        {% block menu %}
        <div class="sidebar-nav">

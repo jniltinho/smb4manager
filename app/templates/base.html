@@ -23,16 +23,10 @@
     <link rel="stylesheet" href="{{url_for('static', filename='skin/lib/bootstrap/css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='skin/stylesheets/theme.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='skin/lib/awesome/css/font-awesome.min.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/DT_bootstrap.css')}}">
 
-    <script src="{{url_for('static', filename='js/jquery.js')}}"></script>
+    {% for js_file in ['js/jquery.js', 'js/bootbox.min.js', 'js/jquery.form.js', 'skin/lib/bootstrap/js/bootstrap.js'] %}
+    <script src="{{url_for('static', filename=js_file)}}"></script>{% endfor %}
 
-    <script src="{{url_for('static', filename='js/jquery.dataTables.js')}}"></script>
-    <script src="{{url_for('static', filename='js/DT_bootstrap.js')}}"></script>
-    <script src="{{url_for('static', filename='js/bootbox.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/jquery.form.js')}}"></script> 
-
-    <script src="{{url_for('static', filename='skin/lib/bootstrap/js/bootstrap.js')}}"></script>
     <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
     <!-- end include head -->
 
@@ -59,6 +53,8 @@
       <script src="{{url_for('static', filename='js/html5.js')}}"></script>
     <![endif]-->
 
+   {% block script %}{% endblock %}
+
   </head>
   {% endblock %}
 
@@ -74,6 +70,8 @@
     <div class="navbar">
         <a class="brand" href="/"><span class="second">SMB4Manager</span></a>
         <ul class="nav"><li><a><div class='hide loading'><i class='icon-refresh icon-spin icon-large'></i> Loading...</div></a></li></ul>
+
+        <div class="throb" id="t1"></div>
         <div class="navbar-inner">
                 <ul class="nav pull-right">
 
@@ -115,10 +113,6 @@
             </div>
         </div>
     </div>
-
-   {% block script %}
-      <script src="{{url_for('static', filename='js/common.js')}}"></script>
-   {% endblock %}
   </body>
 
 </html>
