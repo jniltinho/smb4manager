@@ -26,11 +26,13 @@ Instalation
 Run SMB4Manager
 ====
 
-    ## Production
+    ## Production run SSL (Tornado Standalone WebServer WSGI) 
     ./run.py
-    ## Production and Debug
-    ./run.py --debug
+    https://server_ip:8010
+    samba4 administrator login
 
+    ## Debug not run SSL (Gunicorn Standalone WebServer WSGI)
+    ./run.py --debug
     http://server_ip:8010
     samba4 administrator login
 
