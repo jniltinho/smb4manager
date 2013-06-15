@@ -1,11 +1,10 @@
 
-SMB4Manger Samba4 Manager
+Samba4 Manager
 ===========
 
 Samba4 Web Manager
 
-**Webapp for manager Samba4 samba-tool**
-**Do not use in production environment**
+**Webapp for manager Samba4**
 **Add new lib samba python**
 
 Instalation
