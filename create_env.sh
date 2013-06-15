@@ -11,7 +11,7 @@ virtualenv flask
 flask/bin/pip install -r requirements.txt
 
 
-chmod 600 ssl/*
+chmod 400 ssl/*
 chmod +x run.py
 
 echo 'Production ...'
