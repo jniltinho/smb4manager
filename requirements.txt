@@ -10,3 +10,4 @@ MarkupSafe==0.18
 Rocket==1.2.4
 WTForms==1.0.4
 Werkzeug==0.9.1
+#pyOpenSSL

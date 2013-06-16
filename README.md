@@ -28,12 +28,12 @@ Run SMB4Manager
 
     ## Rocket Standalone WebServer WSGI
     ## Production run SSL
-    ./run.py
+    ./runserver.py
     https://server_ip:8010
     samba4 administrator login
 
     ## Debug run SSL
-    ./run.py --debug
+    ./runserver.py --debug
     https://server_ip:8010
     samba4 administrator login
 

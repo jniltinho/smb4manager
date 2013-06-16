@@ -34,10 +34,12 @@ def rocket_http(debug=False):
 
 
 
-def flask_http():
-    from app import app
-    port = int(os.environ.get("PORT", 8010))
-    app.run(host='0.0.0.0', port=port, debug=True)
+def flask_http(debug=False):
+    from OpenSSL import SSL
+    context = SSL.Context(SSL.SSLv23_METHOD)
+    context.use_privatekey_file('ssl/server.key')
+    context.use_certificate_file('ssl/server.crt')
+    app.run(host='0.0.0.0', port=8010, debug=debug, ssl_context=context)
 
 
 def main():
@@ -52,15 +54,11 @@ def main():
     #----------------------------------------
     # create app files
     #----------------------------------------
-    if args.debug:
-       rocket_http(debug=args.debug)
-       sys.exit(1)
-
     if args.flask:
-       flask_http()
+       flask_http(debug=args.debug)
        sys.exit(1)
 
-    rocket_http(debug=False)
+    rocket_http(debug=args.debug)
 
 
 

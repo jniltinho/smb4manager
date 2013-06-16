@@ -28,7 +28,7 @@ class Config(object):
         """
         DEBUG = False
         TESTING = False
-        SECRET_KEY = '068c2b771435c5c48fdf4a1cd9dfa465' 
+        SECRET_KEY = '068c2b781435c5c48fdf4a1cd9dfa465' 
         CSRF_ENABLED = True
         PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
 

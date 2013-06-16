@@ -15,8 +15,8 @@ chmod 400 ssl/*
 chmod +x run.py
 
 echo 'Production ...'
-echo './run.py'
+echo './runserver.py'
 
 echo 'Production and Debug ...'
-echo './run.py --debug'
+echo './runserver.py --debug'
 
