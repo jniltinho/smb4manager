@@ -1,10 +1,11 @@
 
-Samba4 Manager
+SMB4Manger Samba4 Manager
 ===========
 
 Samba4 Web Manager
 
-**Webapp for manager Samba4**
+**Webapp for manager Samba4 samba-tool**
+**Do not use in production environment**
 **Add new lib samba python**
 
 Instalation
@@ -25,14 +26,15 @@ Instalation
 Run SMB4Manager
 ====
 
-    ## Production run SSL (Tornado Standalone WebServer WSGI) 
+    ## Rocket Standalone WebServer WSGI
+    ## Production run SSL
     ./run.py
     https://server_ip:8010
     samba4 administrator login
 
-    ## Debug not run SSL (Gunicorn Standalone WebServer WSGI)
+    ## Debug run SSL
     ./run.py --debug
-    http://server_ip:8010
+    https://server_ip:8010
     samba4 administrator login
 
 
