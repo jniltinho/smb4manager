@@ -30,7 +30,7 @@ def rocket_http(debug=False):
 
     # Set the configuration of the web server
     server = Rocket(interfaces=('0.0.0.0', 8010, 'ssl/server.key', 'ssl/server.crt'), method='wsgi', app_info={"wsgi_app": app})
-    server.start()
+    server.start(background=True)
 
 
 

@@ -19,6 +19,11 @@ body {
   margin: 0px;
   padding: 0px;
 }
+
+.table {
+ margin-bottom: 5px;
+}
+
 a:hover {
   text-decoration: none;
 }
@@ -89,10 +94,10 @@ hr {
 .content {
   min-width: 400px;
   position: relative;
-  min-height: 600px;
+  min-height: 587px;
   background: #fff;
   margin-left: 240px;
-  margin-top: 6px;
+  margin-top: 5px;
   border-left: 1px solid #000000;
   border-left: 1px solid #111;
 }
@@ -113,7 +118,7 @@ hr {
 .header h1 {
   margin: 1em 0em;
   padding: 0em;
-  line-height: 1em;
+  line-height: 0.3em;
   font-size: 0.9em;
   color: #eee;
   color: #333;
@@ -132,14 +137,14 @@ hr {
   border-bottom: 1px solid #aaa;
   border-top: 1px solid #fafafa;
   border-left: 1px solid #fff;
-  margin-bottom: .5em;
+  margin-bottom: 1px;
 }
 .page-content {
   padding: 1em;
 }
 footer {
   padding: 1em;
-  margin-top: 4em;
+  margin-top: 0px;
   color: #666;
   font-size: .85em;
   line-height: 1.3em;
@@ -438,6 +443,9 @@ a.block-heading:hover,
   -moz-background-clip: padding;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
+  margin-bottom: 10px;
+  min-height: 10px;
+  padding: 5px;
 }
 /*Faq*/
 .faq-content ul,

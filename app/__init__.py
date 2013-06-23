@@ -13,7 +13,6 @@ app = Flask(__name__)
 app.config.from_object('app.configuration.SMBConfig')
 
 
-
 ## Init App
 from controllers import Main, Login, Users
 

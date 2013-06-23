@@ -12,9 +12,9 @@ $("#users a.btn-danger").on("click",function(e){
       var button   = $(this);
       bootbox.confirm("Do you want to delete?", function(result) {
                if (result) {
-                   $(".loading").show(); button.addClass("disabled");
+                   $.blockUI({message: $('.loading'), css: { top: '10px', left: '', right: '10px' }}); button.addClass("disabled");
                    $.getJSON($SCRIPT_ROOT + '/users/del/' + username, { user: username }, function(responseText) {
-                          $(".loading").hide();
+                          $.unblockUI();
                           bootbox.alert(responseText.message, function() { location.reload(); });
                  });
                 }
@@ -27,6 +27,8 @@ $("#users a.btn-danger").on("click",function(e){
         var rid = $( this ).attr('data-rid');
         window.location = ('/users/edit/' + rid);
  });
+
+
 
 });
 </script>
@@ -78,13 +80,12 @@ $("#users a.btn-danger").on("click",function(e){
               <div class="box-container-toggle">
               <div class="btn-toolbar"><a href="/users/add/" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-plus"></i>New User</a>
               <div class="btn-group"></div></div>
-
-                  <div class="well" id="users">
+<div class="well" id="users">
                      <!-- table table-striped table-bordered bootstrap-datatable -->
                      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped bootstrap-datatable" id="datatable">
                           <thead>
                               <tr>
-                                 <th>#{{users.username}}</th>
+                                 <th>#</th>
                                   <th>Name</th>
                                   <th>Username</th>
                                   <th>Status</th>
@@ -92,7 +93,6 @@ $("#users a.btn-danger").on("click",function(e){
                               </tr>
                           </thead>
                           <tbody>
- 		       
 
 			  {% for user in users %} 
                           <tr>
@@ -112,17 +112,15 @@ $("#users a.btn-danger").on("click",function(e){
                           </td>
                          </tr>
 			 {% endfor %}
-                       
-           
 
                           </tbody>
                       </table>
-                  </div>
               </div>
             </div><!--/span-->
 	 </div>
     </div>
-  </div>
 </div>
+</div>
+
 {% endblock %}
 

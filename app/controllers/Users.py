@@ -28,7 +28,6 @@ def users():
               if (not user.fullname): user.fullname  = user.username
               newlist.append(user)
 
-
     return render_template('users.html', users=newlist, utils=session['utils'])
 
 
@@ -38,6 +37,14 @@ def users():
 def users_edit(rid):
     model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
     user = model.GetUser(int(rid))
+    if request.method == "POST":
+       username = request.form['username']
+       password = request.form['password']
+       model.SetPassword(username,password)
+       message = "Password Update!!! User: %s" %(username)
+       if model.LastErrorStr: message = model.LastErrorStr
+       return jsonify(message=message)
+
     return render_template('users_edit.html', utils=session['utils'], user=user)
 
 

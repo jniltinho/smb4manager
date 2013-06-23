@@ -2,12 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-
     {% block head %}
-
     <!-- include head -->
     <title>SMB4Manager</title>
-
     <!-- no cache headers -->
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="no-cache">
@@ -24,11 +21,14 @@
     <link rel="stylesheet" href="{{url_for('static', filename='skin/stylesheets/theme.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='skin/lib/awesome/css/font-awesome.min.css')}}">
 
-    {% for js_file in ['js/jquery.js', 'js/bootbox.min.js', 'js/jquery.form.js', 'skin/lib/bootstrap/js/bootstrap.js'] %}
-    <script src="{{url_for('static', filename=js_file)}}"></script>{% endfor %}
+    {% block css %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/jquery-ui.css')}}">
+    {% endblock %}
 
-    <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+    {% for js_file in ['js/jquery.min.js', 'js/jquery.blockUI.js', 'js/bootbox.min.js', 'js/jquery.form.js', 'skin/lib/bootstrap/js/bootstrap.js', 'js/jquery-ui-1.8.16.custom.min.js'] %}
+    <script src="{{url_for('static', filename=js_file)}}"></script>{% endfor %}
     <!-- end include head -->
+    <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 
     <style type="text/css">
         #line-chart {
@@ -66,7 +66,7 @@
   <body class=""> 
   <!--<![endif]-->
 
-  {% block menu_cima %}
+{% block menu_cima %}
     <div class="navbar">
         <a class="brand" href="/"><span class="second">SMB4Manager</span></a>
         <ul class="nav"><li><a><div class='hide loading'><i class='icon-refresh icon-spin icon-large'></i> Loading...</div></a></li></ul>
@@ -91,30 +91,22 @@
                 </ul>
         </div>
     </div>
-   {% endblock %}
+{% endblock %}
 
 {% block menu %}{% endblock %}
-
-
 {% block content %}{% endblock %}
-
-
 
 {% block footer %}
 <div class="container-fluid">
 <div class="row-fluid">
-
                     <footer>
                         <hr>
                         <p class="pull-right">Design by <a href="http://www.linuxpro.com.br" target="_blank">Nilton OS</a></p>
                         <p>&copy; 2013 <a href="http://www.linuxpro.com.br" target="_blank">SMB4Manager</a></p>
                     </footer>
-
             </div>
         </div>
     </div>
   </body>
-
 </html>
-
 {% endblock %}

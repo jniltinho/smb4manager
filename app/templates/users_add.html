@@ -13,13 +13,13 @@
 	});
 
 function showRequest(formData, jqForm, options) {
-           $(".loading").show();
+            $.blockUI({message: $('.loading'), css: { top: '10px', left: '', right: '10px' }});
            $("#users_add :submit").prop("disabled", true);
            return true;
 }
 
 function showResponse(responseText, statusText, xhr, $form) {
-         $(".loading").hide();
+         $.unblockUI();
          bootbox.alert(responseText.message, function() {
               window.location="/users/";
          });
@@ -86,7 +86,7 @@ function showResponse(responseText, statusText, xhr, $form) {
         <input name="userPassword" type="password" class="input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
         
         <label>User logon name:</label>
-        <input name="sAMAccountName" type="text" class="input-xlarge"  pattern="[a-zA-Z0-9]{5,}" title="Minmimum 4 letters." required="true" autocomplete="off">
+        <input name="sAMAccountName" type="text" class="input-xlarge" pattern=".{5,}" title="Minmimum 5 letters." required="true" autocomplete="off">
         <input name="domain1" type="text" class="input-xlarge" disabled="disabled" value="@{{utils[0]['domain']}}"> 
 	<input name="domain" type="hidden" value="@{{utils[0]['domain']}}">
 
