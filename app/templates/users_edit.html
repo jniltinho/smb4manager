@@ -5,6 +5,7 @@
 {% block script %}
 <script type="text/javascript">
       $(document).ready(function() {
+        $('#change_user').ajaxForm({ beforeSubmit:showRequest, success:showResponse, dataType:'json' });
 	$('#change_pass').ajaxForm({ beforeSubmit:showRequest, success:showResponse, dataType:'json', clearForm:true, resetForm:true });
 
 	function showRequest(formData, jqForm, options) {
@@ -26,6 +27,23 @@
 
      // Tabs
      $('#tabs').tabs();
+
+// Delete user
+$("#delete_user").on("click",function(e){
+      e.preventDefault();
+      var username = $(this).attr('value');
+      var button   = $(this);
+      bootbox.confirm("Do you want to delete?", function(result) {
+               if (result) {
+                   $.blockUI({message: $('.loading'), css: { top: '10px', left: '', right: '10px' }}); button.addClass("disabled");
+                   $.getJSON($SCRIPT_ROOT + '/users/del/' + username, { user: username }, function(responseText) {
+                          $.unblockUI();
+                          bootbox.alert(responseText.message, function() { window.location="/users/"; });
+                 });
+                }
+               });
+ });
+
 
    });
 </script>
@@ -74,26 +92,32 @@
  <div id="tabs">
 	<ul><li><a href="#tabs-1">Profile</a></li><li><a href="#tabs-2">Password</a></li></ul>
 	<div id="tabs-1">
-    <form id="tab">
-        <label>Username</label>
+    <form id="change_user" action="/users/edit/{{user.rid}}" method="post">
+        <label>Username:</label>
         <input type="text" value="{{user.username}}" disabled="disabled" class="span5 input-xlarge">
-        <label>Full name</label>
-        <input type="text" value="{{user.fullname}}" class="span5 input-xlarge">
-        <label>Email</label>
-        <input type="text" value="{{user.username}}" class="span5 input-xlarge">@{{utils[0]['domain']}}
-    </form>
-        <div>
-            <button class="btn btn-primary"><i class="icon-save"></i> Save</button>
-            <button class="btn"><i class="icon-trash"></i> Delete</button>
+        <label>Full Name:</label>
+        <input name="fullname" type="text" value="{{user.fullname}}" class="span5 input-xlarge" required="true">
+        <label>Email:</label>
+        <input name="email" type="text" value="{{user.username}}" class="span5 input-xlarge" required="true">@{{utils[0]['domain']}}
+	<label>Description:</label>
+        <textarea class="field span5" rows="3" name="description" required="true">{{user.description}}</textarea>
+        <input name="domain" type="hidden" value="{{utils[0]['domain']}}">
+        <input name="rid" type="hidden" value="{{user.rid}}">
+        <input name="username" type="hidden" value="{{user.username}}">
+       <div>
+            <button type="submit" name="submit" value="change_user" class="btn btn-primary"><i class="icon-save"></i> Save</button>
+            <button id='delete_user' value="{{user.username}}" class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</button>
         </div>
+    </form>
 </div>
+
 <div id="tabs-2">
     <form id="change_pass" action="/users/edit/{{user.rid}}" method="post">
         <label>New Password</label>
         <input name="password" type="password" class="input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
         <input name="username" type="hidden" value="{{user.username}}">
         <div>
-            <button type="submit" name="submit" value="Submit" class="btn btn-primary">Update</button>
+            <button type="submit" name="submit" value="change_pass" class="btn btn-primary">Update</button>
         </div>
     </form>
 </div>

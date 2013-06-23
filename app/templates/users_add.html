@@ -18,6 +18,8 @@ function showResponse(responseText, statusText, xhr, $form) {
               window.location="/users/";
          });
 }
+
+ 	$('#tabs').tabs();
 });
 </script>
 {% endblock %}
@@ -65,29 +67,38 @@ function showResponse(responseText, statusText, xhr, $form) {
         <div class="container-fluid">
             <div class="row-fluid">
 <div class="well">
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#home" data-toggle="tab"><i class="icon-user icon-2x"></i> Create in: {{utils[0]['domain']}}/Users</a></li>
-    </ul>
-    <div id="myTabContent" class="tab-content">
-      <div class="tab-pane active in" id="home">
+
+<div id="tabs">
+        <ul><li><a href="#tabs-1"><i class="icon-user icon-2x"></i> Create in: {{utils[0]['domain']}}/Users</a></li></ul>
+        <div id="tabs-1">
     <form id="users_add" action="/users/add/" method="post">
-        <label>First name:</label>
-        <input name="givenName" type="text" class="input-xlarge" required="true" autocomplete="off">
-        <label>Last name:</label>
-        <input name="surname" type="text" class="input-xlarge" required="true" autocomplete="off">
+        <label>Username:</label>
+        <input name="username" type="text" class="span4 input-xlarge" required="true">
+
+        <label>Full Name:</label>
+        <input name="fullname" type="text" class="span4 input-xlarge" required="true">
 
         <label>Password:</label>
-        <input name="userPassword" type="password" class="input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
-        
-        <label>User logon name:</label>
-        <input name="sAMAccountName" type="text" class="input-xlarge" pattern=".{5,}" title="Minmimum 5 letters." required="true" autocomplete="off">
-        <input name="domain1" type="text" class="input-xlarge" disabled="disabled" value="@{{utils[0]['domain']}}"> 
-	<input name="domain" type="hidden" value="@{{utils[0]['domain']}}">
+        <input name="password" type="password" class="span4 input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
 
-        <div class="btn-toolbar"><button type="submit" name="submit" value="Submit" class="btn btn-primary"><i class="icon-plus"></i>Add User</button></div>
+        <label>Email:</label>
+        <input name="email" type="text" class="span4 input-xlarge" required="true">@{{utils[0]['domain']}}
+
+        <label>Description:</label>
+        <textarea class="field span4" rows="2" name="description" required="true"></textarea>
+        <input name="domain" type="hidden" value="@{{utils[0]['domain']}}">
+       <div>
+            <button type="submit" name="submit" value="users_add" class="btn btn-primary"><i class="icon-save"></i> Save</button>
+        </div>
     </form>
-  </div>
+ </div>
+</div>
+
+
 </div>
 </div>
+
+
+
 {% endblock %}
 

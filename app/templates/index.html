@@ -1,23 +1,6 @@
 
 {% extends "base.html" %}
 
-    {% block script %}
-    <script type="text/javascript">  
-    $(document).ready(function(){  
-        $("div#.Lsidebar-nav li a").click(function( e ){  
-            e.preventDefault();  
-            var href = $( this ).attr('href');  
-            //alert(href);
-            if (href != '#'){
-            $("#content").load(href);  
-            }
-        });  
-    });  
-
-    </script>
-    {% endblock %}
-
-
    
        {% block menu %}
        <div class="sidebar-nav">
