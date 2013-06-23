@@ -42,6 +42,7 @@ Screen
 ====
 
 ![image](https://raw.github.com/jniltinho/smb4manager/desenv3/screens/smb4manager_login.png)
+![image](https://raw.github.com/jniltinho/smb4manager/desenv3/screens/smb4manager_dashboard.png)
 ![image](https://raw.github.com/jniltinho/smb4manager/desenv3/screens/smb4manager_user_add.png)
 ![image](https://raw.github.com/jniltinho/smb4manager/desenv3/screens/smb4manager_user_edit.png)
 ![image](https://raw.github.com/jniltinho/smb4manager/desenv3/screens/smb4manager_users.png)
