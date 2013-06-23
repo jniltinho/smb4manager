@@ -15,7 +15,13 @@
 
 	function showResponse(responseText, statusText, xhr, $form) {
           $.unblockUI();
-          bootbox.alert(responseText.message, function(){ window.location="/users/";} );
+          //bootbox.alert(responseText.message, function(){ window.location="/users/";} );
+          if (responseText.data[0]['ERROR']) {
+              bootbox.alert(responseText.data[0]['MESSAGE']);
+              $("#change_pass :submit").prop("disabled", false);
+              return true;
+	  }
+          bootbox.alert(responseText.data[0]['MESSAGE'], function(){ window.location=responseText.data[0]['REDIRECT'];} );
 	}
 
      // Tabs

@@ -4,13 +4,7 @@
 {% block script %}
 <script type="text/javascript">
 	$(document).ready(function() {
-	$('#users_add').ajaxForm({
-        	beforeSubmit:  showRequest,
-        	success:   showResponse,
-        	dataType:  'json',
-        	clearForm: true,
-        	resetForm: true
-	});
+	$('#users_add').ajaxForm({ beforeSubmit:showRequest, success:showResponse, dataType:'json', clearForm:true, resetForm:true });
 
 function showRequest(formData, jqForm, options) {
             $.blockUI({message: $('.loading'), css: { top: '10px', left: '', right: '10px' }});

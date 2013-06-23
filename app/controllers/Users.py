@@ -38,12 +38,19 @@ def users_edit(rid):
     model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
     user = model.GetUser(int(rid))
     if request.method == "POST":
+
+       data = []
+       message = 'Password Update'
+       url_redirect = '/users/'
+       return_error = 0
+
        username = request.form['username']
        password = request.form['password']
        model.SetPassword(username,password)
-       message = "Password Update!!! User: %s" %(username)
-       if model.LastErrorStr: message = model.LastErrorStr
-       return jsonify(message=message)
+       if session['smb4'][0]['username'].lower() == username.lower() : url_redirect = '/logout/'
+       if model.LastErrorStr: message=model.LastErrorStr; return_error=1
+       data.append({'MESSAGE': message, 'USER': username, 'REDIRECT': url_redirect, 'ERROR': return_error})
+       return jsonify(data=data)
 
     return render_template('users_edit.html', utils=session['utils'], user=user)
 
