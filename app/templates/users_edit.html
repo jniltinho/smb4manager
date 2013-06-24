@@ -94,13 +94,13 @@ $("#delete_user").on("click",function(e){
 	<div id="tabs-1">
     <form id="change_user" action="/users/edit/{{user.rid}}" method="post">
         <label>Username:</label>
-        <input type="text" value="{{user.username}}" disabled="disabled" class="span5 input-xlarge">
+        <input type="text" value="{{user.username}}" disabled="disabled" class="span4 input-xlarge">
         <label>Full Name:</label>
-        <input name="fullname" type="text" value="{{user.fullname}}" class="span5 input-xlarge" required="true">
+        <input name="fullname" type="text" value="{{user.fullname}}" class="span4 input-xlarge" required="true">
         <label>Email:</label>
-        <input name="email" type="text" value="{{user.username}}" class="span5 input-xlarge" required="true">@{{utils[0]['domain']}}
+        <input name="email" type="text" value="{{user.username}}" class="span4 input-xlarge" required="true">@{{utils[0]['domain']}}
 	<label>Description:</label>
-        <textarea class="field span5" rows="3" name="description" required="true">{{user.description}}</textarea>
+        <textarea class="field span4" rows="3" name="description" required="true">{{user.description}}</textarea>
         <input name="domain" type="hidden" value="{{utils[0]['domain']}}">
         <input name="rid" type="hidden" value="{{user.rid}}">
         <input name="username" type="hidden" value="{{user.username}}">

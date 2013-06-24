@@ -14,9 +14,7 @@ function showRequest(formData, jqForm, options) {
 
 function showResponse(responseText, statusText, xhr, $form) {
          $.unblockUI();
-         bootbox.alert(responseText.message, function() {
-              window.location="/users/";
-         });
+         bootbox.alert(responseText.data[0]['MESSAGE'], function(){ window.location=responseText.data[0]['REDIRECT'];} );
 }
 
  	$('#tabs').tabs();
