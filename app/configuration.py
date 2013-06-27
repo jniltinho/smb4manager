@@ -22,19 +22,11 @@ for i in lib_samba:
     if (os.path.exists(i)): sys.path.append(i)
 
 
-class Config(object):
-        """
-        Configuration base, for all environments.
-        """
-        DEBUG = False
-        TESTING = False
-        SECRET_KEY = '068c2b781435c5c48fdf4a1cd9dfa465' 
-        CSRF_ENABLED = True
-        PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
-
-
-
-class SMBConfig(Config):
-        DEBUG = True
-        NOME = "NEW SMB4Manager Flask APP"
+_basedir     = os.path.abspath(os.path.dirname(__file__))
+NOME         = "NEW SMB4Manager Flask APP"
+DEBUG        = False
+TESTING      = False
+SECRET_KEY   = '068c2b781435c5c48fdf4a1cd9dfa465' 
+CSRF_ENABLED = True
+PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
 

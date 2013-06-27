@@ -5,20 +5,20 @@ Licence: GPLv3
 """
 
 import os, json
-from flask import url_for, jsonify, redirect, request, render_template, send_from_directory, flash, session
+from flask import Blueprint, render_template, session, redirect, url_for, request, flash, g, jsonify, abort
+
 
 from app import app
-
-from app.model.auth.AuthFlask import AuthFlask
-auth = AuthFlask()
+from app.utils import login_required
 
 from app.model.UserModel import UserModel, User
 
+mod = Blueprint('users', __name__, url_prefix='/users')
 
 
-@app.route('/users/')
-@auth.login_required
-def users():
+@mod.route('/')
+@login_required
+def index():
     model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
     users = model.GetUserList()
     newlist = []
@@ -28,12 +28,12 @@ def users():
               if (not user.fullname): user.fullname  = user.username
               newlist.append(user)
 
-    return render_template('users.html', users=newlist, utils=session['utils'])
+    return render_template('users/index.html', users=newlist, utils=session['utils'])
 
 
 
-@app.route('/users/edit/<rid>', methods=["GET", "POST"])
-@auth.login_required
+@mod.route('/edit/<rid>', methods=["GET", "POST"])
+@login_required
 def users_edit(rid):
     model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
     user = model.GetUser(int(rid))
@@ -57,11 +57,11 @@ def users_edit(rid):
        return jsonify(data=data)
 
 
-    return render_template('users_edit.html', utils=session['utils'], user=user)
+    return render_template('users/edit.html', utils=session['utils'], user=user)
 
 
-@app.route('/users/add/', methods=["GET", "POST"])
-@auth.login_required
+@mod.route('/add/', methods=["GET", "POST"])
+@login_required
 def users_add():
     if ((request.method == "POST") and (request.form['submit'] == 'users_add')):
 
@@ -91,11 +91,11 @@ def users_add():
            return jsonify(data=data)
 
        return jsonify(data=data)
-    return render_template('users_add.html', utils=session['utils'])
+    return render_template('users/add.html', utils=session['utils'])
 
 
-@app.route('/users/del/<username>')
-@auth.login_required
+@mod.route('/del/<username>')
+@login_required
 def users_del(username):
     user_get = request.args.get('user')
     if(user_get in session['smb4'][0]['username']): return jsonify(message="No Deleted User")

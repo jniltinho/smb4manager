@@ -16,7 +16,7 @@ class AuthFlask():
                     return method(*args, **kwargs)
                 else:
                     flash("A login is required to see the page!")
-                    return redirect(url_for('login'))
+                    return redirect(url_for('default.login'))
             return wrapper
 
 
