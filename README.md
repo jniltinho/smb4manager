@@ -1,14 +1,13 @@
-
 SMB4Manger Samba4 Manager
 ===========
 
 Samba4 Web Manager
 
-**Webapp for manager Samba4 samba-tool**
+**Webapp to manage Samba4 samba-tool**
 **Do not use in production environment**
 **Add new lib samba python**
 
-Instalation
+Installation
 ====
     ## OpenSUSE 12.X
     zypper install -y gcc make python-xml git-core python-devel python-pip python-virtualenv python-pyOpenSSL
@@ -38,7 +37,7 @@ Run SMB4Manager
     samba4 administrator login
 
 
-Screen
+Screen Shots
 ====
 
 ![image](https://raw.github.com/jniltinho/smb4manager/master/screens/smb4manager_login.png)
