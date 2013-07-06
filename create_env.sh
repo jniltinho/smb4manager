@@ -7,7 +7,7 @@
 ## Instalation
 ## Create a virtualenv, and activate this: 
 
-virtualenv --system-site-packages flask 
+virtualenv flask 
 flask/bin/pip install -r requirements.txt
 
 

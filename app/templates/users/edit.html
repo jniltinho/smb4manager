@@ -1,6 +1,4 @@
-
 {% extends "layout.html" %}
-
 
 {% block script %}
 <script type="text/javascript">
@@ -24,9 +22,6 @@
 	  }
           bootbox.alert(responseText.data[0]['MESSAGE'], function(){ window.location=responseText.data[0]['REDIRECT'];} );
 	}
-
-     // Tabs
-     $('#tabs').tabs();
 
 // Delete user
 $("#delete_user").on("click",function(e){
@@ -75,9 +70,8 @@ $("#delete_user").on("click",function(e){
 
    
 {% block content %}
-   <div class="content">
+<div class="content">
         <div class="header"><h1 class="page-title">Edit User</h1></div>
-        
         <ul class="breadcrumb">
             <li><a href="/">Home</a> <span class="divider">/</span></li>
             <li><a href="/users/">Users</a> <span class="divider">/</span></li>
@@ -86,12 +80,16 @@ $("#delete_user").on("click",function(e){
 
  <div class="container-fluid">
     <div class="row-fluid">
-
      <div class="well">
 
- <div id="tabs">
-	<ul><li><a href="#tabs-1">Profile</a></li><li><a href="#tabs-2">Password</a></li></ul>
-	<div id="tabs-1">
+<!--BEGIN TAB CODE =============================== -->
+<div id="tabs" class="yui-navset">
+<ul class="yui-nav">
+ <li class="selected"><a href="#tab1"><em>Profile</em></a></li>
+ <li><a href="#tab2"><em>Password</em></a></li>
+</ul>
+<div class="yui-content">
+  <div>
     <form id="change_user" action="/users/edit/{{user.rid}}" method="post">
         <label>Username:</label>
         <input type="text" value="{{user.username}}" disabled="disabled" class="span4 input-xlarge">
@@ -99,7 +97,7 @@ $("#delete_user").on("click",function(e){
         <input name="fullname" type="text" value="{{user.fullname}}" class="span4 input-xlarge" required="true">
         <label>Email:</label>
         <input name="email" type="text" value="{{user.username}}" class="span4 input-xlarge" required="true">@{{utils[0]['domain']}}
-	<label>Description:</label>
+        <label>Description:</label>
         <textarea class="field span4" rows="3" name="description" required="true">{{user.description}}</textarea>
         <input name="domain" type="hidden" value="{{utils[0]['domain']}}">
         <input name="rid" type="hidden" value="{{user.rid}}">
@@ -109,22 +107,39 @@ $("#delete_user").on("click",function(e){
             <button id='delete_user' value="{{user.username}}" class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</button>
         </div>
     </form>
-</div>
-
-<div id="tabs-2">
+  </div>
+  <div>
     <form id="change_pass" action="/users/edit/{{user.rid}}" method="post">
         <label>New Password</label>
         <input name="password" type="password" class="input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
         <input name="username" type="hidden" value="{{user.username}}">
-        <div>
-            <button type="submit" name="submit" value="change_pass" class="btn btn-primary">Update</button>
-        </div>
+        <div><button type="submit" name="submit" value="change_pass" class="btn btn-primary">Update</button></div>
     </form>
-</div>
-</div>
-			
-</div>
-</div>
-</div>
+  </div>
 
+ </div>
+</div>
+<!--END TAB CODE =============================== -->
+
+
+</div>
+</div>
+</div>
+{% endblock %}
+
+
+{% block script_end_page %}
+<!--BEGIN BLOCK_SCRIPT_END_PAGE =============================== -->
+<script>
+    var loader = new YAHOO.util.YUILoader({
+        require: ['tabview'],
+        base: '/static/yui/build/',//where do they live?
+        loadOptional: true, //load all optional dependencies?
+        onSuccess: function() { var tabView = new YAHOO.widget.TabView('tabs'); },
+     });
+
+    loader.insert();
+
+</script>
+<!--END BLOCK_SCRIPT_END_PAGE =============================== -->
 {% endblock %}

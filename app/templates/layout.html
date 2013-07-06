@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% block head %}
   <head>
     <meta charset="utf-8">
-    {% block head %}
     <!-- include head -->
     <title>SMB4Manager</title>
     <!-- no cache headers -->
@@ -10,24 +10,27 @@
     <meta http-equiv="no-cache">
     <meta http-equiv="Expires" content="-1">
     <meta http-equiv="Cache-Control" content="no-cache">
-    <!-- end no cache headers -->
-
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Web Flask App Manager Samba4">
     <meta name="author" content="Nilton OS">
+    <!-- end no cache headers -->
 
     <link rel="stylesheet" href="{{url_for('static', filename='skin/lib/bootstrap/css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='skin/stylesheets/theme.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='skin/lib/awesome/css/font-awesome.min.css')}}">
 
-    {% block css %}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/jquery-ui.css')}}">
-    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='yui/build/fonts/fonts-min.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='yui/build/tabview/assets/skins/sam/tabview.css')}}" />
 
-    {% for js_file in ['js/jquery.min.js', 'js/jquery.blockUI.js', 'js/bootbox.min.js', 'js/jquery.form.js', 'skin/lib/bootstrap/js/bootstrap.js', 'js/jquery-ui-1.8.16.custom.min.js'] %}
-    <script src="{{url_for('static', filename=js_file)}}"></script>{% endfor %}
-    <!-- end include head -->
+    <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.blockUI.js')}}"></script>
+    <script src="{{url_for('static', filename='js/bootbox.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.form.js')}}"></script>
+    <script src="{{url_for('static', filename='skin/lib/bootstrap/js/bootstrap.js')}}"></script>
+
+    <script src="{{url_for('static', filename='yui/build/yuiloader/yuiloader.js')}}"></script>
+
     <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 
     <style type="text/css">
@@ -56,15 +59,10 @@
    {% block script %}{% endblock %}
 
   </head>
+  <!-- end include head -->
   {% endblock %}
 
-  <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
-  <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
-  <!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
-  <!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
-  <!--[if (gt IE 9)|!(IE)]><!--> 
-  <body class=""> 
-  <!--<![endif]-->
+<body class="yui-skin-sam"> 
 
 {% block menu_cima %}
     <div class="navbar">
@@ -104,9 +102,15 @@
                         <p class="pull-right">Design by <a href="http://www.linuxpro.com.br" target="_blank">Nilton OS</a></p>
                         <p>&copy; 2013 <a href="http://www.linuxpro.com.br" target="_blank">SMB4Manager</a></p>
                     </footer>
-            </div>
-        </div>
-    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block script_end_page %}
+<!--BEGIN BLOCK_SCRIPT_END_PAGE-->
+
+<!--END BLOCK_SCRIPT_END_PAGE-->
+{% endblock %}
+
   </body>
 </html>
-{% endblock %}

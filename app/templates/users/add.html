@@ -1,4 +1,3 @@
-
 {% extends "layout.html" %}
 
 {% block script %}
@@ -17,7 +16,6 @@ function showResponse(responseText, statusText, xhr, $form) {
          bootbox.alert(responseText.data[0]['MESSAGE'], function(){ window.location=responseText.data[0]['REDIRECT'];} );
 }
 
- 	$('#tabs').tabs();
 });
 </script>
 {% endblock %}
@@ -51,10 +49,7 @@ function showResponse(responseText, statusText, xhr, $form) {
 {% block content %}
    <div class="content">
         
-        <div class="header">
-            
-            <h1 class="page-title">New Object - User</h1>
-        </div>
+        <div class="header"><h1 class="page-title">New Object - User</h1></div>
         
         <ul class="breadcrumb">
             <li><a href="/">Home</a> <span class="divider">/</span></li>
@@ -66,9 +61,13 @@ function showResponse(responseText, statusText, xhr, $form) {
             <div class="row-fluid">
 <div class="well">
 
-<div id="tabs">
-        <ul><li><a href="#tabs-1"><i class="icon-user icon-2x"></i> Create in: {{utils[0]['domain']}}/Users</a></li></ul>
-        <div id="tabs-1">
+<!--BEGIN TAB CODE =============================== -->
+<div id="tabs" class="yui-navset">
+    <ul class="yui-nav">
+        <li class="selected"><a href="#tab1"><em>Create in: {{utils[0]['domain']}}/Users</em></a></li>
+    </ul>
+<div class="yui-content">
+  <div>
     <form id="users_add" action="/users/add/" method="post">
         <label>Username:</label>
         <input name="username" type="text" class="span4 input-xlarge" required="true">
@@ -85,18 +84,15 @@ function showResponse(responseText, statusText, xhr, $form) {
         <label>Description:</label>
         <textarea class="field span4" rows="2" name="description" required="true"></textarea>
         <input name="domain" type="hidden" value="@{{utils[0]['domain']}}">
-       <div>
-            <button type="submit" name="submit" value="users_add" class="btn btn-primary"><i class="icon-save"></i> Save</button>
-        </div>
+       <div><button type="submit" name="submit" value="users_add" class="btn btn-primary"><i class="icon-save"></i> Save</button></div>
     </form>
- </div>
+  </div>
 </div>
-
+<!--END TAB CODE =============================== -->
 
 </div>
 </div>
-
-
-
+</div>
+</div>
 {% endblock %}
 
