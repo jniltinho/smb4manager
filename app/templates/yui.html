@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Teste Yui 2.9 Framework</title>
+
+<style type="text/css">
+body {
+	margin:0;
+	padding:0;
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="/static/yui/build/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="/static/yui/build/tabview/assets/skins/sam/tabview.css" />
+<script type="text/javascript" src="/static/yui/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="/static/yui/build/element/element-min.js"></script>
+<script type="text/javascript" src="/static/yui/build/tabview/tabview-min.js"></script>
+
+<!--there is no custom header content for this example-->
+
+</head>
+
+<body class="yui-skin-sam">
+<h1>Teste Yui 2.9 Framework JS</h1>
+
+<div class="exampleIntro">
+	<p>This demonstrates how to customize the TabView skin.</p>
+</div>
+
+<!--BEGIN SOURCE CODE FOR EXAMPLE =============================== -->
+
+<div id="tabs" class="yui-navset">
+    <ul class="yui-nav">
+        <li class="selected"><a href="#tab1"><em>Tab One Label</em></a></li>
+        <li><a href="#tab2"><em>Tab Two Label</em></a></li>
+        <li><a href="#tab3"><em>Tab Three Label</em></a></li>
+    </ul>            
+    <div class="yui-content">
+        <div>
+           <p>Tab One Content</p>
+           <p>The example has finished loading; as you interact with it, you'll see log messages appearing here.</p>
+        </div>
+        <div><p>Tab Two Content</p></div>
+        <div><p>Tab Three Content</p></div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var tabView = new YAHOO.widget.TabView('tabs');
+    //YAHOO.log("The example has finished loading; as you interact with it, you'll see log messages appearing here.", "info", "example");
+
+})();
+
+</script>
+<!--END SOURCE CODE FOR EXAMPLE =============================== -->
+
+
+</body>
+</html>
