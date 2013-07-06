@@ -1,3 +1,4 @@
+
 {% extends "layout.html" %}
 
 {% block script %}
@@ -122,5 +123,40 @@ $("#users a.btn-danger").on("click",function(e){
 </div>
 </div>
 
+
+<script type="text/javascript">
+
+YAHOO.example.Data = {
+    bookorders: [
+        {'#':"po-0167", date:new Date(1980, 2, 24), quantity:1, amount:4, title:"A Book About Nothing", Actions: '<a class="btn btn-info" href="#" data-rid="user.rid"><i class="icon-edit icon-white"></i>Edit</a>'},
+        {'#':"po-0783", date:new Date("January 3, 1983"), quantity:null, amount:12.12345, title:"The Meaning of Life", Actions: '<a class="btn btn-info" href="#" data-rid="user.rid"><i class="icon-edit icon-white"></i>Edit</a>'},
+        {'#':"po-0297", date:new Date(1978, 11, 12), quantity:12, amount:1.25, title:"This Book Was Meant to Be Read Aloud", Actions: '<a class="btn btn-info" href="#" data-rid="user.rid"><i class="icon-edit icon-white"></i>Edit</a>'},
+        {'#':"po-1482", date:new Date("March 11, 1985"), quantity:6, amount:3.5, title:"Read Me Twice", Actions: '<a class="btn btn-info" href="#" data-rid="user.rid"><i class="icon-edit icon-white"></i>Edit</a>'}
+    ]
+};
+
+YAHOO.util.Event.addListener(window, "load", function() {
+    YAHOO.example.Basic = function() {
+        var myColumnDefs = [
+            {key:"#", sortable:true, resizeable:true},
+            {key:"date", formatter:YAHOO.widget.DataTable.formatDate, sortable:true, sortOptions:{defaultDir:YAHOO.widget.DataTable.CLASS_DESC},resizeable:true},
+            {key:"quantity", formatter:YAHOO.widget.DataTable.formatNumber, sortable:true, resizeable:true},
+            {key:"amount", formatter:YAHOO.widget.DataTable.formatCurrency, sortable:true, resizeable:true},
+            {key:"title", sortable:true, resizeable:true},
+            {key:"Actions", sortable:false, resizeable:false}
+        ];
+
+        var myDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.bookorders);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+        myDataSource.responseSchema = { fields: ["#","date","quantity","amount","title", "Actions"] };
+
+        var myDataTable = new YAHOO.widget.DataTable("basic",myColumnDefs, myDataSource);
+                
+        return { oDS: myDataSource, oDT: myDataTable };
+    }();
+});
+</script>
+
+<!--END SOURCE CODE FOR EXAMPLE =============================== -->
 
 {% endblock %}

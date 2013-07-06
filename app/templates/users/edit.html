@@ -131,15 +131,9 @@ $("#delete_user").on("click",function(e){
 {% block script_end_page %}
 <!--BEGIN BLOCK_SCRIPT_END_PAGE =============================== -->
 <script>
-    var loader = new YAHOO.util.YUILoader({
-        require: ['tabview'],
-        base: '/static/yui/build/',//where do they live?
-        loadOptional: true, //load all optional dependencies?
-        onSuccess: function() { var tabView = new YAHOO.widget.TabView('tabs'); },
-     });
-
-    loader.insert();
-
+(function() {
+    var tabView = new YAHOO.widget.TabView('tabs');
+})();
 </script>
 <!--END BLOCK_SCRIPT_END_PAGE =============================== -->
 {% endblock %}
