@@ -4,8 +4,6 @@ SMB4Manger Samba4 Manager
 Samba4 Web Manager
 
 **Webapp to manage Samba4 samba-tool**
-**Do not use in production environment**
-**Add new lib samba python**
 
 Installation
 ====
@@ -20,6 +18,11 @@ Installation
     cd smb4manager
     chmod +x create_env.sh
     ./create_env.sh
+
+
+ScreenCast
+====
+* [Youtube](https://www.youtube.com/watch?v=iK73rl2rvSs)
 
 
 Run SMB4Manager

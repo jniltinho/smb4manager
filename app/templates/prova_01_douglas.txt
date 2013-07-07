@@ -1,0 +1,151 @@
+
+Nome:                                                       Data:
+
+1 - Qual a ultima versão estavel do OpenSUSE ?
+
+
+2 - Qual faz o comando curl ?
+
+
+3 - A porta 443 é padrão para que protocolo ?
+
+
+4 - As portas 25,587,110,143 são padrões para que Serviço ?
+
+
+5 - Qual a porta padrão no protocolo HTTP ?
+
+
+6 - A porta 3389 está disponivel para que serviço no Windows ?
+
+
+7 - O que protege um Servidor, Desktop, Notebook de conexões externas ?
+
+
+8 - Para que serve o comando crontab ?
+
+
+9 - A porta 21 pertence a qual protocolo ?
+
+
+10 - A sigla LAMP é definido para que tipo de Servidor ?
+
+
+11 - A porta 5900 UDP é definido para que tipo de Serviço ?
+
+
+12 - Para que server o comando date no Linux ?
+
+
+13 - Para que serve o iptables no Linux ?
+
+
+14 - CentOS, Fedora, Debian, Ubuntu, Kurumin, RedHat: Quais dessas distros Linux são pagas ?
+
+
+15 - Em um Servidor Web Linux o que é preciso instalar ?
+
+
+16 - Gnome, KDE, LXDE, XFCE, fazem parte da instalação de um Servidor Linux ?
+
+
+17 - Qual o range de IP da rede da Criare no Datacenter ?
+
+
+18 - Para que serve o NAT ?
+
+
+19 - Para que server o software OpenVPN ?
+
+
+20 - XCP, XenServer, VirtualBox, o que fazem esses softwares ?
+
+
+21 - Para que server o DNS ?
+
+
+22 - Se seu IP for 192.168.1.15 e sua mascara de rede for 255.255.255.0 o gateway pode ser 192.168.2.1 ?
+
+
+23 - O que faz esses comandos, yum, apt-get, zypper ?
+
+
+24 - Para que server o comando dig ?
+
+
+25 - Qual o software usado em um Servidor de e-mail ?
+
+
+26 - O que faz o comando top -d2 ?
+
+
+27 - Qual é a porta padrão do Mysql?
+
+
+28 - Para que serve o comando tail -f no Linux ?
+
+
+29 - Qual o editor(es) usado no Linux em ambiente de Servidor ?
+
+
+30 - O que não podemos instalar em um Servidor Linux ?
+
+
+31 - Para que serve um Controlador de Domínio ?
+
+
+32 - O que é o registro.br ?
+
+
+33 - Para que serve um roteador ?
+
+
+34 - Para que serve um Zimbra ?
+
+
+35 - O comando cat /proc/cpuinfo faz o que ?
+
+
+36 - Quais dessas linguagens Linux a gente pode instalar no Windows (Perl, Python, Java) ?
+
+
+37 - O ISPConfig administra o que ?
+
+
+38 - O que faz o filezilla ?
+
+
+39 - O que é preciso instalar no Linux para rodar um Servidor Tomcat ?
+
+
+40 - Uma aplicação feito em C# pode rodar em todos os sistemas operacionais ?
+
+
+41 - O que MVC ?
+
+
+42 - Qual é a porta padrão que um Webmail se conecta a um Servidor de e-mail?
+
+
+43 - Se seu IP é 192.168.2.7 e quando você navega na internet seu IP é outro, Explique o por que ?
+
+
+44 - Como eu faço para rodar um programa feito para Windows no Linux ?
+
+
+45 - Por que existe sistemas 32Bits e 64Bits ?
+
+
+46 - Para que server a pasta /va/lib no Linux ?
+
+
+47 - Para que serve o software nmap no Linux ?
+
+
+48 - Qual é a versão estavel do Debian ?
+
+
+49 - QEMU serve para que ?
+
+
+50 - O comando init 0 faz o que no Linux ?
