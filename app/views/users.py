@@ -7,11 +7,14 @@ Licence: GPLv3
 import os, json
 from flask import Blueprint, render_template, session, redirect, url_for, request, flash, g, jsonify, abort
 
+from pprint import pprint
+
 
 from app import app
 from app.utils import login_required
 
 from app.model.UserModel import UserModel, User
+from app.model.UserModel2 import UserModel2
 
 mod = Blueprint('users', __name__, url_prefix='/users')
 
@@ -21,6 +24,8 @@ mod = Blueprint('users', __name__, url_prefix='/users')
 def index():
     model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
     users = model.GetUserList()
+    newmodel = UserModel2(session['smb4'][0]['username'],session['smb4'][0]['password'])
+    print newmodel.newuser()
     newlist = []
     for user in users:
         if(user.username not in ['krbtgt','SMB$', 'dns-smb']):
