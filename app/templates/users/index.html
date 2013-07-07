@@ -5,7 +5,7 @@
 $(document).ready(function() {
 
 // Delete user
-$("#users a.btn-danger").on("click",function(e){
+$("#users #delete").on("click",function(e){
       e.preventDefault();
       var username = $( this ).attr('data-user');
       var button   = $(this);
@@ -21,7 +21,7 @@ $("#users a.btn-danger").on("click",function(e){
  });
 
 // Edit User
- $("#users a.btn-info").on("click",function(e){
+ $("#users #edit").on("click",function(e){
         e.preventDefault();
         var rid = $( this ).attr('data-rid');
         window.location = ('/users/edit/' + rid);
@@ -107,8 +107,8 @@ $("#users a.btn-danger").on("click",function(e){
                           {% endif %}
                           </td>
                           <td class="center">
-                          <a class="btn btn-info" href="#" data-rid="{{user.rid}}"><i class="icon-edit icon-white"></i>Edit</a>
-                          <a class="btn btn-danger" href="#" data-user="{{user.username}}"><i class="icon-trash icon-white"></i>Delete</a>
+                          <button id="edit" data-rid="{{user.rid}}" class='yui3-button yui3-button-notice'><i class="icon-edit"></i> Edit</button>
+                          <button id="delete" data-user="{{user.username}}" class='yui3-button yui3-button-error'><i class="icon-trash"></i> Delete</button>
                           </td>
                          </tr>
 			 {% endfor %}

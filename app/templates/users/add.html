@@ -18,6 +18,13 @@ function showResponse(responseText, statusText, xhr, $form) {
 
 });
 
+// YUI
+YUI().use('tabview', function(Y) {
+    var tabview = new Y.TabView({ srcNode: '#tabs' });
+    tabview.render();
+    tabview.selectChild(0);
+});
+
 </script>
 {% endblock %}
 
@@ -63,11 +70,11 @@ function showResponse(responseText, statusText, xhr, $form) {
 <div class="well">
 
 <!--BEGIN TAB CODE =============================== -->
-<div id="tabs" class="yui-navset">
-    <ul class="yui-nav">
-        <li class="selected"><a href="#tab1"><em>Create in: {{utils[0]['domain']}}/Users</em></a></li>
+<div id="tabs">
+    <ul>
+        <li><a href="#tab1"><em>Create in: {{utils[0]['domain']}}/Users</em></a></li>
     </ul>
-<div class="yui-content">
+<div id="tab1">
   <div>
     <form id="users_add" action="/users/add/" method="post">
         <label>Username:</label>
@@ -80,15 +87,16 @@ function showResponse(responseText, statusText, xhr, $form) {
         <input name="password" type="password" class="span4 input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
 
         <label>Email:</label>
-        <input name="email" type="text" class="span4 input-xlarge" required="true">@{{utils[0]['domain']}}
+        <input name="email" type="email" class="span4 input-xlarge" required="true">
 
         <label>Description:</label>
         <textarea class="field span4" rows="2" name="description" required="true"></textarea>
         <input name="domain" type="hidden" value="@{{utils[0]['domain']}}">
-       <div><button type="submit" name="submit" value="users_add" class="btn btn-primary"><i class="icon-save"></i> Save</button></div>
+       <div><button type="submit" name="submit" value="users_add" class="yui3-button yui3-button-notice"><i class="icon-save"></i> Save</button></div>
     </form>
   </div>
 </div>
+
 <!--END TAB CODE =============================== -->
 
 </div>

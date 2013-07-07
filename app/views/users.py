@@ -72,7 +72,6 @@ def users_add():
 
        username = request.form['username']
        password = request.form['password']
-       mail = request.form['email'] + request.form['domain']
        fullname = request.form['fullname']
        description = request.form['description']
 

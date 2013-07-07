@@ -41,7 +41,16 @@ $("#delete_user").on("click",function(e){
 
 
    });
+
+// YUI
+YUI().use('tabview', function(Y) {
+    var tabview = new Y.TabView({ srcNode: '#tabs' });
+    tabview.render();
+    tabview.selectChild(0);
+});
+
 </script>
+
 {% endblock %}
    
 
@@ -83,42 +92,49 @@ $("#delete_user").on("click",function(e){
      <div class="well">
 
 <!--BEGIN TAB CODE =============================== -->
-<div id="tabs" class="yui-navset">
-<ul class="yui-nav">
- <li class="selected"><a href="#tab1"><em>Profile</em></a></li>
- <li><a href="#tab2"><em>Password</em></a></li>
-</ul>
-<div class="yui-content">
-  <div>
-    <form id="change_user" action="/users/edit/{{user.rid}}" method="post">
-        <label>Username:</label>
-        <input type="text" value="{{user.username}}" disabled="disabled" class="span4 input-xlarge">
-        <label>Full Name:</label>
-        <input name="fullname" type="text" value="{{user.fullname}}" class="span4 input-xlarge" required="true">
-        <label>Email:</label>
-        <input name="email" type="text" value="{{user.username}}" class="span4 input-xlarge" required="true">@{{utils[0]['domain']}}
-        <label>Description:</label>
-        <textarea class="field span4" rows="3" name="description" required="true">{{user.description}}</textarea>
-        <input name="domain" type="hidden" value="{{utils[0]['domain']}}">
-        <input name="rid" type="hidden" value="{{user.rid}}">
-        <input name="username" type="hidden" value="{{user.username}}">
-       <div>
-            <button type="submit" name="submit" value="change_user" class="btn btn-primary"><i class="icon-save"></i> Save</button>
-            <button id='delete_user' value="{{user.username}}" class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</button>
+<div id="tabs">
+    <ul>
+        <li><a href="#general">General</a></li>
+        <li><a href="#password">Password</a></li>
+        <li><a href="#account">Account</a></li>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#telephones">Telephones</a></li>
+        <li><a href="#member_of">Member Of</a></li>
+    </ul>
+    <div>
+        <div id="general">
+         <form id="change_user" action="/users/edit/{{user.rid}}" method="post">
+         <label>Username:</label>
+         <input type="text" value="{{user.username}}" disabled="disabled" class="span4 input-xlarge">
+         <label>Full Name:</label>
+         <input name="fullname" type="text" value="{{user.fullname}}" class="span4 input-xlarge" required="true">
+         <label>Email:</label>
+         <input name="email" type="email" value="{{user.username}}" class="span4 input-xlarge" required="true">
+         <label>Description:</label>
+         <textarea class="field span4" rows="3" name="description" required="true">{{user.description}}</textarea>
+         <input name="domain" type="hidden" value="{{utils[0]['domain']}}">
+         <input name="rid" type="hidden" value="{{user.rid}}">
+         <input name="username" type="hidden" value="{{user.username}}">
+        <div>
+            <button type="submit" name="submit" value="change_user" class="yui3-button yui3-button-notice"><i class="icon-save"></i> Save</button>
+            <button id='delete_user' value="{{user.username}}" class="yui3-button yui3-button-error"><i class="icon-trash icon-white"></i> Delete</button>
         </div>
-    </form>
-  </div>
-  <div>
-    <form id="change_pass" action="/users/edit/{{user.rid}}" method="post">
-        <label>New Password</label>
-        <input name="password" type="password" class="input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
-        <input name="username" type="hidden" value="{{user.username}}">
-        <div><button type="submit" name="submit" value="change_pass" class="btn btn-primary">Update</button></div>
-    </form>
-  </div>
+        </form>
+      </div>
 
- </div>
-</div>
+        <div id="password">
+        <form id="change_pass" action="/users/edit/{{user.rid}}" method="post">
+                <label>New Password</label>
+                <input name="password" type="password" class="input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
+                <input name="username" type="hidden" value="{{user.username}}">
+		<div><button type="submit" name="submit" value="change_pass" class='yui3-button yui3-button-notice'><i class="icon-save"></i> Save</button></div>
+        </form>
+        </div>
+            <div id="account">Account</div>
+            <div id="profile">Profile</div>
+            <div id="telephones">Telephones</div>
+            <div id="member_of">Member Of</div>
+    </div>
 <!--END TAB CODE =============================== -->
 
 
@@ -127,13 +143,3 @@ $("#delete_user").on("click",function(e){
 </div>
 {% endblock %}
 
-
-{% block script_end_page %}
-<!--BEGIN BLOCK_SCRIPT_END_PAGE =============================== -->
-<script>
-(function() {
-    var tabView = new YAHOO.widget.TabView('tabs');
-})();
-</script>
-<!--END BLOCK_SCRIPT_END_PAGE =============================== -->
-{% endblock %}

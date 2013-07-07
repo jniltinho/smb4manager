@@ -185,6 +185,7 @@ class UserModel(BaseModel):
 			self.samrpipe.SetUserInfo(user_handle, samr.UserNameInformation, info)
 			
 			info = self.samrpipe.QueryUserInfo(user_handle, samr.UserAdminCommentInformation)
+                        #for user in info: print info.user
 			info.description = self.SetLsaString(user.description)
 			self.samrpipe.SetUserInfo(user_handle, samr.UserAdminCommentInformation, info)
 			
