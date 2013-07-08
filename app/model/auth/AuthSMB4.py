@@ -79,3 +79,4 @@ class AuthSMB4(object):
 		return self._isLastErrorAvailable
 
 
+

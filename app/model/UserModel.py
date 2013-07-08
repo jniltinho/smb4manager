@@ -74,6 +74,18 @@ class UserModel(BaseModel):
 			return False;
 		return True;
 
+
+        def GetRid(self,user):
+                # fetch users
+                try:
+                        self.sam_users = self.toArray(self.samrpipe.EnumDomainUsers(self.domain_handle, 0, 0, -1))
+                        for (rid, username) in self.sam_users:
+                                if (user.lower() == username.string.lower()): return rid
+                except Exception,e:
+                        self.SetError(e.message,0)
+                        return False;
+
+
 	def GetUserList(self):
 		return self.user_list
 

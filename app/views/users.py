@@ -24,8 +24,6 @@ mod = Blueprint('users', __name__, url_prefix='/users')
 def index():
     model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
     users = model.GetUserList()
-    newmodel = UserModel2(session['smb4'][0]['username'],session['smb4'][0]['password'])
-    print newmodel.newuser()
     newlist = []
     for user in users:
         if(user.username not in ['krbtgt','SMB$', 'dns-smb']):
@@ -78,9 +76,13 @@ def users_add():
        username = request.form['username']
        password = request.form['password']
        fullname = request.form['fullname']
+       mail     = request.form['email']
        description = request.form['description']
 
-       rid = model.AddUser(username)
+       newmodel = UserModel2(session['smb4'][0]['username'],session['smb4'][0]['password'])
+       newmodel.AddUser(username, password, mailaddress=mail)
+
+       rid = model.GetRid(username)
        if (rid == False): message=model.LastErrorStr; return_error=1
        data = [{'MESSAGE': message, 'USER': username, 'REDIRECT': url_redirect, 'ERROR': return_error}]
 
@@ -114,10 +116,6 @@ def users_del(username):
 
 def get_rid_users(username):
     model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
-    users = model.GetUserList()
-    newlist = []
-    for user in users:
-        if (user.username.lower() in [username.lower()] ): return user.rid
-        return False
+    return model.GetRid(username)
 
 

@@ -20,21 +20,66 @@
 # http://www.grotan.com/ldap/python-ldap-samples.html
 
 
-import base64
-import time
-from base2 import *
+import base64, time
+
+import samba
+import ldb
+import logging, sys
+from samba.dcerpc import samr, security, lsa,srvsvc
+from samba import credentials, dsdb, param
+from samba.auth import system_session
+from samba.samdb import SamDB
+from samba import version
+from samba.param import LoadParm
 
 
-class UserModel2(BaseModel):
+
+class UserModel2():
+        lp = param.LoadParm()
+        lp.load_default()
+        WorkGroup = str(lp.get("workgroup"))
+        Realm = str(lp.get("realm"))
+        creds=None
+        LdapConn=None
+        samdb=None
+        auth_success=False
+        _isLastErrorAvailable=False
+        LastErrorStr='';
+        LastErrorNumber=0;
+        RootDSE=''
+        DnsDomain=Realm
+        schemaNamingContext=''
+        server_address='127.0.0.1'
+        SambaVersion = version
+
+
         def __init__(self,username,password):
-                BaseModel.__init__(self,username,password)
+                self.creds = credentials.Credentials()
+                self.creds.set_username(username)
+                self.creds.set_password(password)
+                self.creds.set_domain(self.WorkGroup)
+                self.creds.set_workstation("")
+                self.samdb = SamDB(url='ldap://%s' % self.server_address,session_info=system_session(), credentials=self.creds, lp=self.lp)
 
 
-        def newuser(self):
-                if self.isAuthenticate():
-                   #return self.samdb.domain_dn()
-                   self.domain_dn = self.samdb.domain_dn()
-                   res = self.samdb.search(self.domain_dn, scope=ldb.SCOPE_SUBTREE,expression=("(&(objectClass=user)(userAccountControl:%s:=%u))"
+        def ListUsers(self):
+               self.domain_dn = self.samdb.domain_dn()
+               res = self.samdb.search(self.domain_dn, scope=ldb.SCOPE_SUBTREE,expression=("(&(objectClass=user)(userAccountControl:%s:=%u))"
                                                                %(ldb.OID_COMPARATOR_AND, dsdb.UF_NORMAL_ACCOUNT)), attrs=["samaccountname", "mail", "description"])
-                   for msg in res:
-                       print("%s %s %s") %(msg.get("samaccountname", idx=0), msg.get("mail", idx=0), msg.get("description", idx=0))
+               for msg in res:
+                   print("%s %s %s") %(msg.get("samaccountname", idx=0), msg.get("mail", idx=0), msg.get("description", idx=0))
+
+
+
+        def AddUser(self, user, passw, mailaddress=None):
+               self.user  = str(user)
+               self.passw = str(passw)
+               self.mail  = str(mailaddress)
+               try:
+                   res = self.samdb.newuser(self.user, self.passw, mailaddress=self.mail)
+               except Exception,e:
+                      print("Failed to add user '%s': %s" %(username, e))
+                      return False
+               return True 
+
+
