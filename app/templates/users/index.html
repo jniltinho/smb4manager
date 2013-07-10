@@ -97,18 +97,18 @@ $("#users #delete").on("click",function(e){
 			  {% for user in users %} 
                           <tr>
 			  <td><i class="icon-user icon-2x"></i></td>
-                          <td>{{user.fullname}}</td>
-                          <td class="center">{{user.username}}</td>
+                          <td>{{user[0]["displayname"]}}</td>
+                          <td class="center">{{user[0]["samaccountname"]}}</td>
                           <td class="center">
-                          {% if(user.account_disabled) %}
+                          {% if(user[0]["account_disabled"]) %}
                           <span class="label">Active</span>
                           {% else %}
                           <span class="label label-success">Active</span>
                           {% endif %}
                           </td>
                           <td class="center">
-                          <button id="edit" data-rid="{{user.rid}}" class='yui3-button yui3-button-notice'><i class="icon-edit"></i> Edit</button>
-                          <button id="delete" data-user="{{user.username}}" class='yui3-button yui3-button-error'><i class="icon-trash"></i> Delete</button>
+                          <button id="edit" data-rid="{{user[0]["rid"]}}" class='yui3-button yui3-button-notice'><i class="icon-edit"></i> Edit</button>
+                          <button id="delete" data-user="{{user[0]["samaccountname"]}}" class='yui3-button yui3-button-error'><i class="icon-trash"></i> Delete</button>
                           </td>
                          </tr>
 			 {% endfor %}

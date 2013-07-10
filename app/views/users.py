@@ -22,27 +22,21 @@ mod = Blueprint('users', __name__, url_prefix='/users')
 @mod.route('/')
 @login_required
 def index():
-    model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
-    users = model.GetUserList()
-    newlist = []
-    for user in users:
-        if(user.username not in ['krbtgt','SMB$', 'dns-smb']):
-              pass
-              if (not user.fullname): user.fullname  = user.username
-              newlist.append(user)
-
-    return render_template('users/index.html', users=newlist, utils=session['utils'])
+    model = UserModel2(session['smb4'][0]['username'],session['smb4'][0]['password'])
+    users = model.ListUsers()
+    return render_template('users/index.html', users=users, utils=session['utils'])
 
 
 
 @mod.route('/edit/<rid>', methods=["GET", "POST"])
 @login_required
 def users_edit(rid):
-    model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
-    user = model.GetUser(int(rid))
+    model = UserModel2(session['smb4'][0]['username'],session['smb4'][0]['password'])
+    user = model.GetUser(rid=rid)
     url_redirect = '/users/'
     return_error = 0
     if ((request.method == "POST") and (request.form['submit'] == 'change_pass')):
+       model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
        message = 'Password Update'
        username = request.form['username']
        password = request.form['password']
@@ -53,6 +47,7 @@ def users_edit(rid):
 
 
     if ((request.method == "POST") and (request.form['submit'] == 'change_user')):
+       model = UserModel(session['smb4'][0]['username'],session['smb4'][0]['password'])
        message = "User Update"
        user = User(request.form['username'], request.form['fullname'], request.form['description'], request.form['rid'])
        if (not model.UpdateUser(user)): message=model.LastErrorStr; return_error=1
