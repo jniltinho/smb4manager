@@ -7,8 +7,7 @@
 
 function showRequest(formData, jqForm, options) {
             $.blockUI({message: $('.loading'), css: { top: '10px', left: '', right: '10px' }});
-           $("#users_add :submit").prop("disabled", true);
-           return true;
+            return true;
 }
 
 function showResponse(responseText, statusText, xhr, $form) {

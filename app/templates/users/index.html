@@ -8,10 +8,9 @@ $(document).ready(function() {
 $("#users #delete").on("click",function(e){
       e.preventDefault();
       var username = $( this ).attr('data-user');
-      var button   = $(this);
       bootbox.confirm("Do you want to delete?", function(result) {
                if (result) {
-                   $.blockUI({message: $('.loading'), css: { top: '10px', left: '', right: '10px' }}); button.addClass("disabled");
+                   $.blockUI({message: $('.loading'), css: { top: '10px', left: '', right: '10px' }});
                    $.getJSON($SCRIPT_ROOT + '/users/del/' + username, { user: username }, function(responseText) {
                           $.unblockUI();
                           bootbox.alert(responseText.message, function() { location.reload(); });
