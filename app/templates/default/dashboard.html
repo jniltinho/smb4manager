@@ -13,39 +13,59 @@
 	<div data-options="region:'west',split:true,title:'Menu'" style="width:220px;padding:10px;">Menu
     <ul class="easyui-tree">  
            <li>  
-               <span>Folder</span>  
+               <span>SMB4Manager</span>  
                <ul>  
                    <li>  
-                       <span>Sub Folder 1</span>  
+                       <span>Users</span>  
                        <ul>  
-                           <li><span>File 11</span></li>  
-                           <li><span>File 12</span></li>  
-                           <li><span>File 13</span></li>  
+                           <li><span>User 1</span></li>  
+                           <li><span>User 2</span></li>  
+                           <li><span>User 3</span></li>  
                        </ul>  
                    </li>  
-                   <li><span>File 2</span></li>  
-                   <li><span>File 3</span></li>  
+
+		      <li>  
+                       <span>Groups</span>  
+                       <ul>  
+                           <li><span>Group 1</span></li>  
+                           <li><span>Group 2</span></li>  
+                           <li><span>Group 3</span></li>  
+                       </ul>  
+                   </li>  
+
                </ul>  
            </li>  
-           <li><span>File21</span></li>  
        </ul>  
 
 	</div>
 	<div data-options="region:'center',title:'Center'">
-    		<div id="tt" class="easyui-tabs" style="width:800px;height:400px;">  
-        		<div title="Tab1" style="padding:20px;display:none;">  
-            			tab1  
-        		</div>  
-        		<div title="Tab2" data-options="closable:true" style="overflow:auto;padding:20px;display:none;">  
-            			tab2  
-        		</div>  
+    		<div id="tt" class="easyui-tabs" >  
+        		<div title="Model Add User" style="padding:20px;">  
+        <div style="margin:10px 0;">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#w').window('open')">Open</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#w').window('close')">Close</a>
+        </div>
+           <div id="w" class="easyui-window" title="Modal Window" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:500px;height:200px;padding:10px;">The window content.</div>
+    	</div>  
+
+	<div title="List Users"  style="overflow:auto;padding:10px;">  
+         <table class="easyui-datagrid" title="Basic DataGrid" style="height:300px" data-options="singleSelect:true,collapsible:true,url:'/data.json'">
+<thead>
+<tr>
+<th data-options="field:'itemid',width:80">Item ID</th>
+<th data-options="field:'productid',width:100">Product</th>
+<th data-options="field:'listprice',width:80,align:'right'">List Price</th>
+<th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
+<th data-options="field:'attr1',width:250">Attribute</th>
+<th data-options="field:'status',width:60,align:'center'">Status</th>
+</tr>
+</thead>
+</table>
+	</div>  
         		<div title="Tab3" data-options="iconCls:'icon-reload',closable:true" style="padding:20px;display:none;">  
             			tab3  
         		</div>  
     		</div>  
-
-                   <a href="#" class="easyui-linkbutton">Cancel</a>
-
        </div>
 </body>
 </html>

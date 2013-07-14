@@ -19,12 +19,33 @@ $("#users #delete").on("click",function(e){
                });
  });
 
+// Add user
+$("#add").on("click",function(e){
+      e.preventDefault();
+      $('#model_new_user').window('open');
+ });
+
+
 // Edit User
  $("#users #edit").on("click",function(e){
         e.preventDefault();
         var rid = $( this ).attr('data-rid');
         window.location = ('/users/edit/' + rid);
  });
+
+
+//Send Form in #model_new_user
+$('#users_add').ajaxForm({ beforeSubmit:showRequest, success:showResponse, dataType:'json', clearForm:true, resetForm:true });
+function showRequest(formData, jqForm, options) {
+            $('#model_new_user').window('close');
+            $.blockUI({message: $('.loading'), css: { top: '10px', left: '', right: '10px' }});
+            return true;
+}
+
+function showResponse(responseText, statusText, xhr, $form) {
+         $.unblockUI();
+         bootbox.alert(responseText.data[0]['MESSAGE'], function(){ window.location=responseText.data[0]['REDIRECT'];} );
+}
 
 
 
@@ -77,7 +98,7 @@ $("#users #delete").on("click",function(e){
              <div id="basic"></div>
              <div class="box" id="box-0">
               <div class="box-container-toggle">
-              <div class="btn-toolbar"><a href="/users/add/" role="button" class="btn btn-primary" data-toggle="modal"><i class="icon-plus"></i>New User</a>
+              <div class="btn-toolbar" id="add"><a href="#" class="btn btn-primary"><i class="icon-plus"></i>New User</a>
               <div class="btn-group"></div></div>
 <div class="well" id="users">
                      <!-- table table-striped table-bordered bootstrap-datatable -->
@@ -120,6 +141,32 @@ $("#users #delete").on("click",function(e){
     </div>
 </div>
 </div>
+
+<!--BEGIN MODEL NEW_USER =============================== -->
+<div id="model_new_user" class="easyui-window" title="Add New User" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:395px;padding:5px;">
+   <div>
+    <form id="users_add" action="/users/add/" method="post">
+        <label>Username:</label>
+        <input name="username" type="text" class="span4 input-xlarge" required="true">
+
+        <label>Full Name:</label>
+        <input name="fullname" type="text" class="span4 input-xlarge" required="true">
+
+        <label>Password:</label>
+        <input name="password" type="password" class="span4 input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
+
+        <label>Email:</label>
+        <input name="email" type="email" class="span4 input-xlarge" required="true">
+
+        <label>Description:</label>
+        <textarea class="field span4" rows="2" name="description" required="true"></textarea>
+        <input name="domain" type="hidden" value="@{{utils[0]['domain']}}">
+       <div><button type="submit" name="submit" value="users_add" class="btn btn-primary"><i class="icon-save"></i> Save</button></div>
+    </form>
+</div>
+</div>
+<!--END MODEL NEW_USER =============================== -->
+
 
 
 {% endblock %}

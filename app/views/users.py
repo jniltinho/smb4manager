@@ -92,7 +92,7 @@ def users_add():
            return jsonify(data=data)
 
        return jsonify(data=data)
-    return render_template('users/add.html', utils=session['utils'])
+    return redirect(url_for('users.index'))
 
 
 @mod.route('/del/<username>')
