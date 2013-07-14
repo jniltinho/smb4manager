@@ -48,7 +48,6 @@ class UserModel2():
         server_address='127.0.0.1'
         SambaVersion = version
 
-
         def __init__(self,username,password):
                self.creds = credentials.Credentials()
                self.creds.set_username(username)

@@ -106,8 +106,8 @@ $("#users #delete").on("click",function(e){
                           {% endif %}
                           </td>
                           <td class="center">
-                          <button id="edit" data-rid="{{user[0]["rid"]}}" class='yui3-button yui3-button-notice'><i class="icon-edit"></i> Edit</button>
-                          <button id="delete" data-user="{{user[0]["samaccountname"]}}" class='yui3-button yui3-button-error'><i class="icon-trash"></i> Delete</button>
+                          <button id="edit" data-rid="{{user[0]["rid"]}}" class='btn btn-primary'><i class="icon-edit"></i> Edit</button>
+                          <button id="delete" data-user="{{user[0]["samaccountname"]}}" class='btn btn-danger'><i class="icon-trash"></i> Delete</button>
                           </td>
                          </tr>
 			 {% endfor %}

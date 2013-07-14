@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>SMB4Manager New DashBoard</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='easyui/themes/black/easyui.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='easyui/themes/icon.css')}}">
+        <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+        <script src="{{url_for('static', filename='easyui/jquery.easyui.min.js')}}"></script>
+</head>
+<body class="easyui-layout">
+	<div data-options="region:'north',border:false" style="height:55px;padding:2px"><h2>SMB4Manager<h2></div>
+	<div data-options="region:'west',split:true,title:'Menu'" style="width:220px;padding:10px;">Menu
+    <ul class="easyui-tree">  
+           <li>  
+               <span>Folder</span>  
+               <ul>  
+                   <li>  
+                       <span>Sub Folder 1</span>  
+                       <ul>  
+                           <li><span>File 11</span></li>  
+                           <li><span>File 12</span></li>  
+                           <li><span>File 13</span></li>  
+                       </ul>  
+                   </li>  
+                   <li><span>File 2</span></li>  
+                   <li><span>File 3</span></li>  
+               </ul>  
+           </li>  
+           <li><span>File21</span></li>  
+       </ul>  
+
+	</div>
+	<div data-options="region:'center',title:'Center'">
+    		<div id="tt" class="easyui-tabs" style="width:800px;height:400px;">  
+        		<div title="Tab1" style="padding:20px;display:none;">  
+            			tab1  
+        		</div>  
+        		<div title="Tab2" data-options="closable:true" style="overflow:auto;padding:20px;display:none;">  
+            			tab2  
+        		</div>  
+        		<div title="Tab3" data-options="iconCls:'icon-reload',closable:true" style="padding:20px;display:none;">  
+            			tab3  
+        		</div>  
+    		</div>  
+
+                   <a href="#" class="easyui-linkbutton">Cancel</a>
+
+       </div>
+</body>
+</html>

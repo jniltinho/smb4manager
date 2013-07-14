@@ -17,13 +17,6 @@ function showResponse(responseText, statusText, xhr, $form) {
 
 });
 
-// YUI
-YUI().use('tabview', function(Y) {
-    var tabview = new Y.TabView({ srcNode: '#tabs' });
-    tabview.render();
-    tabview.selectChild(0);
-});
-
 </script>
 {% endblock %}
 
@@ -69,12 +62,9 @@ YUI().use('tabview', function(Y) {
 <div class="well">
 
 <!--BEGIN TAB CODE =============================== -->
-<div id="tabs">
-    <ul>
-        <li><a href="#tab1"><em>Create in: {{utils[0]['domain']}}/Users</em></a></li>
-    </ul>
-<div id="tab1">
-  <div>
+<div data-options="region:'center',title:'Center'">
+<div id="tt" class="easyui-tabs">  
+   <div title="Create in: {{utils[0]['domain']}}/Users" style="padding:10px;">  
     <form id="users_add" action="/users/add/" method="post">
         <label>Username:</label>
         <input name="username" type="text" class="span4 input-xlarge" required="true">
@@ -91,14 +81,13 @@ YUI().use('tabview', function(Y) {
         <label>Description:</label>
         <textarea class="field span4" rows="2" name="description" required="true"></textarea>
         <input name="domain" type="hidden" value="@{{utils[0]['domain']}}">
-       <div><button type="submit" name="submit" value="users_add" class="yui3-button yui3-button-notice"><i class="icon-save"></i> Save</button></div>
+       <div><button type="submit" name="submit" value="users_add" class="btn btn-primary"><i class="icon-save"></i> Save</button></div>
     </form>
-  </div>
 </div>
-
+</div>  
+</div> 
 <!--END TAB CODE =============================== -->
 
-</div>
 </div>
 </div>
 </div>

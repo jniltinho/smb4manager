@@ -38,13 +38,6 @@ $("#delete_user").on("click",function(e){
 
    });
 
-// YUI
-YUI().use('tabview', function(Y) {
-    var tabview = new Y.TabView({ srcNode: '#tabs' });
-    tabview.render();
-    tabview.selectChild(0);
-});
-
 </script>
 
 {% endblock %}
@@ -88,18 +81,10 @@ YUI().use('tabview', function(Y) {
      <div class="well">
 
 <!--BEGIN TAB CODE =============================== -->
-<div id="tabs">
-    <ul>
-        <li><a href="#general">General</a></li>
-        <li><a href="#password">Password</a></li>
-        <li><a href="#account">Account</a></li>
-        <li><a href="#profile">Profile</a></li>
-        <li><a href="#telephones">Telephones</a></li>
-        <li><a href="#member_of">Member Of</a></li>
-    </ul>
-    <div>
-        <div id="general">
-         <form id="change_user" action="/users/edit/{{user[0]["rid"]}}" method="post">
+<div data-options="region:'center',title:'Center'">
+ <div class="easyui-tabs">  
+     <div title="General" style="padding:10px;">  
+        <form id="change_user" action="/users/edit/{{user[0]["rid"]}}" method="post">
          <label>Username:</label>
          <input type="text" value="{{user[0]["samaccountname"]}}" disabled="disabled" class="span4 input-xlarge">
          <label>Full Name:</label>
@@ -112,25 +97,25 @@ YUI().use('tabview', function(Y) {
          <input name="rid" type="hidden" value="{{user[0]["rid"]}}">
          <input name="username" type="hidden" value="{{user[0]["samaccountname"]}}">
         <div>
-            <button type="submit" name="submit" value="change_user" class="yui3-button yui3-button-notice"><i class="icon-save"></i> Save</button>
-            <button id='delete_user' value="{{user[0]["samaccountname"]}}" class="yui3-button yui3-button-error"><i class="icon-trash icon-white"></i> Delete</button>
+            <button type="submit" name="submit" value="change_user" class="btn btn-primary"><i class="icon-save"></i> Save</button>
+            <button id='delete_user' value="{{user[0]["samaccountname"]}}" class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</button>
         </div>
         </form>
-      </div>
-
-        <div id="password">
+     </div>  
+        		<div title="Password" style="padding:10px;">  
         <form id="change_pass" action="/users/edit/{{user[0]["rid"]}}" method="post">
                 <label>New Password</label>
                 <input name="password" type="password" class="input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
                 <input name="username" type="hidden" value="{{user[0]["samaccountname"]}}">
-		<div><button type="submit" name="submit" value="change_pass" class='yui3-button yui3-button-notice'><i class="icon-save"></i> Save</button></div>
+                <div><button type="submit" name="submit" value="change_pass" class='btn btn-primary'><i class="icon-save"></i> Save</button></div>
         </form>
-        </div>
-            <div id="account">Account</div>
-            <div id="profile">Profile</div>
-            <div id="telephones">Telephones</div>
-            <div id="member_of">Member Of</div>
-    </div>
+        		</div>  
+            <div title="account">Account</div>
+            <div title="profile">Profile</div>
+            <div title="telephones">Telephones</div>
+            <div title="member_of">Member Of</div>
+
+ </div>  
 <!--END TAB CODE =============================== -->
 
 
