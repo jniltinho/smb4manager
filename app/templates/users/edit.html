@@ -97,8 +97,8 @@ $("#delete_user").on("click",function(e){
          <input name="rid" type="hidden" value="{{user[0]["rid"]}}">
          <input name="username" type="hidden" value="{{user[0]["samaccountname"]}}">
         <div>
-            <button type="submit" name="submit" value="change_user" class="btn btn-primary"><i class="icon-save"></i> Save</button>
-            <button id='delete_user' value="{{user[0]["samaccountname"]}}" class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</button>
+            <button type="submit" name="submit" value="change_user" class="btn btn-small"><i class="icon-save"></i> Save</button>
+            <button id='delete_user' value="{{user[0]["samaccountname"]}}" class="btn btn-danger btn-small"><i class="icon-trash icon-white"></i> Delete</button>
         </div>
         </form>
      </div>  
@@ -107,7 +107,7 @@ $("#delete_user").on("click",function(e){
                 <label>New Password</label>
                 <input name="password" type="password" class="input-xlarge" pattern=".{7,}" title="Minmimum 7, letters and numbers." required="true">
                 <input name="username" type="hidden" value="{{user[0]["samaccountname"]}}">
-                <div><button type="submit" name="submit" value="change_pass" class='btn btn-primary'><i class="icon-save"></i> Save</button></div>
+                <div><button type="submit" name="submit" value="change_pass" class="btn btn-small"><i class="icon-save"></i> Save</button></div>
         </form>
         		</div>  
             <div title="account">Account</div>

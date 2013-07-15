@@ -20,10 +20,14 @@ $("#users #delete").on("click",function(e){
  });
 
 // Add user
+$('#model_new_user').window({  
+   maximizable:false, closed:true, collapsible:false, minimizable:false, resizable:false, modal:true,  
+});  
+
 $("#add").on("click",function(e){
       e.preventDefault();
       $('#model_new_user').window('open');
- });
+});
 
 
 // Edit User
@@ -98,7 +102,7 @@ function showResponse(responseText, statusText, xhr, $form) {
              <div id="basic"></div>
              <div class="box" id="box-0">
               <div class="box-container-toggle">
-              <div class="btn-toolbar" id="add"><a href="#" class="btn btn-primary"><i class="icon-plus"></i>New User</a>
+              <div class="btn-toolbar"><a href="#" class="btn btn-small" id="add"><i class="icon-plus"></i>New User</a>
               <div class="btn-group"></div></div>
 <div class="well" id="users">
                      <!-- table table-striped table-bordered bootstrap-datatable -->
@@ -106,8 +110,9 @@ function showResponse(responseText, statusText, xhr, $form) {
                           <thead>
                               <tr>
                                  <th>#</th>
-                                  <th>Name</th>
                                   <th>Username</th>
+                                  <th>FullName</th>
+                                  <th>Description</th>
                                   <th>Status</th>
                                   <th>Actions</th>
                               </tr>
@@ -117,18 +122,19 @@ function showResponse(responseText, statusText, xhr, $form) {
 			  {% for user in users %} 
                           <tr>
 			  <td><i class="icon-user icon-2x"></i></td>
+                          <td>{{user[0]["samaccountname"]}}</td>
                           <td>{{user[0]["displayname"]}}</td>
-                          <td class="center">{{user[0]["samaccountname"]}}</td>
+                          <td>{{user[0]["description"]}}</td>
                           <td class="center">
                           {% if(user[0]["account_disabled"]) %}
-                          <span class="label">Active</span>
+                          <span class="label"><i class="icon-check-empty"></i></span>
                           {% else %}
-                          <span class="label label-success">Active</span>
+                          <span class="label label-success"><i class="icon-check"></i></span>
                           {% endif %}
                           </td>
                           <td class="center">
-                          <button id="edit" data-rid="{{user[0]["rid"]}}" class='btn btn-primary'><i class="icon-edit"></i> Edit</button>
-                          <button id="delete" data-user="{{user[0]["samaccountname"]}}" class='btn btn-danger'><i class="icon-trash"></i> Delete</button>
+                          <button id="edit" data-rid="{{user[0]["rid"]}}" class='btn btn-small'><i class="icon-pencil"></i></button>
+                          <button id="delete" data-user="{{user[0]["samaccountname"]}}" class='btn btn-danger btn-small'><i class="icon-trash"></i></button>
                           </td>
                          </tr>
 			 {% endfor %}
@@ -143,7 +149,7 @@ function showResponse(responseText, statusText, xhr, $form) {
 </div>
 
 <!--BEGIN MODEL NEW_USER =============================== -->
-<div id="model_new_user" class="easyui-window" title="Add New User" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:395px;padding:5px;">
+<div id="model_new_user" class="easyui-window" title="Add New User" style="width:395px;padding:5px;">
    <div>
     <form id="users_add" action="/users/add/" method="post">
         <label>Username:</label>
@@ -161,7 +167,7 @@ function showResponse(responseText, statusText, xhr, $form) {
         <label>Description:</label>
         <textarea class="field span4" rows="2" name="description" required="true"></textarea>
         <input name="domain" type="hidden" value="@{{utils[0]['domain']}}">
-       <div><button type="submit" name="submit" value="users_add" class="btn btn-primary"><i class="icon-save"></i> Save</button></div>
+        <div><button type="submit" name="submit" value="users_add" class="btn btn-small"><i class="icon-save"></i> Save</button></div>
     </form>
 </div>
 </div>
