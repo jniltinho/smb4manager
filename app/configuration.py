@@ -24,7 +24,7 @@ for i in lib_samba:
 
 _basedir     = os.path.abspath(os.path.dirname(__file__))
 NOME         = "NEW SMB4Manager Flask APP"
-DEBUG        = False
+DEBUG        = True
 TESTING      = False
 SECRET_KEY   = '068c2b781435c5c48fdf4a1cd9dfa465' 
 CSRF_ENABLED = True

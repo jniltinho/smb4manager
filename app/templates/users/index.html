@@ -52,11 +52,9 @@ function showResponse(responseText, statusText, xhr, $form) {
 }
 
 
-
 });
 </script>
 {% endblock %}
-
 
 
 	{% block menu %}
@@ -121,7 +119,7 @@ function showResponse(responseText, statusText, xhr, $form) {
 
 			  {% for user in users %} 
                           <tr>
-			  <td><i class="icon-user icon-2x"></i></td>
+			  <td data-toggle="tooltip" title="UID:{{user[0]["rid"]}}"><i class="icon-user icon-2x"></i></td>
                           <td>{{user[0]["samaccountname"]}}</td>
                           <td>{{user[0]["displayname"]}}</td>
                           <td>{{user[0]["description"]}}</td>
@@ -141,6 +139,7 @@ function showResponse(responseText, statusText, xhr, $form) {
 
                           </tbody>
                       </table>
+
               </div>
             </div><!--/span-->
 	 </div>
@@ -172,7 +171,6 @@ function showResponse(responseText, statusText, xhr, $form) {
 </div>
 </div>
 <!--END MODEL NEW_USER =============================== -->
-
 
 
 {% endblock %}

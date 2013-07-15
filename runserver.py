@@ -34,12 +34,17 @@ def rocket_http(debug=False):
 
 
 
-def flask_http(debug=False):
-    from OpenSSL import SSL
-    context = SSL.Context(SSL.SSLv23_METHOD)
-    context.use_privatekey_file('ssl/server.key')
-    context.use_certificate_file('ssl/server.crt')
-    app.run(host='0.0.0.0', port=8010, debug=debug, ssl_context=context)
+def flask_http(debug=False, ssl=False):
+    if (ssl):
+        from OpenSSL import SSL
+        context = SSL.Context(SSL.SSLv23_METHOD)
+        context.use_privatekey_file('ssl/server.key')
+        context.use_certificate_file('ssl/server.crt')
+        app.run(host='0.0.0.0', port=8010, debug=debug, ssl_context=context)
+    else:
+        app.run(host='0.0.0.0', port=8010, debug=debug)
+
+
 
 
 def main():
@@ -48,6 +53,7 @@ def main():
     #----------------------------------------
     parser = argparse.ArgumentParser(description='Start SMB4Manager')
     parser.add_argument('--flask',  action='store_true')
+    parser.add_argument('--ssl',    action='store_true')
     parser.add_argument('--debug',  action='store_true')
     args = parser.parse_args()
 
@@ -55,7 +61,7 @@ def main():
     # create app files
     #----------------------------------------
     if args.flask:
-       flask_http(debug=args.debug)
+       flask_http(debug=args.debug, ssl=args.ssl)
        sys.exit(1)
 
     rocket_http(debug=args.debug)
