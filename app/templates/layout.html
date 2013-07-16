@@ -31,6 +31,11 @@
     <script src="{{url_for('static', filename='skin/lib/bootstrap/js/bootstrap.js')}}"></script>
     <script src="{{url_for('static', filename='easyui/jquery.easyui.min.js')}}"></script>
 
+    <!-- YUI3 -->
+    <link rel="stylesheet" href="{{url_for('static', filename='build/css/yui-skin.css')}}">
+    <script src="{{url_for('static', filename='build/yui/yui-min.js')}}"></script>
+    <!-- YUI3 -->
+
     <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 
     <style type="text/css">
@@ -62,7 +67,7 @@
   <!-- end include head -->
   {% endblock %}
 
-<body class="">
+<body class="yui3-skin-mine">
 
 {% block menu_cima %}
     <div class="navbar">
