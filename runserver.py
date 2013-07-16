@@ -9,6 +9,10 @@ import argparse
 import signal
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+
 from rocket import Rocket
 from app import app
 
