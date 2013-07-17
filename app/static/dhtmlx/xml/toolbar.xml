@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<toolbar>
+	<item id="newContact" type="button" img="add_contact.gif" imgdis="add_contact_dis.gif"/>
+	<item id="delContact" type="button" text="Delete" img="delete_contact.gif" imgdis="delete_contact_dis.gif"/>   
+	<item id="sep01" type="separator"/>         
+	<item id="help" type="button" text="Help"/>
+</toolbar> 
