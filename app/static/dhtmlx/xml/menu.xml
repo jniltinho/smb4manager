@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<menu>
+    <item id="fTop" text="File">
+        <item id="ftNWin" text="New Window"/>
+        <item id="ftPrint" text="Print" enabled="false" img="printer.png" imgdis="printer_dis.png"/>
+        <item id="fts0" type="separator"/>
+        <item id="ftQuit" text="Quit"/>
+    </item>
+    <item id="eTop" text="Edit" enabled="false"/>
+    <item id="hTop" text="Help" enabled="false"/>
+</menu> 

@@ -114,3 +114,8 @@ def get_rid_users(username):
     return model.GetRid(username)
 
 
+def teste_nilton():
+    print "Nilton"
+
+
+
