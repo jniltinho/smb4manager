@@ -31,10 +31,14 @@
     <script src="{{url_for('static', filename='skin/lib/bootstrap/js/bootstrap.js')}}"></script>
     <script src="{{url_for('static', filename='easyui/jquery.easyui.min.js')}}"></script>
 
-    <!-- YUI3 -->
-    <link rel="stylesheet" href="{{url_for('static', filename='yui/css/yui-skin.css')}}">
-    <script src="{{url_for('static', filename='yui/build/yui/yui-min.js')}}"></script>
-    <!-- YUI3 -->
+
+    <!-- http://nyromodal.nyrodev.com/ -->
+    <link rel="stylesheet" href="{{url_for('static', filename='modal/styles/nyroModal.css')}}">
+    <script src="{{url_for('static', filename='modal/js/jquery.nyroModal.custom.js')}}"></script>
+
+    <!-- https://github.com/jdavidw13/jquery-binddata -->
+    <script src="{{url_for('static', filename='js/jquery.binddata.js')}}"></script>
+
 
     <script type=text/javascript> var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 
