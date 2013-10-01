@@ -27,14 +27,14 @@ class BaseController():
 	def index(self):
 		if not self._check_session():
 			return json.dumps(self.AuthErr);
-		else:	
+		else:
 			return json.dumps(self.successOK);
 
 	def _check_session(self):
 		if not 'username' in session:
 			#response.write('False');
-			return False;	
-		return True;
+			return False
+		return True
 
 	def _connect(self):
 		try:

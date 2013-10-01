@@ -4,9 +4,8 @@ Python Aplication Template
 Licence: GPLv3
 """
 
-from datetime import timedelta
-import os, functools
-from flask import Flask, session, g, render_template, send_from_directory
+import os
+from flask import Flask, render_template, send_from_directory
 
 app = Flask(__name__)
 
@@ -30,4 +29,4 @@ app.register_blueprint(default.mod)
 app.register_blueprint(users.mod)
 
 
-from app import utils
+#from app import utils
