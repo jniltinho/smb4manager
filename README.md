@@ -11,7 +11,7 @@ Installation
     zypper install -y gcc make python-xml git-core python-devel python-pip python-virtualenv python-pyOpenSSL
 
     ## Ubuntu/Debian
-    apt-get install gcc make git-core python-devel python-pip python-virtualenv
+    apt-get install gcc make git-core python-dev python3-pip python3-virtualenv
 
     cd /opt/
     git clone http://github.com/jniltinho/smb4manager.git
