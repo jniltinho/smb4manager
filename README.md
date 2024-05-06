@@ -7,8 +7,6 @@ Samba4 Web Manager
 
 Installation
 ====
-    ## OpenSUSE 12.X
-    zypper install -y gcc make python-xml git-core python-devel python-pip python-virtualenv python-pyOpenSSL
 
     ## Ubuntu/Debian
     apt-get install gcc make git python3-dev python3-pip python3-virtualenv samba
