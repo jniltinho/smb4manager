@@ -15,8 +15,7 @@ Installation
 
     cd /opt/
     git clone http://github.com/jniltinho/smb4manager.git
-    cd smb4manager
-    bash create_env.sh
+    cd smb4manager && bash create_env.sh
 
 
 ScreenCast
@@ -29,12 +28,12 @@ Run SMB4Manager
 
     ## Rocket Standalone WebServer WSGI
     ## Production run SSL
-    ./runserver.py
+    ./runserver.py --flask
     https://server_ip:8010
     samba4 administrator login
 
     ## Debug run SSL
-    ./runserver.py --debug
+    ./runserver.py --flask --debug
     https://server_ip:8010
     samba4 administrator login
 
