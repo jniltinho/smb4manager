@@ -2,7 +2,7 @@
 
 
 ## Requirements
-## gcc, make, Python 2.5+, python-devel, python-pip, python-virtualenv, python-pyOpenSSL
+## gcc, make, Python 3, python3-dev, python3-pip, python3-virtualenv, python3-pyOpenSSL
 
 ## Instalation
 ## Create a virtualenv, and activate this: 
@@ -12,11 +12,10 @@ flask/bin/pip install -r requirements.txt
 
 
 chmod 400 ssl/*
-chmod +x runserver.py
 
 echo 'Production ...'
-echo './runserver.py'
+echo 'flask/bin/python runserver.py --flask'
 
 echo 'Production and Debug ...'
-echo './runserver.py --debug'
+echo 'flask/bin/python runserver.py --flask --debug'
 
