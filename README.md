@@ -51,7 +51,7 @@ Screen Shots
 
 Requirements
 ====
-samba4, samba-tool, python-xml, git-core, python-pip, python-virtualenv, gcc, make
+samba4, samba-tool, python3-xml, git, python3-pip, python3-virtualenv, gcc, make
 
 
 ### Bug, Task, Features Report
